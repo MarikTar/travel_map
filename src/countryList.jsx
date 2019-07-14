@@ -1,5 +1,6 @@
 import React from 'react';
 import countryArr from './country.jsx';
+import './css/country_list.css'
 
 export default class CountryList extends React.Component {
     constructor(props){
@@ -18,7 +19,7 @@ export default class CountryList extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div className={'country_list'}>
                 {countryArr.map((countrys) =>
                     <Country
                         country={countrys.en}
@@ -37,7 +38,7 @@ class Country extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div className={'list'}>
                 {this.props.country}
                 <AddPhoto add={this.onAdd.bind(this)}/>
             </div>
