@@ -1,0 +1,34 @@
+import React, { Component } from 'react';
+import SingUpView from './SignUpView';
+import FireBase from "../FireBase";
+
+export default class SignUpController extends Component {
+  state = {
+    fireBaseError: null,
+    fireBaseLoading: false
+  };
+
+  handleSignUp = async event => {
+    event.preventDefault();
+    const { email, password } = event.target.elements;
+    this.setLoading(true);
+
+    try {
+      this.setLoading(false);
+      await FireBase.firebase
+        .auth().createUserWithEmailAndPassword(email.value, password.value);
+      this.props.history.push('/home');
+    } catch (error) {
+      this.setState({fireBaseError: error.message});
+      this.setLoading(false);
+    }
+  };
+
+  setLoading(value) {
+    this.setState({fireBaseLoading: value});
+  }
+
+  render() {
+    return <SingUpView onSubmit={ this.handleSignUp } fireBaseError={ this.state.fireBaseError } loading={ this.state.fireBaseLoading } />;
+  }
+}
