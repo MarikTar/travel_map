@@ -8,7 +8,7 @@ import FireBase from "../FireBase";
 
 export default class User extends Component {
   state = {
-    uid: null,
+    user: null,
     photoURL: null,
     emailVerified: null,
     authenticated: false,
@@ -27,7 +27,7 @@ export default class User extends Component {
         this.setState({
           user: null,
           authenticated: false,
-          loaded: false
+          loaded: true
         });
       }
     });

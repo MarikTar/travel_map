@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fbd1647e-bd97-49e9-92a1-c8f5e09d4f3e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/component/Auth/User/ProfileUser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/component/Dashboard/Dashboard.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/component/Dashboard/dashboard.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/component/Storage/Storage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/Auth/FireBase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/Auth/FireBase.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/Auth/LogIn/LogInController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/Auth/LogIn/LogInController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/Auth/LogIn/LogInView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/Auth/LogIn/LogInView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/Auth/SignUp/SignUpController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/Auth/SignUp/SignUpController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/component/Auth/User/ProfileUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/Auth/User/ProfileUser.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/component/Auth/User/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/Auth/User/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/Home/Home.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/component/Storage/Storage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/Storage/Storage.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -26,10 +18,13 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/component/Dashboard/dashboard.css">
+        <entry file="file://$PROJECT_DIR$/src/component/Auth/User/ProfileUser.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+            <state relative-caret-position="101">
+              <caret line="13" column="24" lean-forward="true" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -99,15 +94,15 @@
         <option value="$PROJECT_DIR$/src/component/Dashboard/Home.js" />
         <option value="$PROJECT_DIR$/src/component/Auth/SignUp/SignUpController.js" />
         <option value="$PROJECT_DIR$/src/component/Auth/LogIn/LogInController.js" />
-        <option value="$PROJECT_DIR$/src/component/Auth/User/User.js" />
         <option value="$PROJECT_DIR$/src/component/Auth/User/Avatar.js" />
+        <option value="$PROJECT_DIR$/src/component/Dashboard/Dashboard.js" />
+        <option value="$PROJECT_DIR$/src/component/Auth/User/User.js" />
         <option value="$PROJECT_DIR$/src/component/Storage/Storage.js" />
         <option value="$PROJECT_DIR$/src/component/Auth/User/ProfileUser.js" />
-        <option value="$PROJECT_DIR$/src/component/Dashboard/Dashboard.js" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="width" value="947" />
     <option name="height" value="1047" />
@@ -135,6 +130,28 @@
               <item name="travel_map" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="component" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="travel_map" type="b2602c69:ProjectViewProjectNode" />
+              <item name="travel_map" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="component" type="462c0819:PsiDirectoryNode" />
+              <item name="Auth" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="travel_map" type="b2602c69:ProjectViewProjectNode" />
+              <item name="travel_map" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="component" type="462c0819:PsiDirectoryNode" />
+              <item name="Auth" type="462c0819:PsiDirectoryNode" />
+              <item name="User" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="travel_map" type="b2602c69:ProjectViewProjectNode" />
+              <item name="travel_map" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="component" type="462c0819:PsiDirectoryNode" />
+              <item name="Storage" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="travel_map" type="b2602c69:ProjectViewProjectNode" />
@@ -193,18 +210,18 @@
       <option name="presentableId" value="Default" />
       <updated>1562610124946</updated>
       <workItem from="1562610133178" duration="29397000" />
-      <workItem from="1563358288718" duration="88320000" />
+      <workItem from="1563358288718" duration="89479000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117717000" />
+    <option name="totallyTimeSpent" value="118876000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16649105" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16649105" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -453,47 +470,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/App/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/component/Auth/FireBase.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/Auth/User/User.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="21" column="21" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/Storage/Storage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/Auth/User/ProfileUser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="4" lean-forward="true" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -508,6 +488,46 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
           <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/App/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/Auth/User/User.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="522">
+          <caret line="29" column="22" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/Storage/Storage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="5" lean-forward="true" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/Auth/User/ProfileUser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="101">
+          <caret line="13" column="24" lean-forward="true" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

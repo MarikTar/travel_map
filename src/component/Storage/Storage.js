@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FireBase from "../Auth/FireBase";
 
 export default class Storage extends Component {
-  static addStore(pictureFile, user, loading) {
+  static addStore(pictureFile, user, loading, success) {
     if (!loading) {
       return;
     }
@@ -18,5 +18,7 @@ export default class Storage extends Component {
           })
       })
     });
+
+    success(true);
   }
 }

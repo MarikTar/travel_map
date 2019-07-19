@@ -7,28 +7,28 @@ export default class ProfileUser extends Component {
     photoURL: PropTypes.object
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      pictureFile: null,
-      loaded: false
-    };
-  }
+  state = {
+    pictureFile: null,
+    loaded: false,
+    url: null
+  };
 
   componentWillUpdate(nextProps, nextState, nextContext) {
     if (this.state.loaded !== nextState.loaded) {
-      Storage.addStore(nextState.pictureFile, nextProps.user, nextState.loaded);
-      console.log('foo');
+      Storage.addStore(nextState.pictureFile, nextProps.user, nextState.loaded, this.setUrl);
+    }
+  };
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.user.photoURL !== this.props.user.photoURL) {
+      this.updateUserProfile();
     }
   }
 
   render() {
-    const { photoURL } = this.props.user;
-
     return(
       <div className="profile">
-        {photoURL ? <img src={ photoURL } alt=""/> : null}
+        <img src={ this.props.user.photoURL } alt=""/>
         <input
           accept="image/jpeg,image/png"
           type="file"
@@ -47,5 +47,15 @@ export default class ProfileUser extends Component {
       pictureFile: files,
       loaded: true
     });
-  }
+  };
+
+  setUrl = value => {
+    this.setState({url: value});
+  };
+
+  updateUserProfile() {
+    const { url } = this.state;
+
+    this.props.user.updateProfile({photoURL: url});
+  };
 }
