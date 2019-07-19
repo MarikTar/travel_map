@@ -6,11 +6,9 @@ import {CSSTransition} from "react-transition-group";
 
 export default class LogInView extends Component {
   static propTypes = {
-    validate: PropTypes.object,
-    formValidate: PropTypes.bool,
     fireBaseError: PropTypes.string,
     onSubmit: PropTypes.func,
-    signGoogleClick: PropTypes.func
+    loading: PropTypes.bool
   };
 
   state = {
@@ -77,14 +75,6 @@ export default class LogInView extends Component {
         break;
       case 'password':
         customValidation.password.isValid = this.validationPassword(value, customValidation.password);
-        break;
-      case 're-password':
-        if (value !== this.state.password) {
-          customValidation['re-password'].isValid = false;
-          customValidation['re-password'].message = 'Passwords do not match';
-        } else {
-          customValidation['re-password'].isValid = true;
-        }
         break;
     }
 

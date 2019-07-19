@@ -21,7 +21,7 @@ export default class LogInController extends Component {
       this.setLoading(false);
       await FireBase.firebase
         .auth().signInWithEmailAndPassword(email.value, password.value);
-      this.props.history.push('/home');
+      this.props.history.push('/dashboard');
     } catch (error) {
       this.setState({fireBaseError: error.message});
       this.setLoading(false);

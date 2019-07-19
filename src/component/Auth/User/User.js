@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Redirect, Route} from "react-router-dom";
 import PrivateRoute from "../PrivateRouter";
-import Home from "../../Home/Home";
+import Dashboard from "../../Dashboard/Dashboard";
 import LogIn from "../LogIn/LogInController";
 import SignUp from "../SignUp/SignUpController";
 import FireBase from "../FireBase";
@@ -11,24 +11,23 @@ export default class User extends Component {
     uid: null,
     photoURL: null,
     emailVerified: null,
-    authenticated: false
+    authenticated: false,
+    loaded: false
   };
 
   componentDidMount() {
     FireBase.firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({
-          uid: user.uid,
-          photoURL: user.photoURL,
-          emailVerified: user.emailVerified,
-          authenticated: true
+          user: user,
+          authenticated: true,
+          loaded: true
         });
       } else {
         this.setState({
-          uid: null,
-          photoURL: null,
-          emailVerified: null,
-          authenticated: false
+          user: null,
+          authenticated: false,
+          loaded: false
         });
       }
     });
@@ -36,18 +35,23 @@ export default class User extends Component {
 
 
   render() {
-    const { authenticated } = this.state;
+    const { authenticated, user, loaded } = this.state;
+
+    if (!loaded) {
+      return <div>Loading...</div>
+    }
 
     return(
       <Router>
         <div>
           <PrivateRoute
             exact
-            path='/home'
-            component={ Home }
+            path='/dashboard'
+            component={ Dashboard }
             authenticated={ authenticated }
+            user={ user }
           />
-          <Redirect from="/" to={ !authenticated ? '/login' : '/home' } />
+          <Redirect exact from="/" to={ !authenticated ? '/login' : '/dashboard' } />
           <Route exact path="/login" component={ LogIn } />
           <Route exact path="/signup" component={ SignUp } />
         </div>
