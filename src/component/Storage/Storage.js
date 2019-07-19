@@ -2,23 +2,22 @@ import React, { Component } from 'react';
 import FireBase from "../Auth/FireBase";
 
 export default class Storage extends Component {
-  static addStore(pictureFile, user, loading, success) {
+  static addStore(pictureFile, user, loading, setUrl) {
     if (!loading) {
       return;
     }
 
-    const avatarStgRef = FireBase.firebase.storage().ref("user/cloud-avatar-user/" + user.uid + "/avatar.jpg");
+    const avatarStgRef = FireBase.firebase.storage().ref("user/cloud-avatar-user/" + user.uid + "/avatar");
 
     avatarStgRef.put(pictureFile).then( snapshot => {
       snapshot.ref.getDownloadURL().then(url => {
         user.updateProfile({photoURL: url})
           .then(() => {
             FireBase.firebase.database().ref("user/cloud-avatar-user/" + user.uid)
-              .set({"photoUri": url})
-          })
+              .set({"photoUri": url});
+              setUrl(url);
+          }, error => console.log(error));
       })
     });
-
-    success(true);
   }
 }

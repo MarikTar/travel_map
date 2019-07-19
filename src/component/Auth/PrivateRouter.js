@@ -9,7 +9,7 @@ export default function PrivateRoute({component: Component, authenticated, ...re
         authenticated === true ? (
           <Component {...props} {...rest} />
         ) : (
-          null
+         null
         )
       }
     />

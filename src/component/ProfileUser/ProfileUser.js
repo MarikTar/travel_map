@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Storage from "../../Storage/Storage";
+import Storage from "../Storage/Storage";
 
 export default class ProfileUser extends Component {
   static propTypes = {
@@ -14,7 +14,7 @@ export default class ProfileUser extends Component {
   };
 
   componentWillUpdate(nextProps, nextState, nextContext) {
-    if (this.state.loaded !== nextState.loaded) {
+    if (this.state.loaded !== nextState.loaded || nextState.url !== this.state.url) {
       Storage.addStore(nextState.pictureFile, nextProps.user, nextState.loaded, this.setUrl);
     }
   };
@@ -36,6 +36,7 @@ export default class ProfileUser extends Component {
           className="upload-file"
           onChange={ this.handlerChange }
         />
+        <button type="button">Settings</button>
       </div>
     )
   }

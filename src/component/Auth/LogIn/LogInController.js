@@ -9,6 +9,7 @@ export default class LogInController extends Component {
   };
 
   setLoading(value) {
+    console.log(value);
     this.setState({fireBaseLoading: value});
   }
 
@@ -18,13 +19,11 @@ export default class LogInController extends Component {
     this.setLoading(true);
 
     try {
-      this.setLoading(false);
       await FireBase.firebase
         .auth().signInWithEmailAndPassword(email.value, password.value);
       this.props.history.push('/dashboard');
     } catch (error) {
       this.setState({fireBaseError: error.message});
-      this.setLoading(false);
     }
   };
 
