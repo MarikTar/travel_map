@@ -51,6 +51,9 @@ export default class Upload extends React.Component {
         let fileList = e.dataTransfer.files;
         for(let i = 0; i < fileList.length; i += 1) {
             let img = fileList[i];
+            if (!img.type.startsWith('image/')) { 
+                continue; 
+            }
             let images = this.state.images;
             images.push(window.URL.createObjectURL(img));
             this.setState({
@@ -59,45 +62,25 @@ export default class Upload extends React.Component {
         }
     }
 
-    // handleFiles(files) {
-    //         fileList.innerHTML = "";
-    //         const list = document.createElement("ul");
-    //         fileList.appendChild(list);
-    //         for (let i = 0; i < files.length; i++) {
-    //         const li = document.createElement("li");
-    //         list.appendChild(li);
-        
-    //       const img = document.createElement("img");
-    //       img.src = window.URL.createObjectURL(files[i]);
-    //       img.height = 60;
-    //       img.onload = function() {
-    //         window.URL.revokeObjectURL(this.src);
-    //       }
-    //       li.appendChild(img);
-    //       const info = document.createElement("span");
-    //       info.innerHTML = files[i].name + ": " + files[i].size + " bytes";
-    //       li.appendChild(info);
-    //     }
-    //   }
-
     render() {
         return (
-            <div id="upload-container"  
-                onDragEnter={(e) => this.onDragOverEnter(e)}
-                onDragOver={(e) => this.onDragOverEnter(e)}
-                onDragLeave={(e) => this.onDragLeave(e)}
-                onDrop={(e) => this.onDragDrop(e)}>
-                <img id="upload-image" src={uploadImg} alt='upload'/>
-                <div>
-                    <input id="file-input" onChange={(e) => this.onChange(e)}  type="file" name="file" multiple/>
-                    <label htmlFor="file-input">Выберите файл</label>
-                    <span> или перетащите его сюда</span>
+           <div className="uploader">
+                <div id="upload-container"  
+                    onDragEnter={(e) => this.onDragOverEnter(e)}
+                    onDragOver={(e) => this.onDragOverEnter(e)}
+                    onDragLeave={(e) => this.onDragLeave(e)}
+                    onDrop={(e) => this.onDragDrop(e)}>
+                    <img id="upload-image" src={uploadImg} alt='upload'/>
+                    <div>
+                        <input id="file-input" onChange={(e) => this.onChange(e)}  type="file" name="file" multiple accept="image/*"/>
+                        <label htmlFor="file-input">Выберите файл</label>
+                        <span> или перетащите его сюда</span>
+                    </div>
                 </div>
-                {this.state.images.map((elem) => 
-                    <img src={elem} key={elem}/>)
-                    // console.log(this.state.images)
-                }
-            </div>
+                <div className="images">
+                    {this.state.images.map((elem) => <img src={elem} key={elem}/>)}
+                </div>
+           </div>
         )
     }
 }

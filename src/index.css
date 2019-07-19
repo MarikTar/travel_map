@@ -12,6 +12,27 @@ code {
     monospace;
 }
 
+.uploader{
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.images{
+  margin-top: 70px;
+  flex-basis: 100%
+}
+
+.images img{
+  width: 175px;
+  height: 175px;
+  margin-right: 40px;
+  margin-bottom: 20px;
+}
+
 #upload-container {
   display: flex;
   justify-content: center;
@@ -63,5 +84,6 @@ code {
   background-color: #fafafa;
   outline-offset: -17px;
 }
+
 
 
