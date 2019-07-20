@@ -5,7 +5,15 @@ import CountryList from './countryList';
 import Map from './map';
 import './css/index.css';
 import './css/contant.css';
+import './css/footer.css';
 
+function Footer(){
+    return (
+        <div className='footer'>
+            Some text
+        </div>
+    )
+}
 
 class Main extends React.Component {
     render() {
@@ -16,11 +24,12 @@ class Main extends React.Component {
                     <CountryList />
                     <Map />
                 </div>
+                <Footer/>
             </div>
         )
     }
 }
 
-ReactDOM.render(
+ReactDOM.render((
     <Main />
-    , document.getElementById('root'));
+), document.getElementById('root'));

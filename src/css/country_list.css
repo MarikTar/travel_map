@@ -1,5 +1,5 @@
 .country_list{
-    height: 650px;
+    height: calc(100vh - 84px);
     overflow: auto;
 }
 
