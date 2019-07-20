@@ -1,4 +1,55 @@
-.header {
-  background: #fff;
-  padding: 20px 115px;
+.dashboard {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 115px;
+}
+
+.dashboard-title {
+  font-size: 22px;
+  color: #4e4e4e;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.upload-file {
+  background: transparent;
+  display: block;
+  width: 60px;
+  height: 60px;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  outline: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.input-file {
+  display: none!important;
+}
+
+.btn-logout {
+  font-size: 13px;
+  font-weight: 300;
+  text-transform: uppercase;
+  max-width: 100%;
+  white-space: nowrap;
+  vertical-align: middle;
+  width: 120px;
+  background: #41A6F1;
+  color: rgb(255, 255, 255);
+  height: 45px;
+  line-height: 39px;
+  border-width: 0;
+  text-decoration: none;
+  border-radius: 35px;
+  padding: 0 8px;
+  margin-left: 35px;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  outline: none;
 }

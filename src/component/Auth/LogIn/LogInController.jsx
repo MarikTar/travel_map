@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import LogInView from '../LogIn/LogInView';
+import LogInView from './LogInView';
 import FireBase from "../FireBase";
 
 export default class LogInController extends Component {

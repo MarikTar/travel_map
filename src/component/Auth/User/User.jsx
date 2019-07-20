@@ -10,7 +10,6 @@ export default class User extends Component {
   state = {
     user: null,
     photoURL: null,
-    emailVerified: null,
     authenticated: false,
     loaded: false
   };

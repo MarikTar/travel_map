@@ -25,10 +25,17 @@ body {
   -moz-osx-font-smoothing: auto;
   direction: ltr;
   color: #323232;
-  background-color: #0747a6;
+  background-color: #f2f2f2;
   margin: 0;
 }
 
 .root {
   overflow-x: hidden;
+}
+
+img {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
 }

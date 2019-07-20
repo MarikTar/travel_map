@@ -6,12 +6,14 @@ import ProfileUser from "../ProfileUser/ProfileUser";
 
 export default function Dashboard(props) {
   return (
-    <header className="header">
-      <div>
+    <header className="dashboard">
+      <div className="dashboard-title">
         Dashboard
       </div>
-      <ProfileUser user={ props.user } />
-      <button onClick={ () => FireBase.firebase.auth().signOut() }>Sign out</button>
+      <div className='profile'>
+        <ProfileUser user={ props.user } />
+        <button className="btn-logout" onClick={ () => FireBase.firebase.auth().signOut() }>Sign out</button>
+      </div>
     </header>
   )
 }

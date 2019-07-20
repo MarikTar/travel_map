@@ -20,4 +20,9 @@ export default class Storage extends Component {
       })
     });
   }
+
+  static getStoreDefaultAvatar(setUrl) {
+    const avatarStgRef = FireBase.firebase.storage().ref('user/cloud-avatar-user/default-avatar/user.png');
+    avatarStgRef.getDownloadURL().then(url => setUrl(url));
+  }
 }
