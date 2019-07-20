@@ -21,11 +21,9 @@ export default class CountryList extends React.Component {
 
     filterCountries(event) {
         let filtertext = event.target.value.trim();
-        if (filtertext.length > 0) {
-            this.setState({
-                filter: filtertext.toLowerCase(),
-            })
-        }
+        this.setState({
+            filter: filtertext.toLowerCase(),
+        })
     }
     render() {
         return (
@@ -38,7 +36,7 @@ export default class CountryList extends React.Component {
                             key={countrys.name}
                             openWindow={this.openWindow.bind(this)}
                         />
-                    }else{
+                    } else {
                         return null;
                     }
                 })}

@@ -3,6 +3,8 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './css/map.css';
 import countriesJSON from './json/countries.geo.json';
+import styleJson from './styleJSON';
+import countriesList from './json/coyntries.json';
 
 /*
 Добавление иконки
@@ -16,15 +18,14 @@ let myIcon = L.icon({
     shadowAnchor: [22, 94]
 });
 */
-console.log(countriesJSON);
 
-export default class Map extends React.Component{
+export default class Map extends React.Component {
 
-    componentDidMount(){
-        this.map =  L.map('mapid',{
-            center: [ 55,10],
+    componentDidMount() {
+        this.map = L.map('mapid', {
+            center: [55, 10],
             zoom: 6,
-            zoomControl:true,
+            zoomControl: true,
         });
 
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
@@ -32,10 +33,12 @@ export default class Map extends React.Component{
             maxZoom: 5,
         }).addTo(this.map)
 
-        L.geoJSON(countriesJSON).addTo(this.map)
+        L.geoJSON(countriesJSON, {
+            style: styleJson,
+        }).addTo(this.map)
     }
-    render(){
-        return(
+    render() {
+        return (
             <div id="mapid"></div>
         )
     }

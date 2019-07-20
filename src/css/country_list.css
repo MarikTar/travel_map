@@ -1,6 +1,8 @@
 .country_list{
     height: calc(100vh - 84px);
-    overflow: auto;
+    overflow: auto scroll;
+    width: 250px;
+    padding-right: 5px;
 }
 
 .list{
