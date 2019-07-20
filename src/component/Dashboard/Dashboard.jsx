@@ -12,7 +12,7 @@ export default function Dashboard(props) {
       </div>
       <div className='profile'>
         <ProfileUser user={ props.user } />
-        <button className="btn-logout" onClick={ () => FireBase.firebase.auth().signOut() }>Sign out</button>
+        <button className="btn-logout" onClick={ () => FireBase.firebase.auth().signOut() }>Log out</button>
       </div>
     </header>
   )

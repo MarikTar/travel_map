@@ -4,7 +4,7 @@
   border-radius: 4px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 35px 0 50px;
+  padding: 35px 0 0;
 }
 
 .auth-title {
@@ -157,7 +157,7 @@
 
 .auth-social-button {
   font-size: 16px;
-  background: transparent;
+  background: #fff;
   color: #000;
   display: flex;
   justify-content: center;
@@ -166,10 +166,11 @@
   width: 100%;
   padding: 12px;
   margin: 0 auto;
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 0;
   border-radius: 4px;
   transition: background-color 0.15s;
   cursor: pointer;
+  box-shadow: 0 0 8px 1px rgba(82, 82, 82, 0.1);
 }
 
 .icon-gpl {

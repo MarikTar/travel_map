@@ -1,5 +1,7 @@
 import React, { Component } from "react"
 import FireBase from '../FireBase';
+import firebase from "firebase/app";
+
 
 export default class GoogleLogIn extends Component {
   constructor(props) {
@@ -8,17 +10,12 @@ export default class GoogleLogIn extends Component {
     this.state = {
       loggedIn: false
     };
-    this.provider = new FireBase.firebase.auth.GoogleAuthProvider();
+
+    this.provider = new firebase.auth.GoogleAuthProvider();
   }
 
   signIn = () => {
-    FireBase.firebase.auth().signInWithPopup(this.provider).then(result => {
-      console.log(result);
-      // ...
-    }).catch(error => {
-      console.log(error);
-      // ...
-    });
+    FireBase.firebase.auth().signInWithPopup(this.provider);
   };
 
   render() {

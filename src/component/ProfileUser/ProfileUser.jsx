@@ -51,11 +51,12 @@ export default class ProfileUser extends Component {
 
   render() {
     const { photoURL } = this.props.user;
+    console.log(this.props.user.photoURL);
 
     return(
       <div>
         {
-          this.state.success && !!localStorage.getItem("avatar") ?
+          (this.state.success || !photoURL) || !!localStorage.getItem("avatar") ?
             <button
               type="button"
               title="add profile photo"

@@ -24,6 +24,7 @@ export default class LogInController extends Component {
       this.props.history.push('/dashboard');
     } catch (error) {
       this.setState({fireBaseError: error.message});
+      this.setLoading(false);
     }
   };
 

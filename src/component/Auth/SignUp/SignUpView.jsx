@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 import AuthInput from "../AuthInput";
 import { Link } from "react-router-dom";
+import GoogleLogIn from "../LogIn/GoogleLogIn";
 
 export default class SignUpView extends Component {
   static propTypes = {
@@ -68,19 +69,7 @@ export default class SignUpView extends Component {
         >
           <div className="error-server">{ fireBaseError }</div>
         </CSSTransition>
-        {/*<div className="auth-socials">*/}
-        {/*  <div className="auth-socials-title">*/}
-        {/*    Sign up with social platforms*/}
-        {/*  </div>*/}
-        {/*  <ul className="list-socials">*/}
-        {/*    <li className="item-social">*/}
-        {/*      <a href="#" className="link-social fb" />*/}
-        {/*    </li>*/}
-        {/*    <li className="item-social">*/}
-        {/*      <a href="#" className="link-social gp" />*/}
-        {/*    </li>*/}
-        {/*  </ul>*/}
-        {/*</div>*/}
+        <GoogleLogIn />
       </form>
     );
   }

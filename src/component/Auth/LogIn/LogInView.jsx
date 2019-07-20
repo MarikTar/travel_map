@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import AuthInput from "../AuthInput";
 import {Link} from "react-router-dom";
 import {CSSTransition} from "react-transition-group";
+import GoogleLogIn from "./GoogleLogIn";
 
 export default class LogInView extends Component {
   static propTypes = {
@@ -61,6 +62,7 @@ export default class LogInView extends Component {
         >
           <div className="error-server">{ fireBaseError }</div>
         </CSSTransition>
+        <GoogleLogIn />
       </form>
     );
   }
