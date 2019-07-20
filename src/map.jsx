@@ -2,7 +2,7 @@ import React from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './css/map.css';
-import countriesJSON from './countries.geo.json'
+import countriesJSON from './json/countries.geo.json';
 
 /*
 Добавление иконки
@@ -29,7 +29,7 @@ export default class Map extends React.Component{
 
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             minZoom: 2,
-            maxZoom: 4,
+            maxZoom: 5,
         }).addTo(this.map)
 
         L.geoJSON(countriesJSON).addTo(this.map)
