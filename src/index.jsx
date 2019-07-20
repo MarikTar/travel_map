@@ -7,6 +7,9 @@ import './css/index.css';
 import './css/contant.css';
 import './css/footer.css';
 
+
+let test = [{'Ukraine':[]},{'Spain':[]},{'France':[]}];
+
 function Footer(){
     return (
         <div className='footer'>
@@ -22,7 +25,7 @@ class Main extends React.Component {
                 <Header />
                 <div className={'contant'}>
                     <CountryList />
-                    <Map />
+                    <Map activCountry={test}/>
                 </div>
                 <Footer/>
             </div>

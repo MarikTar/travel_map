@@ -3,8 +3,8 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './css/map.css';
 import countriesJSON from './json/countries.geo.json';
-import styleJson from './styleJSON';
-import countriesList from './json/coyntries.json';
+// import styleJson from './styleJSON';
+// import countriesList from './json/coyntries.json';
 
 /*
 Добавление иконки
@@ -20,6 +20,21 @@ let myIcon = L.icon({
 */
 
 export default class Map extends React.Component {
+    styleJson(feature) {
+        return {
+            color: '#000',
+            weight: 2,
+            fillOpacity: this.Opacity(feature.properties.name) || 0.8
+        }
+    }
+
+    Opacity(fullCountry) {  
+        for (let key in this.props.activCountry) {
+            if(this.props.activCountry[key][fullCountry]){
+                return 0.2
+            }
+        }
+    }
 
     componentDidMount() {
         this.map = L.map('mapid', {
@@ -34,7 +49,7 @@ export default class Map extends React.Component {
         }).addTo(this.map)
 
         L.geoJSON(countriesJSON, {
-            style: styleJson,
+            style: this.styleJson.bind(this),
         }).addTo(this.map)
     }
     render() {
