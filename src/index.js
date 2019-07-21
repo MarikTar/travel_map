@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Upload from './upload'
+import Upload from './Uploader/upload'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render((

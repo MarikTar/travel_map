@@ -1,6 +1,6 @@
 import React from 'react';
 import uploadImg from './Upload.svg'
-
+import Galeria from '../Galeria/galeria';
 window.URL = window.URL || window.webkitURL;
 
 export default class Upload extends React.Component {
@@ -11,20 +11,28 @@ export default class Upload extends React.Component {
         }
     }
 
-    onChange(e) {
-        let fileList = e.target.files
+    addImages(fileList) {
         for(let i = 0; i < fileList.length; i += 1) {
             let img = fileList[i];
+            if (!img.type.startsWith('image/')) { 
+                continue; 
+            }
             let images = this.state.images;
-            images.push(window.URL.createObjectURL(img));
-            this.setState({
-                images: images
-            });
+            if(!images.some(file => file.name === img.name)) {
+                images.push(img);
+                // images.push(window.URL.createObjectURL(img));
+                this.setState({
+                    images: images
+                });
+            }
         }
-        // console.log(images);
-        // this.setState({
-        //     images: images
-        // });
+        console.log(this.state.images);
+        
+    }
+
+    onChange(e) {
+        let fileList = e.target.files;
+        this.addImages(fileList);
     }
 
     onDragOverEnter(e) {
@@ -49,17 +57,7 @@ export default class Upload extends React.Component {
         e.stopPropagation();
         e.target.classList.remove('dragover');
         let fileList = e.dataTransfer.files;
-        for(let i = 0; i < fileList.length; i += 1) {
-            let img = fileList[i];
-            if (!img.type.startsWith('image/')) { 
-                continue; 
-            }
-            let images = this.state.images;
-            images.push(window.URL.createObjectURL(img));
-            this.setState({
-                images: images
-            });
-        }
+        this.addImages(fileList);
     }
 
     render() {
@@ -77,9 +75,10 @@ export default class Upload extends React.Component {
                         <span> или перетащите его сюда</span>
                     </div>
                 </div>
-                <div className="images">
+                {/* <div className="images">
                     {this.state.images.map((elem) => <img src={elem} key={elem}/>)}
-                </div>
+                </div> */}
+                <Galeria images={this.state.images}></Galeria>
            </div>
         )
     }
