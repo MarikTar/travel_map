@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import './index.css';
 import App from './App';
 import Upload from './Uploader/upload'
@@ -10,6 +10,12 @@ ReactDOM.render((
         <Upload></Upload>
     </div>
 ), document.getElementById('root'));
+
+import App from './component/App/app';
+import * as serviceWorker from './serviceWorker';
+
+
+render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
