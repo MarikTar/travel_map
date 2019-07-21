@@ -18,7 +18,7 @@ Travel map is an application for those who love order in photos after each trip.
 	`username`: `loginName`,
 	`password`: 'password',
 	`memory`: [{
-				`country`: 'countryMame';
+				`country`: 'countryName';
 				`url`: `[img1.jpg,img2.jpg,...]`
 			},{...}]
 },{...}];
