@@ -8,9 +8,9 @@ import './css/contant.css';
 import './css/footer.css';
 
 
-let test = [{'Ukraine':[]},{'Spain':[]},{'France':[]}];
+let test = [{ 'Ukraine': [] }, { 'Spain': [] }, { 'France': [] }, { 'Germany': [] }];
 
-function Footer(){
+function Footer() {
     return (
         <div className='footer'>
             Some text
@@ -19,15 +19,32 @@ function Footer(){
 }
 
 class Main extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            countrys: null,
+            openWindow: false,
+        }
+    }
+
+    setMainState(country) {
+        this.setState({
+            countrys: country,
+            openWindow: true,
+        })
+        console.log(country)//получает страну при нажатии add
+    }
+
     render() {
         return (
             <div className={'main'}>
                 <Header />
                 <div className={'contant'}>
-                    <CountryList />
-                    <Map activCountry={test}/>
+                    <CountryList setMainState={this.setMainState.bind(this)} />
+                    <Map activCountry={test} setMainState={this.setMainState.bind(this)}/>
                 </div>
-                <Footer/>
+                <Footer />
             </div>
         )
     }

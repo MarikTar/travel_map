@@ -28,19 +28,24 @@ export default class Map extends React.Component {
         }
     }
 
-    Opacity(fullCountry) {  
+    Opacity(fullCountry) {
         for (let key in this.props.activCountry) {
-            if(this.props.activCountry[key][fullCountry]){
+            if (this.props.activCountry[key][fullCountry]) {
                 return 0.2
             }
         }
+    }
+    onClick(e){
+        let country = e.layer.feature.properties.name;
+        this.props.setMainState(country)
     }
 
     componentDidMount() {
         this.map = L.map('mapid', {
             center: [55, 10],
-            zoom: 6,
+            zoom: 2,
             zoomControl: true,
+            maxBounds: [[90, -180],[-70, 180]],
         });
 
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
@@ -48,9 +53,11 @@ export default class Map extends React.Component {
             maxZoom: 5,
         }).addTo(this.map)
 
-        L.geoJSON(countriesJSON, {
+        this.geoJson = L.geoJSON(countriesJSON, {
             style: this.styleJson.bind(this),
         }).addTo(this.map)
+
+        this.geoJson.on('click', (e)=>this.onClick(e))
     }
     render() {
         return (

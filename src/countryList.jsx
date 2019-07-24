@@ -13,10 +13,7 @@ export default class CountryList extends React.Component {
         }
     }
     openWindow(country) {
-        this.setState({
-            country: country,
-            openWindow: true,
-        })
+        this.props.setMainState(country)
     }
 
     filterCountries(event) {
