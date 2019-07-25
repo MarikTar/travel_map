@@ -51,7 +51,6 @@ export default class ProfileUser extends Component {
 
   render() {
     const { photoURL } = this.props.user;
-    console.log(this.props.user.photoURL);
 
     return(
       <div>

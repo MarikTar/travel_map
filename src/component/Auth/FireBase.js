@@ -10,7 +10,7 @@ export default class FireBase {
     authDomain: "travelmap-ad11c.firebaseapp.com",
     databaseURL: "https://travelmap-ad11c.firebaseio.com",
     projectId: "travelmap-ad11c",
-    storageBucket: "gs://travelmap-ad11c.appspot.com",
+    storageBucket: "travelmap-ad11c.appspot.com",
     messagingSenderId: "668836694216",
     appId: "1:668836694216:web:a35a52bff6a53cf2"
   });
