@@ -1,19 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 import './index.css';
-import App from './App';
-import Upload from './Uploader/upload'
 import * as serviceWorker from './serviceWorker';
-
-ReactDOM.render((
-    <div>
-        <Upload></Upload>
-    </div>
-), document.getElementById('root'));
-
 import App from './component/App/app';
-import * as serviceWorker from './serviceWorker';
-
 
 render(<App />, document.getElementById('root'));
 

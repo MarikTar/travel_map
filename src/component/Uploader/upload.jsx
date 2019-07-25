@@ -1,6 +1,9 @@
 import React from 'react';
 import uploadImg from './Upload.svg'
 import Galeria from '../Galeria/galeria';
+import FireBase from "../Auth/FireBase";
+
+import './uploader.css';
 window.URL = window.URL || window.webkitURL;
 
 export default class Upload extends React.Component {
@@ -14,20 +17,22 @@ export default class Upload extends React.Component {
     addImages(fileList) {
         for(let i = 0; i < fileList.length; i += 1) {
             let img = fileList[i];
+            const photoBase = FireBase.firebase.storage().ref("user/cloud-photos/" + this.props.country + "/" + img.name);
             if (!img.type.startsWith('image/')) { 
                 continue; 
             }
             let images = this.state.images;
             if(!images.some(file => file.name === img.name)) {
+                // this.uploadImageAsPromise(img);
                 images.push(img);
                 // images.push(window.URL.createObjectURL(img));
+                photoBase.put(img);  
                 this.setState({
                     images: images
                 });
             }
+
         }
-        console.log(this.state.images);
-        
     }
 
     onChange(e) {
@@ -61,8 +66,19 @@ export default class Upload extends React.Component {
     }
 
     render() {
+        // "user/cloud-photos/" + this.props.country 
+       FireBase.firebase.database().ref().once('value', function(snapshot){
+            if(snapshot.exists()){
+                var content = '';
+                snapshot.forEach(function(data){
+                    console.log(data.val()['cloud-photos']);
+                });
+            }
+        });
+            
+        
         return (
-           <div className="uploader">
+           <div className="uploader" style={{display: this.props.showUploader}}>
                 <div id="upload-container"  
                     onDragEnter={(e) => this.onDragOverEnter(e)}
                     onDragOver={(e) => this.onDragOverEnter(e)}
@@ -75,9 +91,6 @@ export default class Upload extends React.Component {
                         <span> или перетащите его сюда</span>
                     </div>
                 </div>
-                {/* <div className="images">
-                    {this.state.images.map((elem) => <img src={elem} key={elem}/>)}
-                </div> */}
                 <Galeria images={this.state.images}></Galeria>
            </div>
         )

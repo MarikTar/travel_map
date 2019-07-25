@@ -1,0 +1,12 @@
+.galeria .item {
+    display: inline-block;
+    width: 200px;
+}
+
+.galeria img{
+    max-width: 100%;
+}
+
+.galeria .item .pop-image {
+    width: 70%;
+}

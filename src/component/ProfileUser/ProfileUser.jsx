@@ -41,7 +41,7 @@ export default class ProfileUser extends Component {
   }
 
   addLocalStorage(value) {
-    localStorage.setItem('avatar', JSON.stringify(value));
+    localStorage.setItem("avatar", JSON.stringify(value));
     this.forceUpdate();
   }
 
@@ -51,7 +51,7 @@ export default class ProfileUser extends Component {
 
   render() {
     const { photoURL } = this.props.user;
-    console.log(this.props.user.photoURL);
+    // console.log(this.props.user.photoURL);
 
     return(
       <div>
