@@ -3,8 +3,8 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './css/map.css';
 import countriesJSON from './json/countries.geo.json';
+//import countriesList from './json/coyntries.json';
 // import styleJson from './styleJSON';
-// import countriesList from './json/coyntries.json';
 
 /*
 Добавление иконки
@@ -18,6 +18,10 @@ let myIcon = L.icon({
     shadowAnchor: [22, 94]
 });
 */
+function apiController(countries) {
+    return fetch(`https://restcountries.eu/rest/v2/alpha/${countries}/?fields=latlng`)
+        .then(response => response.json())
+}
 
 export default class Map extends React.Component {
     geojson = L.geoJSON(countriesJSON, {
@@ -28,13 +32,12 @@ export default class Map extends React.Component {
         minZoom: 2,
         maxZoom: 5,
     });
-    /*
+    //пока в процессе!!
     icon = L.divIcon({
-        html: `<button>TEXT</button>`,
-        className: 'icon123123',
+        html: `<button id='bap'>TEST</button>`,
+        className: 'iconButtonAddPhoto',
     })
-    testAddIco = L.marker([50.505, 30.57], {icon: this.icon})
-    */
+
     styleJson(feature) {
         return {
             color: '#000',
@@ -51,14 +54,6 @@ export default class Map extends React.Component {
             }
         }
     }
-    tileLayer() {
-        return L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
-            {
-                minZoom: 2,
-                maxZoom: 5,
-            }
-        )
-    }
 
     highlightFeature(e) {
         var layer = e.target;
@@ -72,12 +67,30 @@ export default class Map extends React.Component {
         this.geojson.resetStyle(e.target)
     }
 
+    //пока в процессе!!
+    onClick(e) {
+        let countryId = e.target.feature.id;
+        if (this.buttonAddPhoto) {
+            this.buttonAddPhoto.remove(this.map)
+        }
+
+        apiController(countryId)
+            .then(data => {
+                const coord = data.latlng;
+                this.buttonAddPhoto = L.marker(coord, { icon: this.icon })
+                this.buttonAddPhoto.addTo(this.map);
+                //test
+                const BAP = document.getElementById('bap');
+                BAP.addEventListener('click', ()=> console.log(coord))
+            })
+    }
+
     onEachFeature(feature, layer) {
         const country = feature.properties.name;
         layer.on({
             'mouseover': this.highlightFeature,
             'mouseout': this.resetHighlight.bind(this),
-            'click': () => this.props.setMainState(country)
+            'click': () => this.props.setMainState(country) //this.onClick.bind(this)
         });
     }
 
@@ -90,7 +103,6 @@ export default class Map extends React.Component {
         });
         this.tileLayer.addTo(this.map)
         this.geojson.addTo(this.map);
-        //this.testAddIco.addTo(this.map)
     }
     render() {
         return (
