@@ -1,8 +1,8 @@
 import React from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import './css/map.css';
-import countriesJSON from './json/countries.geo.json';
+import './style/map.css';
+import countriesJSON from '../json/countries.geo.json';
 //import countriesList from './json/coyntries.json';
 // import styleJson from './styleJSON';
 
