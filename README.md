@@ -38,7 +38,7 @@ Travel map is an application for those who love order in photos after each trip.
 - implement sorting of photos by metadata;<br>
 
 ### `structure`
-
+```
 procject/
 ├── src/
 │   ├── assets/ - dir for a static images, svgs, audio, etc
@@ -51,10 +51,11 @@ procject/
 │   │       ├── styles/
 │   │       │   └── index.css
 │   │       └── index.jsx
-|   |
+|	|
 │   ├── index.html - main html file
 │   ├── routing.jsx - file with react-router for example that defines pages of app
 │   └── index.jsx - main jsx file
 │
 ├── package.json
 └── README.md
+```
