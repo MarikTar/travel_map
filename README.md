@@ -51,7 +51,7 @@ procject/
 │   │       ├── styles/
 │   │       │   └── index.css
 │   │       └── index.jsx
-|	|
+│   │
 │   ├── index.html - main html file
 │   ├── routing.jsx - file with react-router for example that defines pages of app
 │   └── index.jsx - main jsx file
