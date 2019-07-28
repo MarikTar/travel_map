@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import FireBase from "../Auth/FireBase";
+import FireBase from "../../Firebase/FireBase";
 import ProfileUser from "../ProfileUser/ProfileUser";
 import Map from '../MapLeaflet/Map';
-import ControllerGPS from '../Controllers/ControllerGPS';
-import ControllerFromDB from '../Controllers/ControllerFromDB';
+import ServiceGPS from '../../Services/ServiceGPS';
+import ServiceDB from '../../Services/ServiceDB';
 import './dashboard.css';
 
 export default class Dashboard extends Component {
   static propTypes = {
     user: PropTypes.object
   }
+
+  serviceDB = new ServiceDB();
+  serviceGps = new ServiceGPS();
 
   constructor(props) {
     super(props);
@@ -26,7 +29,7 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    new ControllerFromDB(this.updateState);
+    this.serviceDB.getDataFromDB(this.updateState);
   }
 
   updateState = (loading, lat, lon, country) => {
@@ -97,6 +100,6 @@ export default class Dashboard extends Component {
 
   uploadPhotos(source) {
     const storageRef = FireBase.firebase.storage().ref(`user/cloud-photos/${this.uid}/${source.name}`);
-    new ControllerGPS(storageRef, source, this.updateState);
+    this.serviceGps.setGPSCoordinatesDB(storageRef, source, this.updateState);
   }
 }

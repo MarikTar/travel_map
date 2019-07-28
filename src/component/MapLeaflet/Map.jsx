@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Map, Marker, TileLayer, GeoJSON } from 'react-leaflet';
 import MapGeo from './map.geo.json';
-import ControllerFlagAPI from '../Controllers/ControllerFlagAPI';
+import ServiceFlag from '../../Services/ServiceFlag';
 import './map.css';
 
 export default class MapLeaFlet extends Component {
@@ -12,8 +12,8 @@ export default class MapLeaFlet extends Component {
     country: PropTypes.array
   }
 
-  static countrys = [];
-  static countryStyle = 0.8;
+  countrys = [];
+  countryStyle = 0.8;
 
   state = {
     lat: 55,
@@ -39,7 +39,7 @@ export default class MapLeaFlet extends Component {
   }
 
   styled(feature) {
-    MapLeaFlet.countrys.push(feature);
+    this.countrys.push(feature);
     return {
       color: '#000',
       weight: 1.5,

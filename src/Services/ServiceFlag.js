@@ -1,4 +1,4 @@
-export default class ControllerFlagAPI {
+export default class ServiceFlag {
 	constructor(country) {
 		this.APIURL = `https://restcountries.eu/rest/v2/alpha/${country}/?fields=latlng`;
 		this.init();

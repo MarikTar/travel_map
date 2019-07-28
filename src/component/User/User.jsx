@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Redirect, Route} from "react-router-dom";
-import PrivateRoute from "../PrivateRouter";
-import Dashboard from "../../Dashboard/Dashboard";
-import LogIn from "../LogIn/LogInController";
-import SignUp from "../SignUp/SignUpController";
-import FireBase from "../FireBase";
+import PrivateRoute from "../Auth/PrivateRouter";
+import Dashboard from "../Dashboard/Dashboard";
+import LogIn from "../Auth/LogIn/LogInController";
+import SignUp from "../Auth/SignUp/SignUpController";
+import FireBase from "../../Firebase/FireBase";
 
 export default class User extends Component {
   state = {

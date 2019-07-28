@@ -1,49 +1,39 @@
-import FireBase from '../Auth/FireBase';
-import Geocoder from './ControllerGeocoderAPI';
+import FireBase from "../Firebase/FireBase";
+import Geocoder from './ServiceGeocoder';
 import EXIF from 'exif-js';
 
-export default class ControllerGPS {
-	static coordinates = {}
-
-	constructor(storageRef, source, callback) {
-		this.uid = FireBase.firebase.auth().currentUser.uid;
-		this.store = storageRef;
-		this.ref = source;
-		this.cb = callback;
-		this.init();
-	}
-
-	init() {
-		this.setGPSCoordinatesDB();
-	}
+export default class ServiceGPS {
+  coordinates = {}
+  uid = FireBase.firebase.auth().currentUser.uid;
 
 	getGPS(coordinates) {
     return coordinates[0].numerator + coordinates[1].numerator / (60 * coordinates[1].denominator) + coordinates[2].numerator / (3600 * coordinates[2].denominator);
   }
 
-	setGPSCoordinatesDB() {
-		this.store .put(this.ref)
+	setGPSCoordinatesDB(storageRef, ref, callback) {
+		storageRef .put(ref)
     .then(snapshot => {
       if (snapshot.state === 'success') {
-        this.cb(false);
+        callback(false);
 
-        this.store .getDownloadURL()
+        storageRef .getDownloadURL()
         .then(url => {
           fetch(url)
           .then(res => res.blob())
           .then(data => {
             EXIF.getData(data, () => {
-              const key = this.ref.name.split('.')[0].toString();
+              const key = ref.name.split('.')[0].toString();
               const gpsTags = ['GPSLatitude', 'GPSLongitude'];
 
-              gpsTags.forEach(val => ControllerGPS.coordinates[val] = this.getGPS(EXIF.getTag(data, val)));
-               new Geocoder(
-                ControllerGPS.coordinates.GPSLatitude, 
-                ControllerGPS.coordinates.GPSLongitude,
+              gpsTags.forEach(val => this.coordinates[val] = this.getGPS(EXIF.getTag(data, val)));
+              new Geocoder(
+                this.coordinates.GPSLatitude, 
+                this.coordinates.GPSLongitude
+              ).get(
                 `user/cloud-photos/${this.uid}/${key}`,
-								this.cb,
-								ControllerGPS.coordinates
-              );
+								callback,
+								this.coordinates
+              )
             })
           });
         })

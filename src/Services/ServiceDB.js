@@ -1,17 +1,9 @@
-import FireBase from '../Auth/FireBase';
+import FireBase from "../Firebase/FireBase";
 
-export default class ControllerFromDB {
-	constructor(callback) {
-		this.uid = FireBase.firebase.auth().currentUser.uid;
-		this.cb = callback;
-		this.init();
-	}
+export default class ServiceDB {
+	uid = FireBase.firebase.auth().currentUser.uid;
 
-	init() {
-		this.getDataFromDB();
-	}
-
-	getDataFromDB() {
+	getDataFromDB(callback) {
 		FireBase.firebase.database()
       .ref()
       .child(`user/cloud-photos/${this.uid}`)
@@ -24,7 +16,7 @@ export default class ControllerFromDB {
         }
 
         Object.values(data).forEach(({ city, country, lat, lon }) => {
-          this.cb(false, lat, lon, country);
+          callback(false, lat, lon, country);
         });
       }, error => console.log(error));
 	}

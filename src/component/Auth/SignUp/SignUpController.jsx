@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SingUpView from './SignUpView';
-import FireBase from "../FireBase";
+import FireBase from "../../../Firebase/FireBase";
 
 export default class SignUpController extends Component {
   state = {

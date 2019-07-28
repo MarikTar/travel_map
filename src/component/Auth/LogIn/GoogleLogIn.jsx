@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import FireBase from '../FireBase';
+import FireBase from '../../../Firebase/FireBase';
 import firebase from "firebase/app";
 
 

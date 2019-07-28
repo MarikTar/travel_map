@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import LogInView from './LogInView';
-import FireBase from "../FireBase";
+import FireBase from "../../../Firebase/FireBase";
 
 export default class LogInController extends Component {
   state = {

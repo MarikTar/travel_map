@@ -1,33 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ControllerFirebaseStore from "../Controllers/ControllerFirebaseStore";
+import ServiceFirebaseStore from "../../Services/ServiceFirebaseStore";
 
 export default class ProfileUser extends Component {
   static propTypes = {
     photoURL: PropTypes.object
   };
 
- constructor(props) {
+  FirebaseStore = new ServiceFirebaseStore();
+
+  constructor(props) {
    super(props);
 
    this.state = {
      pictureFile: null,
      loaded: false,
      url: null,
-     success: false
+     defaultAvatar: null
    };
 
    this.fileInput = React.createRef();
    this.uid = this.props.user.uid;
  }
 
+  componentDidMount() {
+    this.FirebaseStore.getStoreDefaultAvatar(this.setDefaultAvatar);
+  }
+
   componentWillUpdate(nextProps, nextState, nextContext) {
     if (this.state.loaded !== nextState.loaded && nextState.pictureFile) {
-      ControllerFirebaseStore.addFileStore(nextState.pictureFile, nextState.loaded, this.setUrl, this.uid);
-    }
-
-    if (!nextState.url) {
-      ControllerFirebaseStore.getStoreDefaultAvatar(this.setUrl);
+      this.FirebaseStore.addFileStore(nextState.pictureFile, nextState.loaded, this.setUrl);
     }
   };
 
@@ -35,47 +37,6 @@ export default class ProfileUser extends Component {
     if (prevProps.user.photoURL !== this.props.user.photoURL) {
       this.updateUserProfile();
     }
-
-    if (this.state.success && localStorage.getItem("avatar") === null) {
-      this.addLocalStorage(this.state.url);
-    }
-  }
-
-  addLocalStorage(value) {
-    localStorage.setItem('avatar', JSON.stringify(value));
-    this.forceUpdate();
-  }
-
-  getLocalStorage() {
-    return localStorage.getItem("avatar").replace(/\"/g, "");
-  }
-
-  render() {
-    const { photoURL } = this.props.user;
-
-    return(
-      <div>
-        {
-          (this.state.success || !photoURL) || !!localStorage.getItem("avatar") ?
-            <button
-              type="button"
-              title="add profile photo"
-              className="upload-file"
-              onClick={ this.handlerClick }
-            >
-              <img src={ !photoURL ? this.getLocalStorage() : photoURL } alt="add profile photo"/>
-            </button> : null
-        }
-        <input
-          accept="image/jpeg,image/png"
-          type="file"
-          multiple={ false }
-          className="input-file"
-          onChange={ this.handlerChange }
-          ref={ this.fileInput }
-        />
-      </div>
-    )
   }
 
   handlerChange = evt => {
@@ -94,14 +55,42 @@ export default class ProfileUser extends Component {
   setUrl = value => {
     this.setState({
       url: value,
-      loaded: false,
-      success: true
+      loaded: false
     });
   };
 
+  setDefaultAvatar = (value) => {
+    this.setState({defaultAvatar: value});
+  }
+
   updateUserProfile() {
     const { url } = this.state;
-
     this.props.user.updateProfile({photoURL: url});
   };
+
+  render() {
+    const { photoURL } = this.props.user;
+    const { defaultAvatar } = this.state;
+
+    return(
+      <div>
+        <button
+          type="button"
+          title="add profile photo"
+          className="upload-file"
+          onClick={ this.handlerClick }
+        >
+          { (defaultAvatar || photoURL) ? <img src={ !photoURL ? defaultAvatar : photoURL } alt="add profile photo"/> : null }
+        </button>
+        <input
+          accept="image/jpeg,image/png"
+          type="file"
+          multiple={ false }
+          className="input-file"
+          onChange={ this.handlerChange }
+          ref={ this.fileInput }
+        />
+      </div>
+    )
+  }
 }
