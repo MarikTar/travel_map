@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Storage from "../Storage/Storage";
+import ControllerFirebaseStore from "../Controllers/ControllerFirebaseStore";
 
 export default class ProfileUser extends Component {
   static propTypes = {
@@ -18,15 +18,16 @@ export default class ProfileUser extends Component {
    };
 
    this.fileInput = React.createRef();
+   this.uid = this.props.user.uid;
  }
 
   componentWillUpdate(nextProps, nextState, nextContext) {
     if (this.state.loaded !== nextState.loaded && nextState.pictureFile) {
-      Storage.addStore(nextState.pictureFile, nextProps.user, nextState.loaded, this.setUrl);
+      ControllerFirebaseStore.addFileStore(nextState.pictureFile, nextState.loaded, this.setUrl, this.uid);
     }
 
     if (!nextState.url) {
-      Storage.getStoreDefaultAvatar(this.setUrl);
+      ControllerFirebaseStore.getStoreDefaultAvatar(this.setUrl);
     }
   };
 

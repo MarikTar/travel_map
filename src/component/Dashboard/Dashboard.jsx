@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import EXIF from 'exif-js';
-import './dashboard.css';
 import FireBase from "../Auth/FireBase";
 import ProfileUser from "../ProfileUser/ProfileUser";
-import test from '../../source/test.JPG';
+import Map from '../MapLeaflet/Map';
+import ControllerGPS from '../Controllers/ControllerGPS';
+import ControllerFromDB from '../Controllers/ControllerFromDB';
+import './dashboard.css';
 
 export default class Dashboard extends Component {
   static propTypes = {
@@ -15,13 +16,37 @@ export default class Dashboard extends Component {
     super(props);
 
     this.state = {
-      loading: false
+      loading: false,
+      latitude: 0,
+      longitude: 0,
+      country: []
     }
     this.fileInput = React.createRef();
+    this.uid = this.props.user.uid;
+  }
+
+  componentDidMount() {
+    new ControllerFromDB(this.updateState);
+  }
+
+  updateState = (loading, lat, lon, country) => {
+    if (!lat || !lon) {
+      return;
+    }
+
+    this.setState({
+      loading,
+      latitude: lat,
+      longitude: lon,
+      country: [
+        ...this.state.country,
+        country
+      ]
+    })
   }
 
   render() {
-    const { loading } = this.state;
+    const { latitude, longitude, country, loading } = this.state;
 
     return (
       <div>
@@ -55,29 +80,9 @@ export default class Dashboard extends Component {
           </button>
         </div>
       </header>
+        <Map lat={ latitude } lon={ longitude } country={ country } />
       </div>
     )
-  }
-
-  getGPS(coordinates) {
-    return coordinates[0].numerator + coordinates[1].numerator / (60 * coordinates[1].denominator) + coordinates[2].numerator / (3600 * coordinates[2].denominator);
-  }
-
-  componentDidMount() {
-    const storageRef = FireBase.firebase.storage().ref('user/cloud-photos/foo/IMG_0002.JPG');
-    storageRef.getDownloadURL()
-      .then(url => {
-        fetch(url, {cors: 'no-cors'})
-        .then(res => res.blob())
-        .then(data => {
-          EXIF.getData(data, () => {
-            const latitude = this.getGPS(EXIF.getTag(data, 'GPSLatitude'));
-            const longitude = this.getGPS(EXIF.getTag(data, 'GPSLongitude'));
-            console.log(latitude);
-            console.log(longitude);
-          })
-        });
-      })
   }
 
   handlerClick = () => {
@@ -87,18 +92,11 @@ export default class Dashboard extends Component {
   handlerChange = evt => {
     const files = Array.from(evt.target.files);
     files.forEach(file => this.uploadPhotos(file));
-
     this.setState({loading: true});
   }
 
   uploadPhotos(source) {
-    const { user } = this.props;
-    const storageRef = FireBase.firebase.storage().ref('user/cloud-photos/foo/' + source.name);
-    storageRef.put(source)
-      .then(snapshot => {
-        if (snapshot.state === 'success') {
-          this.setState({loading: false});
-        }
-      }, error => console.log(error));
+    const storageRef = FireBase.firebase.storage().ref(`user/cloud-photos/${this.uid}/${source.name}`);
+    new ControllerGPS(storageRef, source, this.updateState);
   }
 }
