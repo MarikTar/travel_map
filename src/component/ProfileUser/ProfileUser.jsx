@@ -35,7 +35,7 @@ export default class ProfileUser extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.user.photoURL !== this.props.user.photoURL) {
-      this.updateUserProfile();
+      this.updateUserProfile(); 
     }
   }
 
