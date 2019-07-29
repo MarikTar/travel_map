@@ -12,26 +12,26 @@ export default class Upload extends React.Component {
         this.state = {
             images: []
         }
+        this.user = FireBase.firebase.auth().currentUser;
     }
 
     addImages(fileList) {
         for(let i = 0; i < fileList.length; i += 1) {
             let img = fileList[i];
-            const photoBase = FireBase.firebase.storage().ref("user/cloud-photos/" + this.props.country + "/" + img.name);
+            const photoBase = FireBase.firebase.storage().ref(`user/cloud-photos/${this.user.uid}/${this.props.country}/${img.name}`);
             if (!img.type.startsWith('image/')) { 
                 continue; 
             }
             let images = this.state.images;
             if(!images.some(file => file.name === img.name)) {
                 // this.uploadImageAsPromise(img);
-                images.push(img);
-                // images.push(window.URL.createObjectURL(img));
+                // images.push(img);
+                images.push(window.URL.createObjectURL(img));
                 photoBase.put(img);  
                 this.setState({
                     images: images
                 });
             }
-
         }
     }
 
@@ -64,19 +64,12 @@ export default class Upload extends React.Component {
         let fileList = e.dataTransfer.files;
         this.addImages(fileList);
     }
+    componentWillReceiveProps() {
+        // console.log(this.props.images);
+    }
+    render() { 
+        let images = [...this.props.images, ...this.state.images];  
 
-    render() {
-        // "user/cloud-photos/" + this.props.country 
-       FireBase.firebase.database().ref().once('value', function(snapshot){
-            if(snapshot.exists()){
-                var content = '';
-                snapshot.forEach(function(data){
-                    console.log(data.val()['cloud-photos']);
-                });
-            }
-        });
-            
-        
         return (
            <div className="uploader" style={{display: this.props.showUploader}}>
                 <div id="upload-container"  
@@ -86,12 +79,15 @@ export default class Upload extends React.Component {
                     onDrop={(e) => this.onDragDrop(e)}>
                     <img id="upload-image" src={uploadImg} alt='upload'/>
                     <div>
-                        <input id="file-input" onChange={(e) => this.onChange(e)}  type="file" name="file" multiple accept="image/*"/>
+                        <input id="file-input" onChange={(e) => this.onChange(e)}
+                               type="file" 
+                               name="file" 
+                               multiple accept="image/*"/>
                         <label htmlFor="file-input">Выберите файл</label>
                         <span> или перетащите его сюда</span>
                     </div>
                 </div>
-                <Galeria images={this.state.images}></Galeria>
+                <Galeria images={images} country={this.props.country}></Galeria>
            </div>
         )
     }

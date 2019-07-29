@@ -26,15 +26,14 @@ export default class Item extends React.Component {
 
     render() {
         const img = this.props.image;
-        const imgURL = window.URL.createObjectURL(img);
         return ( 
-            <div className="item" key={img.name}>
+            <div className="item" key={img}>
                 <a href="javascript:void(0);" onClick={() => this.openModal()}>
-                    <img src={imgURL} alt={img.name}/>
+                    <img src={img} alt={img}/>
                 </a>
                 <Modal visible={this.state.visible} width="500" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div>
-                        <div className='pop-image'><img src={imgURL} alt={img.name}/></div>
+                        <div className='pop-image'><img src={img} alt={img}/></div>
                         <a href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
                     </div>
                 </Modal>
