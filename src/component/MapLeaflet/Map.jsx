@@ -13,7 +13,6 @@ export default class MapLeaFlet extends Component {
   }
 
   countrys = [];
-  countryStyle = 0.8;
 
   state = {
     lat: 55,
@@ -28,7 +27,6 @@ export default class MapLeaFlet extends Component {
     const { marks } = this.state;
 
     if (nextProps.lat !== this.props.lat && nextProps.lon !== this.props.lon) {
-      console.log('foo');
       this.setState({
         marks: [
           ...marks,
@@ -36,15 +34,23 @@ export default class MapLeaFlet extends Component {
         ]
       });
     }
+
+    if (country !== this.props.country) {
+      this.countrys = country;
+    }
   }
 
-  styled(feature) {
-    this.countrys.push(feature);
+  layerStyled({ properties }) {
+    const country = properties.name;
     return {
       color: '#000',
       weight: 1.5,
-      fillOpacity: 0.8
+      fillOpacity: this.markedСountries(country)
     }
+  }
+
+  markedСountries(country) {
+    return this.countrys.includes(country) ? 0.2 : 0.8;
   }
 
   onMouseOut = evt => {
@@ -88,7 +94,7 @@ export default class MapLeaFlet extends Component {
         />
         <GeoJSON 
           data={ MapGeo } 
-          style={ this.styled.bind(this) }
+          style={ this.layerStyled.bind(this) }
           onMouseOver={ this.onMouseOver }
           onMouseOut={ this.onMouseOut }
           onClick={ this.onClickLayer }
