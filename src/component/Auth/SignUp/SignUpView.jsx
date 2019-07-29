@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 import AuthInput from "../AuthInput";
 import { Link } from "react-router-dom";
-import GoogleLogIn from "../LogIn/GoogleLogIn";
+import SocialsAuthorization from "../SocialsAuthorization";
 
 export default class SignUpView extends Component {
   static propTypes = {
@@ -69,7 +69,7 @@ export default class SignUpView extends Component {
         >
           <div className="error-server">{ fireBaseError }</div>
         </CSSTransition>
-        <GoogleLogIn />
+        <SocialsAuthorization/>
       </form>
     );
   }

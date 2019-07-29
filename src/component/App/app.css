@@ -1,6 +1,30 @@
+.main-container {
+  height: 100%;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+}
+
+.logo-pic {
+  width: 75px;
+}
+
+.logo-title {
+  font-family: cursive;
+  font-weight: 600;
+  font-size: 32px;
+  color: #fff;
+  margin-left: 15px;
+}
+
 .auth {
-  width: 475px;
-  margin: 50px auto 0;
+  min-width: 320px;
+  max-width: 475px;
+  margin: 0 auto 0;
   border-radius: 4px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -132,6 +156,8 @@
 
 .auth-socials {
   position: relative;
+  display: flex;
+  justify-content: center;
   padding: 35px 0;
   margin-top: 65px;
   border-top: 1px solid rgba(150, 150, 150, 0.1);
@@ -162,15 +188,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 235px;
-  width: 100%;
+  width: auto;
   padding: 12px;
-  margin: 0 auto;
   border: 0;
-  border-radius: 4px;
+  border-radius: 50%;
   transition: background-color 0.15s;
   cursor: pointer;
   box-shadow: 0 0 8px 1px rgba(82, 82, 82, 0.1);
+}
+
+.auth-socials button:first-child {
+  margin-right: 20px;
 }
 
 .icon-gpl {
@@ -178,5 +206,50 @@
   display: block;
   width: 25px;
   height: 25px;
-  margin-right: 10px;
+}
+
+.icon-fb {
+  background: url("../../source/fb.svg") no-repeat center/contain;
+  display: block;
+  width: 25px;
+  height: 25px;
+}
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  .main-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .auth {
+    margin: auto 0 0;
+  }
+
+  .logo-pic {
+    width: 120px;
+  }
+
+  .logo-title {
+    display: none;
+  }
+
+  .auth-fields,
+  .auth-button {
+    padding: 0 15px;
+  }
+
+  .button-send {
+    width: 100%;
+  }
+
+  .account {
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    margin-top: 15px;
+  }
+
+  .auth-link {
+    font-size: 14px;
+  }
 }

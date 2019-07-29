@@ -26,11 +26,13 @@ body {
   direction: ltr;
   color: #323232;
   background-color: #f2f2f2;
+  height: 100%;
   margin: 0;
 }
 
-.root {
+#root {
   overflow-x: hidden;
+  height: 100%;
 }
 
 img {

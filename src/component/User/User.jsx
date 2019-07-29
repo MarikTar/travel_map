@@ -5,6 +5,7 @@ import Dashboard from "../Dashboard/Dashboard";
 import LogIn from "../Auth/LogIn/LogInController";
 import SignUp from "../Auth/SignUp/SignUpController";
 import FireBase from "../../Firebase/FireBase";
+import logo from '../../source/logo.png';
 
 export default class User extends Component {
   state = {
@@ -42,7 +43,16 @@ export default class User extends Component {
 
     return(
       <Router>
-        <div>
+        <div 
+          className="main-container" 
+          style={{
+            background: !authenticated ? '#4f8afe' : false
+          }}
+        >
+          { !authenticated ? <div className="logo">
+            <img src={ logo } className="logo-pic" alt="travel-map"/>
+            <span className="logo-title">Travel Map</span>
+            </div> : null }
           <PrivateRoute
             exact
             path='/dashboard'
