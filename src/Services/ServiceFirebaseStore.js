@@ -1,21 +1,21 @@
 import FireBase from "../Firebase/FireBase";
-import { async } from "q";
 
 export default class ServiceFirebaseStore {
   uid = FireBase.firebase.auth().currentUser.uid;
-  base_url = 'user/cloud-avatar-user';
+  baseAvataUrl = 'user/cloud-avatar-user';
+  baseCloudPhoto = 'user/cloud-photos';
 
-	addFileStore(pictureFile, loading, setUrl) {
+	updateProfileUserAvatar(pictureFile, loading, setUrl) {
 		if (!loading) {
       return;
 		}
 		
-		const avatarRef = FireBase.firebase.storage().ref(`${this.base_url}/${this.uid}/avatar`);
+		const avatarRef = FireBase.firebase.storage().ref(`${this.baseAvataUrl}/${this.uid}/avatar`);
 		avatarRef.put(pictureFile).then( snapshot => {
       snapshot.ref.getDownloadURL().then(url => {
         FireBase.firebase.auth().currentUser.updateProfile({photoURL: url})
           .then(() => {
-            FireBase.firebase.database().ref(`${this.base_url}/${this.uid}`)
+            FireBase.firebase.database().ref(`${this.baseAvataUrl}/${this.uid}`)
               .set({"avatar": url});
               setUrl(url);
           }, error => console.log(error));
@@ -24,7 +24,7 @@ export default class ServiceFirebaseStore {
   }
   
   getStoreDefaultAvatar(setAvatar) {
-    const ref = FireBase.firebase.storage().ref(`${this.base_url}/default-avatar/user.png`);
+    const ref = FireBase.firebase.storage().ref(`${this.baseAvataUrl}/default-avatar/user.png`);
     ref.getDownloadURL()
      .then(url => {
         fetch(url).then(res => {
@@ -34,5 +34,10 @@ export default class ServiceFirebaseStore {
         })
         .then(data => setAvatar(window.URL.createObjectURL(data)));
       })
+  }
+
+  addFileStore(country, file) {
+    FireBase.firebase.storage().ref(`${this.baseCloudPhoto}/${this.uid}/${country}/${file.name}`)
+      .put(file);
   }
 }

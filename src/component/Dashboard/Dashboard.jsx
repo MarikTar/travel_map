@@ -29,14 +29,13 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.serviceDB.getDataFromDB(this.updateState);
+    this.serviceDB.getDataFromDB(this.updateState, null);
   }
 
   updateState = (loading, lat, lon, country) => {
     if (!lat || !lon) {
       return;
     }
-
     this.setState({
       loading,
       latitude: lat,
@@ -98,8 +97,7 @@ export default class Dashboard extends Component {
     this.setState({loading: true});
   }
 
-  uploadPhotos(source) {
-    const storageRef = FireBase.firebase.storage().ref(`user/cloud-photos/${this.uid}/${source.name}`);
-    this.serviceGps.setGPSCoordinatesDB(storageRef, source, this.updateState);
+  uploadPhotos(file) {
+    this.serviceGps.setGPSCoordinatesDB(file, this.updateState);
   }
 }

@@ -29,7 +29,7 @@ export default class ProfileUser extends Component {
 
   componentWillUpdate(nextProps, nextState, nextContext) {
     if (this.state.loaded !== nextState.loaded && nextState.pictureFile) {
-      this.FirebaseStore.addFileStore(nextState.pictureFile, nextState.loaded, this.setUrl);
+      this.FirebaseStore.updateProfileUserAvatar(nextState.pictureFile, nextState.loaded, this.setUrl);
     }
   };
 
