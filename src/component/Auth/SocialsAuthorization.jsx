@@ -21,17 +21,19 @@ export default class SocialsAuthorization extends Component {
       <div className="auth-socials">
         <button
           type="button"
-          className="auth-social-button"
+          className="auth-social-button button-gl"
           onClick={ this.signInGoogle }
         >
           <span className="icon-gpl" />
+          Sign in with Google
         </button>
         <button
           type="button"
-          className="auth-social-button"
+          className="auth-social-button button-fb"
           onClick={ this.signInFacebook }
         >
           <span className="icon-fb" />
+          Sign in with Facebook
         </button>
       </div>
     )
