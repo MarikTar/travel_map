@@ -90,7 +90,7 @@ export default class Map extends React.Component {
         layer.on({
             'mouseover': this.highlightFeature,
             'mouseout': this.resetHighlight.bind(this),
-            'click': () => this.props.setMainState(country) //this.onClick.bind(this)
+            'click': () => this.props.setMainState(country) //this.onClick.bind(this)  
         });
     }
 
