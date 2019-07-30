@@ -157,10 +157,15 @@
 .auth-socials {
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   padding: 35px 0;
   margin-top: 65px;
   border-top: 1px solid rgba(150, 150, 150, 0.1);
+}
+
+.auth-socials button:last-child {
+  margin-top: 15px;
 }
 
 .auth-socials::before {
@@ -182,37 +187,44 @@
 }
 
 .auth-social-button {
-  font-size: 16px;
-  background: #fff;
-  color: #000;
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: auto;
-  padding: 12px;
+  font-size: 16px;
+  color: #fff;
+  width: 275px;
+  margin: auto;
+  padding: 2px;
   border: 0;
-  border-radius: 50%;
+  border-radius: 4px;
   transition: background-color 0.15s;
   cursor: pointer;
   box-shadow: 0 0 8px 1px rgba(82, 82, 82, 0.1);
 }
 
-.auth-socials button:first-child {
-  margin-right: 20px;
+.button-gl {
+  background: #4285f4;
+}
+
+.button-fb {
+  background: #3c66c4;
 }
 
 .icon-gpl {
-  background: url("../../source/g-pl.svg") no-repeat center/contain;
-  display: block;
-  width: 25px;
-  height: 25px;
+  background: #fff url("../../source/g-pl.svg") no-repeat center/25px;
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  border-radius: 2px;
+  margin-right: 25px;
 }
 
 .icon-fb {
-  background: url("../../source/fb.svg") no-repeat center/contain;
-  display: block;
-  width: 25px;
-  height: 25px;
+  background: #fff url("../../source/fb.svg") no-repeat center/25px;
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  border-radius: 2px;
+  margin-right: 25px;
 }
 
 @media screen and (min-width: 320px) and (max-width: 480px) {
