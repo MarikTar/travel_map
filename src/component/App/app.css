@@ -212,8 +212,8 @@
 .icon-gpl {
   background: #fff url("../../source/g-pl.svg") no-repeat center/25px;
   display: inline-block;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 2px;
   margin-right: 25px;
 }
@@ -221,8 +221,8 @@
 .icon-fb {
   background: #fff url("../../source/fb.svg") no-repeat center/25px;
   display: inline-block;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 2px;
   margin-right: 25px;
 }
