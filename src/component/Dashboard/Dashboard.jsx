@@ -11,7 +11,8 @@ export default class Dashboard extends React.Component {
     super();
     this.state = {
       "display-uploader": 'none',
-      images: []
+      images: [],
+      imageTitles: []
     }
   }
 
@@ -24,26 +25,23 @@ export default class Dashboard extends React.Component {
     const storage = FireBase.firebase.storage();
     const imagesDir = storage.ref(`user/cloud-photos/${user.uid}/${e.target.innerHTML}`);
     let images = [];
+    let titles = [];
     imagesDir.listAll().then(list => {
       let items = list.items;
       for (let i = 0; i < items.length; i += 1) {
         const element = storage.ref(items[i].fullPath);
-        element.getMetadata().then(data => console.log(data))
+        element.getMetadata().then(data => {
+          titles[i] = data.name;
+          this.setState({
+            imageTitles: titles
+          })
+        });
+
         element.getDownloadURL().then(url => { 
           images[i] = url;  
           this.setState({
             images: images
           });
-          // console.log(url);
-          
-          // fetch(url)
-          //   .then(res => res.blob())
-          //   .then(data => {
-          //     images[i] = data
-          //     this.setState({
-          //         images: images
-          //       });
-          //   })
         });
       }
       
@@ -68,7 +66,8 @@ export default class Dashboard extends React.Component {
           <button onClick={(e) => this.onClick(e)}>Ukraine</button>
           <Uploader showUploader={this.state["display-uploader"]}
                     country={this.state.country}
-                    images={this.state.images}/>
+                    images={this.state.images}
+                    imageTitles={this.state.imageTitles}/>
         </main>
       </div>
     )

@@ -10,28 +10,32 @@ export default class Upload extends React.Component {
     constructor() {
         super();
         this.state = {
-            images: []
+            images: [],
+            imgTitles: []
         }
         this.user = FireBase.firebase.auth().currentUser;
     }
 
     addImages(fileList) {
+        const newImgTitles = this.state.imgTitles;
         for(let i = 0; i < fileList.length; i += 1) {
-            let img = fileList[i];
+            const img = fileList[i];
             const photoBase = FireBase.firebase.storage().ref(`user/cloud-photos/${this.user.uid}/${this.props.country}/${img.name}`);
             if (!img.type.startsWith('image/')) { 
                 continue; 
             }
-            let images = this.state.images;
-            if(!images.some(file => file.name === img.name)) {
-                // this.uploadImageAsPromise(img);
-                // images.push(img);
-                images.push(window.URL.createObjectURL(img));
+            const images = this.state.images;
+            const imgURL = window.URL.createObjectURL(img);           
+            if(!this.props.imageTitles.some(name => name === img.name) && !newImgTitles.some(name => name === img.name)) {
+                newImgTitles.push(img.name);
+                images.push(imgURL);
                 photoBase.put(img);  
                 this.setState({
-                    images: images
+                    images: images,
+                    imgTitles: newImgTitles
                 });
             }
+            console.log(newImgTitles);
         }
     }
 
@@ -65,11 +69,10 @@ export default class Upload extends React.Component {
         this.addImages(fileList);
     }
     componentWillReceiveProps() {
-        // console.log(this.props.images);
+        // console.log(this.props.imageTitles);
     }
     render() { 
-        let images = [...this.props.images, ...this.state.images];  
-
+        let images = [...this.props.images,...this.state.images];  
         return (
            <div className="uploader" style={{display: this.props.showUploader}}>
                 <div id="upload-container"  
