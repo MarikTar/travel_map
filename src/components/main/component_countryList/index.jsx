@@ -36,20 +36,23 @@ export default class CountryList extends React.Component {
     }
     render() {
         return (
-            <div className={'country_list'}>
+            <div>
                 <input id='filterCountries' type="text" onChange={this.filterCountries.bind(this)} />
-                {countriesList.features.map((countrys) => {
-                    if (countrys.properties.name.toLowerCase().indexOf(this.state.filter) !== -1) {
-                        return <Country
-                            country={countrys.properties.name}
-                            key={countrys.properties.name}
-                            openWindow={this.openWindow.bind(this)}
-                        />
-                    } else {
-                        return null;
-                    }
-                })}
+                <div className={'country_list'}>
+                    {countriesList.features.map((countrys) => {
+                        if (countrys.properties.name.toLowerCase().indexOf(this.state.filter) !== -1) {
+                            return <Country
+                                country={countrys.properties.name}
+                                key={countrys.properties.name}
+                                openWindow={this.openWindow.bind(this)}
+                            />
+                        } else {
+                            return null;
+                        }
+                    })}
+                </div>
             </div>
+
         )
     }
 }

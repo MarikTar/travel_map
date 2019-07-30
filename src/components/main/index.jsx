@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from '../component_header'
+import Header from '../header'
 import CountryList from './component_countryList';
-import Footer from '../component_footer';
+import Footer from '../footer';
 import Map from './component_map';
 import './style/index.css';
 import './style/contant.css';
