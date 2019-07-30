@@ -18,7 +18,7 @@ Travel map is an application for those who love order in photos after each trip.
 	`username`: `loginName`,
 	`password`: 'password',
 	`memory`: [{
-				`country`: 'countryMame';
+				`country`: 'countryName';
 				`url`: `[img1.jpg,img2.jpg,...]`
 			},{...}]
 },{...}];
@@ -36,3 +36,26 @@ Travel map is an application for those who love order in photos after each trip.
 - implement button to add photos;<br>
 - display added photos;<br>
 - implement sorting of photos by metadata;<br>
+
+### `structure`
+```
+procject/
+├── src/
+│   ├── assets/ - dir for a static images, svgs, audio, etc
+│   │   ├── img/ - dir for png/jpeg images
+│   │   ├── svg/ - dir for svg images (could be omited if small amount)
+│   │   └── favicon.ico - favicon file
+│   │
+│   ├── components/ - dir for presentative components
+│   │   └── component_name/ - example of component directory
+│   │       ├── styles/
+│   │       │   └── index.css
+│   │       └── index.jsx
+│   │
+│   ├── index.html - main html file
+│   ├── routing.jsx - file with react-router for example that defines pages of app
+│   └── index.jsx - main jsx file
+│
+├── package.json
+└── README.md
+```
