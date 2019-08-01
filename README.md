@@ -1,3 +1,8 @@
+## Test User
+Login
+@email user@test.com
+password a12345
+
 ## Description:
 
 Travel map is an application for those who love order in photos after each trip.

@@ -1,0 +1,12 @@
+.main-container {
+  min-height: 100%;
+}
+
+.app-auth {
+  background: url('../../source/main-bg.jpg') no-repeat top/cover;
+  padding-top: 85px;
+}
+
+.app-dashboard {
+  background: none;
+}
