@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import FireBase from '../../Firebase/FireBase';
 import firebase from "firebase/app";
-
+import './auth-scials.css';
 
 export default class SocialsAuthorization extends Component {
   providerGoogle = new firebase.auth.GoogleAuthProvider();
@@ -21,19 +21,17 @@ export default class SocialsAuthorization extends Component {
       <div className="auth-socials">
         <button
           type="button"
-          className="auth-social-button button-gl"
+          className="auth-social-button"
           onClick={ this.signInGoogle }
         >
           <span className="icon-gpl" />
-          Sign in with Google
         </button>
         <button
           type="button"
-          className="auth-social-button button-fb"
+          className="auth-social-button"
           onClick={ this.signInFacebook }
         >
           <span className="icon-fb" />
-          Sign in with Facebook
         </button>
       </div>
     )

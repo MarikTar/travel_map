@@ -22,6 +22,12 @@ export default class ServiceGeocoder {
 	}
 
 	setDataDB({ results }, ref, callback, coordinates) {
+		if (!results.length) {
+			console.log('foo')
+			return;
+		}
+		console.log('bar')
+
 		FireBase.firebase.database().ref(ref)
 			.set({
 				"lat": coordinates.GPSLatitude,

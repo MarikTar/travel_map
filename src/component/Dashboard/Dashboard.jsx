@@ -22,7 +22,8 @@ export default class Dashboard extends Component {
       loading: false,
       latitude: 0,
       longitude: 0,
-      country: []
+      country: [],
+      error: null
     }
     this.fileInput = React.createRef();
     this.uid = this.props.user.uid;
@@ -45,6 +46,29 @@ export default class Dashboard extends Component {
         country
       ]
     })
+  }
+
+  handlerClick = () => {
+    this.fileInput.current.click();
+  }
+
+  handlerChange = evt => {
+    const files = Array.from(evt.target.files);
+    files.forEach(file => this.uploadPhotos(file));
+    this.setState({loading: true});
+  }
+
+  uploadPhotos(file) {
+    this.serviceGps.setGPSCoordinatesDB(file, this.updateState, this.getError);
+  }
+
+  getError = error => {
+    if (error) {
+      this.setState({
+        error,
+        loading: false
+      });
+    }
   }
 
   render() {
@@ -85,19 +109,5 @@ export default class Dashboard extends Component {
         <Map lat={ latitude } lon={ longitude } country={ country } />
       </div>
     )
-  }
-
-  handlerClick = () => {
-    this.fileInput.current.click();
-  }
-
-  handlerChange = evt => {
-    const files = Array.from(evt.target.files);
-    files.forEach(file => this.uploadPhotos(file));
-    this.setState({loading: true});
-  }
-
-  uploadPhotos(file) {
-    this.serviceGps.setGPSCoordinatesDB(file, this.updateState);
   }
 }

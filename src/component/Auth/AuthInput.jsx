@@ -12,7 +12,7 @@ export default function AuthInput(props) {
         name={ name }
         className={`field ${ !error[name].isValid && error[name].isValid !== null ? 'is-error' : '' }`}
         autoComplete="off"
-        placeholder={ name }
+        placeholder={ name.charAt(0).toUpperCase() + name.slice(1) }
         onChange={ onChange }
       />
       <CSSTransition

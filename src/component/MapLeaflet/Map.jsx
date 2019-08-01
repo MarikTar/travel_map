@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { divIcon, marker } from "leaflet";
 import { Map, Marker, TileLayer, GeoJSON } from 'react-leaflet';
 import MapGeo from './map.geo.json';
-import ServiceFlag from '../../Services/ServiceFlag';
+import ServiceGeoCordinate from '../../Services/ServiceGeoCordinats';
 import './map.css';
 
 export default class MapLeaFlet extends Component {
@@ -13,6 +14,12 @@ export default class MapLeaFlet extends Component {
   }
 
   countrys = [];
+  serviceGeoCordinate = new ServiceGeoCordinate();
+  customIconMarker = divIcon({
+    html: `<button id='bap'>TEST</button>`,
+    className: 'iconButtonAddPhoto',
+  });
+  buttonAddPhoto = null;
 
   state = {
     lat: 55,
@@ -26,7 +33,7 @@ export default class MapLeaFlet extends Component {
     const { lat, lon, country } = nextProps;
     const { marks } = this.state;
 
-    if (nextProps.lat !== this.props.lat && nextProps.lon !== this.props.lon) {
+    if (lat !== this.props.lat && lon !== this.props.lon) {
       this.setState({
         marks: [
           ...marks,
@@ -66,15 +73,30 @@ export default class MapLeaFlet extends Component {
     })
   }
 
-  onClickLayer = evt => {
+  onClickGetCountry = evt => {
     const countrys = evt.layer.feature.properties.name;
-
-    // new ControllerFlagAPI code...
-
     this.setState({
       openWindow: true,
       countrys
     });
+  }
+
+  onClickAddCustomElement = evt => {
+    const countryId = evt.layer.feature.id;
+    
+    if (this.buttonAddPhoto) {
+      this.buttonAddPhoto.remove(evt.target);
+    }
+
+    this.serviceGeoCordinate
+      .getCordinates(countryId)
+      .then(cordinates => {
+        this.buttonAddPhoto = marker(cordinates, { icon: this.customIconMarker })
+        this.buttonAddPhoto.addTo(evt.target);
+        //test
+        const BAP = document.getElementById('bap');
+        BAP.addEventListener('click', ()=> console.log(cordinates))
+      });
   }
 
   render() {
@@ -86,18 +108,18 @@ export default class MapLeaFlet extends Component {
         center={position} 
         zoom={ 2 }
         maxBounds={ [[90, -180], [-70, 180]] }
-        >
+      >
         <TileLayer
           url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
           minZoom={ 2 }
-          maxZoom={ 18 }
+          maxZoom={ 5 }
         />
         <GeoJSON 
           data={ MapGeo } 
           style={ this.layerStyled.bind(this) }
           onMouseOver={ this.onMouseOver }
           onMouseOut={ this.onMouseOut }
-          onClick={ this.onClickLayer }
+          onClick={ this.onClickGetCountry } // this.onClick.bind(this) // onClick replace to onClickAddCustomElement
         />
         {marks.map((position, idx) => 
           <Marker key={`marker-${idx}`} position={ position } />

@@ -5,19 +5,15 @@ export default class ServiceFirebaseStore {
   baseAvataUrl = 'user/cloud-avatar-user';
   baseCloudPhoto = 'user/cloud-photos';
 
-	updateProfileUserAvatar(pictureFile, loading, setUrl) {
-		if (!loading) {
-      return;
-		}
-		
-		const avatarRef = FireBase.firebase.storage().ref(`${this.baseAvataUrl}/${this.uid}/avatar`);
+	updateProfileUserAvatar(pictureFile, callback) {		
+    const avatarRef = FireBase.firebase.storage().ref(`${this.baseAvataUrl}/${this.uid}/avatar`);
 		avatarRef.put(pictureFile).then( snapshot => {
       snapshot.ref.getDownloadURL().then(url => {
         FireBase.firebase.auth().currentUser.updateProfile({photoURL: url})
           .then(() => {
             FireBase.firebase.database().ref(`${this.baseAvataUrl}/${this.uid}`)
               .set({"avatar": url});
-              setUrl(url);
+              callback(url);
           }, error => console.log(error));
       })
     });
@@ -32,7 +28,11 @@ export default class ServiceFirebaseStore {
             return res.blob();
           }
         })
-        .then(data => setAvatar(window.URL.createObjectURL(data)));
+        .then(blob => {
+          const reader = new FileReader();
+          reader.readAsDataURL(blob); 
+          reader.onloadend = () => setAvatar(reader.result);
+        });
       })
   }
 
