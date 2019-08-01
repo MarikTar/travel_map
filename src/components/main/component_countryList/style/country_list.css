@@ -1,0 +1,11 @@
+.country_list{
+    height: calc(100vh - 106px);
+    overflow: auto scroll;
+    width: 250px;
+    padding-right: 5px;
+}
+
+.list{
+    display: flex;
+    justify-content: space-between;
+}
