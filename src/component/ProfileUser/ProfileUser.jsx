@@ -67,6 +67,11 @@ export default class ProfileUser extends Component {
     }
   };
 
+  addLocalStorage(value) {
+    localStorage.setItem("avatar", JSON.stringify(value));
+    this.forceUpdate();
+  }
+
   handlerCancel = () => {
     this.handlerResetZommSlider();
 
@@ -75,6 +80,7 @@ export default class ProfileUser extends Component {
       isOpen: false
     });
   };
+
 
   handlerZoomSlider = value => {
     this.setState({zoom: value});

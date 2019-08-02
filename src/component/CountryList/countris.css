@@ -35,8 +35,6 @@
 
 .item {
 	color: #323232;
-	display: flex;
-	justify-content: space-between;
 	padding: 6px 25px;
 }
 

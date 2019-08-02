@@ -8,6 +8,7 @@
     "leaflet": "^1.5.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-awesome-modal": "^2.0.5",
     "react-avatar-editor": "^11.0.7",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.8.6",
@@ -18,6 +19,7 @@
     "react-scripts": "3.0.1",
     "react-transition-group": "^4.2.1",
     "reactjs-popup": "^1.4.1",
+    "redux": "^4.0.4",
     "shortid": "^2.2.14"
   },
   "scripts": {
