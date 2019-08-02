@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import FireBase from "../../Firebase/FireBase";
 import ProfileUser from "../ProfileUser/ProfileUser";
 import Map from '../MapLeaflet/Map';
+import Sidebar from '../CountryList/CountryList';
 import ServiceGPS from '../../Services/ServiceGPS';
 import ServiceDB from '../../Services/ServiceDB';
 import './dashboard.css';
@@ -75,7 +76,7 @@ export default class Dashboard extends Component {
     const { latitude, longitude, country, loading } = this.state;
 
     return (
-      <div>
+      <div className="dashboard-container">
         <header className="dashboard">
         <div className="dashboard-title">
           Dashboard
@@ -106,7 +107,14 @@ export default class Dashboard extends Component {
           </button>
         </div>
       </header>
-        <Map lat={ latitude } lon={ longitude } country={ country } />
+        <div className="layout">
+          <main className="main-content">
+            <Map lat={ latitude } lon={ longitude } country={ country } />
+          </main>
+          <aside className="sidebar">
+            <Sidebar country={ country }/>
+          </aside>
+        </div>
       </div>
     )
   }
