@@ -118,9 +118,9 @@ export default class MapLeaFlet extends Component {
           onMouseOut={ this.onMouseOut }
           onClick={ this.onClickGetCountry } // this.onClick.bind(this) // onClick replace to onClickAddCustomElement
         />
-        {marks.map((position, idx) => 
+        {/* {marks.map((position, idx) => 
           <Marker key={`marker-${idx}`} position={ position } />
-        )}
+        )} */}
       </Map>
     )
   }
