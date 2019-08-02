@@ -9,17 +9,12 @@ export default class CountryList extends React.Component {
 		super(props)
 
 		this.state = {
-			country: null,
-			openWindow: false,
 			filter: '',
 		}
 	}
-	openWindow(country) {
-		this.setState({
-			country,
-			openWindow: true,
-		});
-}
+	openWindow (country) {
+		this.props.setMainState(country);
+	}
 
 	filterCountries(event) {
 		let filtertext = event.target.value.trim();
