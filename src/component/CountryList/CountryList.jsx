@@ -15,9 +15,6 @@ export default class CountryList extends React.Component {
 			country: null,
 			openWindow: false,
 			filter: '',
-			images: [],
-			imageTitles: [],
-			showGaleria: true
 		}
 	}
 
@@ -26,42 +23,6 @@ export default class CountryList extends React.Component {
 			country,
 			openWindow: true,
 		});	
-		const user = FireBase.firebase.auth().currentUser;
-		const storage = FireBase.firebase.storage();
-		const imagesDir = storage.ref(`user/cloud-photos/${user.uid}/${country}`);
-		let images = [];
-		let titles = [];
-		imagesDir.listAll().then(list => {
-		let items = list.items; 
-		if(items.length > 0) {
-			this.setState({
-				showGaleria: false
-			})
-			for (let i = 0; i < items.length; i += 1) {
-				const element = storage.ref(items[i].fullPath);
-				element.getMetadata().then(data => {
-					titles[i] = data.name;
-					this.setState({
-					imageTitles: titles
-					})
-				});
-		
-				element.getDownloadURL()
-				.then(url => {
-					images[i] = url;
-					this.setState({
-					images: images
-					});
-				})
-				.then(() => {
-					this.setState({
-					showGaleria: true
-					})
-				})
-			} 
-		}
-		})
-		.catch(err => console.log(err));
 	}
 
 	filterCountries(event) {
@@ -99,10 +60,6 @@ export default class CountryList extends React.Component {
 										country={countrys.properties.name}
 										key={countrys.properties.name}
 										openWindow={this.openWindow.bind(this)}
-										showUploader={this.state.openWindow}
-										images={this.state.images}
-										imageTitles={this.state.imageTitles}
-										showGaleria={this.state.showGaleria}
 									/>
 								)
 							} else {
@@ -125,12 +82,6 @@ class Country extends React.Component {
 			<div className="item">
 				<span className="item-country">{this.props.country}</span>
 				<AddPhoto add={this.onAdd.bind(this)} />
-				<Uploader showUploader={this.props.showUploader}
-							country={this.props.country}
-							images={this.props.images}
-							imageTitles={this.props.imageTitles}
-							showGaleria={this.props.showGaleria}
-							key={this.props.country}/>
 			</div>
 		)
 	}
