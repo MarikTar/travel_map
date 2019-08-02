@@ -4,19 +4,28 @@ import AuthInput from "../AuthInput";
 import { CSSTransition } from "react-transition-group";
 
 export default function signIn(props) {
-  const { onSubmit, onChange, onFormValidate, onCustomValidate, fireBaseError, loading } = props;
+  const { onSubmit, onChange, isFormValidate, isCustomValidate, onToggleType, fireBaseError, loading } = props;
 
   return (
-    <form className="auth" noValidate={ !onFormValidate } onSubmit={ onSubmit }>
+    <form className="auth" noValidate={ !isFormValidate } onSubmit={ onSubmit }>
       <div className="auth-fields">
-        <AuthInput onChange={ onChange } name='email' error={ onCustomValidate } />
-        <AuthInput onChange={ onChange } name='password' error={ onCustomValidate } />
+        <AuthInput 
+          onChange={ onChange }
+          name='email'
+          error={ isCustomValidate }
+        />
+        <AuthInput 
+          onChange={ onChange }
+          name='password'
+          error={ isCustomValidate }
+          onShowPassword={ onToggleType }
+        />
       </div>
       <div className="auth-button">
         <button
           type="submit"
           className="button-send"
-          disabled={ !onFormValidate }
+          disabled={ !isFormValidate }
         >
           { loading ? 'loading...' : 'Sign in' }
         </button>
@@ -36,8 +45,10 @@ export default function signIn(props) {
 signIn.propTypes = {
   onSubmit: PropTypes.func,
   onChange: PropTypes.func,
-  onFormValidate: PropTypes.bool,
-  onCustomValidate: PropTypes.object,
+  onShowPassword: PropTypes.func,
+  isFormValidate: PropTypes.bool,
+  isCustomValidate: PropTypes.object,
   fireBaseError: PropTypes.string,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  isTypedField: PropTypes.bool
 };
