@@ -8,5 +8,6 @@
 }
 
 .galeria .item .pop-image {
+    z-index: 10000;
     width: 70%;
 }

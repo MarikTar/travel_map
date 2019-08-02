@@ -11,13 +11,11 @@ export default class Upload extends React.Component {
         super();
         this.state = {
             images: [],
-            imgTitles: []
         }
         this.user = FireBase.firebase.auth().currentUser;
     }
 
     addImages(fileList) {
-        const newImgTitles = this.state.imgTitles;
         for(let i = 0; i < fileList.length; i += 1) {
             const img = fileList[i];
             const photoBase = FireBase.firebase.storage().ref(`user/cloud-photos/${this.user.uid}/${this.props.country}/${img.name}`);
@@ -26,16 +24,16 @@ export default class Upload extends React.Component {
             }
             const images = this.state.images;
             const imgURL = window.URL.createObjectURL(img);           
-            if(!this.props.imageTitles.some(name => name === img.name) && !newImgTitles.some(name => name === img.name)) {
-                newImgTitles.push(img.name);
-                images.push(imgURL);
+            if(!this.props.imageTitles.some(name => name === img.name) && !images.some(({title}) => title === img.name)) {
+                images.push({
+                    image: imgURL,
+                    title: img.name
+                });
                 photoBase.put(img);  
                 this.setState({
                     images: images,
-                    imgTitles: newImgTitles
                 });
             }
-            console.log(newImgTitles);
         }
     }
 
@@ -72,7 +70,15 @@ export default class Upload extends React.Component {
         // console.log(this.props.imageTitles);
     }
     render() { 
-        let images = [...this.props.images,...this.state.images];  
+        // console.log(this.props.images, this.props.imageTitles);
+        let obj = [];
+        for(let i = 0; i < this.props.images.length; i += 1) {
+            obj.push({
+                image: this.props.images[i],
+                title: this.props.imageTitles[i]
+            });
+        }
+        let images = [...obj,...this.state.images];  
         return (
            <div className="uploader" style={{display: this.props.showUploader}}>
                 <div id="upload-container"  
@@ -90,7 +96,9 @@ export default class Upload extends React.Component {
                         <span> или перетащите его сюда</span>
                     </div>
                 </div>
-                <Galeria images={images} country={this.props.country}></Galeria>
+                <Galeria images={images} 
+                         country={this.props.country}
+                         showGaleria={this.props.showGaleria}/>
            </div>
         )
     }

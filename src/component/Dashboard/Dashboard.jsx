@@ -10,15 +10,16 @@ export default class Dashboard extends React.Component {
   constructor() {
     super();
     this.state = {
-      "display-uploader": 'none',
+      displayUploader: 'none',
       images: [],
-      imageTitles: []
+      imageTitles: [],
+      showGaleria: false
     }
   }
 
   onClick(e) {
     this.setState({
-      "display-uploader": 'flex',
+      displayUploader: 'flex',
       country: e.target.innerHTML
     });
     const user = FireBase.firebase.auth().currentUser;
@@ -27,27 +28,36 @@ export default class Dashboard extends React.Component {
     let images = [];
     let titles = [];
     imagesDir.listAll().then(list => {
-      let items = list.items;
-      for (let i = 0; i < items.length; i += 1) {
-        const element = storage.ref(items[i].fullPath);
-        element.getMetadata().then(data => {
-          titles[i] = data.name;
-          this.setState({
-            imageTitles: titles
-          })
-        });
-
-        element.getDownloadURL().then(url => { 
-          images[i] = url;  
-          this.setState({
-            images: images
+      let items = list.items;  
+      if(items.length !== 0) {
+        for (let i = 0; i < items.length; i += 1) {
+          const element = storage.ref(items[i].fullPath);
+          element.getMetadata().then(data => {
+            titles[i] = data.name;
+            this.setState({
+              imageTitles: titles
+            })
           });
-        });
+  
+          element.getDownloadURL()
+          .then(url => { 
+            images[i] = url;  
+            this.setState({
+              images: images
+            });
+          })
+          .then(() => {
+            this.setState({
+              showGaleria: true
+            })
+          })
+        } 
       }
-      
     })
     .catch(err => console.log(err));
   }
+
+
 
   render() {
     return (
@@ -64,10 +74,11 @@ export default class Dashboard extends React.Component {
 
         <main>
           <button onClick={(e) => this.onClick(e)}>Ukraine</button>
-          <Uploader showUploader={this.state["display-uploader"]}
+          <Uploader showUploader={this.state.displayUploader}
                     country={this.state.country}
                     images={this.state.images}
-                    imageTitles={this.state.imageTitles}/>
+                    imageTitles={this.state.imageTitles}
+                    showGaleria={this.state.showGaleria}/>
         </main>
       </div>
     )

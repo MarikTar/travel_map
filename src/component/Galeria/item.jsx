@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-awesome-modal';
+import FireBase from "../Auth/FireBase";
 
 import './galeria.css';
 window.URL = window.URL || window.webkitURL;
@@ -10,6 +11,17 @@ export default class Item extends React.Component {
         this.state = {
             visible : false
         }
+    }
+
+    deleteUser() {
+        const user = FireBase.firebase.auth().currentUser;
+        const countryRef = FireBase.firebase.storage().ref(`user/cloud-photos/${user.uid}/${this.props.country}`);
+        const imageRef = countryRef.child(`${this.props.title}`);
+        imageRef.delete().then(function() {
+            // File deleted successfully
+          }).catch(function(error) {
+            // Uh-oh, an error occurred!
+          });
     }
 
     openModal() {
@@ -28,6 +40,7 @@ export default class Item extends React.Component {
         const img = this.props.image;
         return ( 
             <div className="item" key={img}>
+                <button onClick={() => this.deleteUser()}>X</button>
                 <a href="javascript:void(0);" onClick={() => this.openModal()}>
                     <img src={img} alt={img}/>
                 </a>
