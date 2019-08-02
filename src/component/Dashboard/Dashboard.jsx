@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import FireBase from "../../Firebase/FireBase";
 import ProfileUser from "../ProfileUser/ProfileUser";
 import Map from '../MapLeaflet/Map';
+import Sidebar from '../CountryList/CountryList';
 import ServiceGPS from '../../Services/ServiceGPS';
 import ServiceDB from '../../Services/ServiceDB';
 import Uploader from '../Uploader/upload';
@@ -119,7 +120,8 @@ export default class Dashboard extends React.Component {
   render() {
     const { latitude, longitude, country, loading } = this.state;
     return (
-        <div>
+
+      <div className="dashboard-container">
         <header className="dashboard">
         <div className="dashboard-title">
           Dashboard
@@ -150,17 +152,14 @@ export default class Dashboard extends React.Component {
           </button>
         </div>
       </header>
-
-      <main>
-        <Map lat={ latitude } lon={ longitude } country={ country } />
-        <button onClick={(e) => this.onClick(e)}>Ukraine</button>
-        <Uploader showUploader={this.state.displayUploader}
-                  country={this.state.country}
-                  images={this.state.images}
-                  imageTitles={this.state.imageTitles}
-                  showGaleria={this.state.showGaleria}/>
-      </main>
-
+        <div className="layout">
+          <main className="main-content">
+            <Map lat={ latitude } lon={ longitude } country={ country } />
+          </main>
+          <aside className="sidebar">
+            <Sidebar country={ country }/>
+          </aside>
+        </div>
       </div>
     )
   }

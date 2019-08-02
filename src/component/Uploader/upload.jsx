@@ -83,7 +83,7 @@ export default class Upload extends React.Component {
         }
         let images = [...obj,...this.state.images];  
         return (
-           <div className="uploader" style={{display: this.props.showUploader}}>
+           <div className="uploader" style={{display: this.props.showUploader ? "block" : "none"}}>
                <button onClick={() => this.closeUploader()}>X</button>
                 <div id="upload-container"  
                     onDragEnter={(e) => this.onDragOverEnter(e)}

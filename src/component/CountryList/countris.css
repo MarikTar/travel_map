@@ -1,0 +1,61 @@
+.sidebar {
+	background: #fff;
+	height: 100vh;
+	margin-top: -65px;
+}
+
+.search {
+	position: relative;
+	margin: 15px 0 8px 0;
+	padding: 0 15px;
+}
+
+.input-search {
+	width: 100%;
+	height: 40px;
+	padding: 0 15px;
+	border: 0;
+	border-radius: 8px;
+	box-shadow: 0 0 8px 1px rgba(0,0,0,0.1);
+}
+
+.icon-magnifier {
+	position: absolute;
+	top: 12px;
+	right: 30px;
+	background: url('../../source/search.svg') no-repeat center/contain;
+	display: block;
+	width: 18px;
+	height: 18px;
+}
+
+.country_list {
+	height: calc(100vh - 75px);
+}
+
+.item {
+	color: #323232;
+	padding: 6px 25px;
+}
+
+.item-country {
+	transition: transform 0.15s ease-in;
+}
+
+.button-add {
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+}
+
+.button-add:hover .icon-add {
+	opacity: 0.7;
+}
+
+.icon-add {
+	background: url('../../source/plus.svg') no-repeat center/contain;
+	display: block;
+	width: 18px;
+	height: 18px;
+	transition: opacyti 0.15s ease-in;
+}
