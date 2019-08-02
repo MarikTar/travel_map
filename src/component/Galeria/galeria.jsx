@@ -9,14 +9,9 @@ window.URL = window.URL || window.webkitURL;
 export default class Galeria extends React.Component {
     constructor() {
         super();
-        this.state = {
-            rerender: false
-        }
     }
-    updateGaleria(value) {
-        this.setState({
-            rerender: value
-        })
+    updateGaleria(title) {
+        console.log(title);
     }
     render() {
         return ( 
@@ -26,7 +21,7 @@ export default class Galeria extends React.Component {
                     <Item image={image.image}
                           title={image.title}
                           country={this.props.country}
-                          updateGaleria={false}
+                          updateGaleria={this.updateGaleria.bind(this)}
                           key={key}/> )}
             </div>
         )

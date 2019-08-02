@@ -2,6 +2,7 @@
     position: absolute;
     top: 15px;
     right: 15px;
+    background: #fff;
     max-width: 700px;
     overflow: auto;
     width: 100%;
@@ -11,7 +12,7 @@
     flex-wrap: wrap;
     justify-content: center;
     border: 2px solid black;
-    z-index: 1000000
+    z-index: 1000000;
   }
   
   .images{

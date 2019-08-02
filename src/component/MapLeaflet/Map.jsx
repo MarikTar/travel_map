@@ -75,10 +75,7 @@ export default class MapLeaFlet extends Component {
 
   onClickGetCountry = evt => {
     const countrys = evt.layer.feature.properties.name;
-    this.setState({
-      openWindow: true,
-      countrys
-    });
+    this.props.setMainState(countrys);
   }
 
   onClickAddCustomElement = evt => {

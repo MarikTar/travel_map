@@ -21,20 +21,69 @@ export default class Dashboard extends React.Component {
   constructor() {
     super();
     this.state = {
-      displayUploader: 'none',
       images: [],
       imageTitles: [],
-      showGaleria: false,
+      showGaleria: true,
       loading: false,
       latitude: 0,
       longitude: 0,
-      country: [],
+      country: "",
+      countrys: [],
       error: null
     }
     
     this.fileInput = React.createRef();
     this.uid = FireBase.firebase.auth().currentUser.uid;  
   }
+
+  setMainState = (country) => {
+    const countrys = this.state.countrys;
+    countrys.push(country);
+    this.setState({
+        country: country,
+        countrys: countrys,
+        openWindow: true,
+        images: [],
+        imageTitles: [],
+    })
+    // console.log(country)//получает страну при нажатии add
+    const user = FireBase.firebase.auth().currentUser;
+    const storage = FireBase.firebase.storage();
+    const imagesDir = storage.ref(`user/cloud-photos/${user.uid}/${country}`);
+    let images = [];
+    let titles = [];
+    imagesDir.listAll().then(list => {
+      let items = list.items;
+      if(items.length > 0) {
+        this.setState({
+          showGaleria: false,
+        })
+        for (let i = 0; i < items.length; i += 1) {
+          const element = storage.ref(items[i].fullPath);
+          element.getMetadata().then(data => {
+            titles[i] = data.name;
+            this.setState({
+              imageTitles: titles
+            })
+          });
+  
+          element.getDownloadURL()
+          .then(url => {
+            images[i] = url;
+            this.setState({
+              images: images
+            });
+          })
+          .then(() => {
+            this.setState({
+              showGaleria: true
+            })
+          })
+        } 
+      }
+    })
+    .catch(err => console.log(err));
+}
 
   updateState = (loading, lat, lon, country) => {
     if (!lat || !lon) {
@@ -78,48 +127,8 @@ export default class Dashboard extends React.Component {
     }
   }
 
-  onClick(e) {
-    this.setState({
-      displayUploader: 'block',
-      country: e.target.innerHTML
-    });
-    const user = FireBase.firebase.auth().currentUser;
-    const storage = FireBase.firebase.storage();
-    const imagesDir = storage.ref(`user/cloud-photos/${this.uid}/${e.target.innerHTML}`);
-    let images = [];
-    let titles = [];
-    imagesDir.listAll().then(list => {
-      let items = list.items;  
-      if(items.length !== 0) {
-        for (let i = 0; i < items.length; i += 1) {
-          const element = storage.ref(items[i].fullPath);
-          element.getMetadata().then(data => {
-            titles[i] = data.name;
-            this.setState({
-              imageTitles: titles
-            })
-          });
-  
-          element.getDownloadURL()
-          .then(url => {
-            images[i] = url;
-            this.setState({
-              images: images
-            });
-          })
-          .then(() => {
-            this.setState({
-              showGaleria: true
-            })
-          })
-        } 
-      }
-    })
-    .catch(err => console.log(err));
-  }
-
   render() {
-    const { latitude, longitude, country, loading } = this.state; 
+    const { latitude, longitude, countrys, loading } = this.state; 
     return (
 
       <div className="dashboard-container">
@@ -155,11 +164,17 @@ export default class Dashboard extends React.Component {
       </header>
         <div className="layout">
           <main className="main-content">
-            <Map lat={ latitude } lon={ longitude } country={ country } />
+            <Map lat={ latitude } lon={ longitude } country={ this.state.countrys } setMainState={this.setMainState.bind(this)}/>
           </main>
           <aside className="sidebar">
-            <Sidebar country={ country }/>
+            <Sidebar country={ countrys } setMainState={this.setMainState.bind(this)}/>
           </aside>
+          {/* {console.log(this.state.showGaleria)} */}
+          <Uploader country={this.state.country}
+							showUploader={this.state.openWindow}
+							images={this.state.images}
+							imageTitles={this.state.imageTitles}
+							showGaleria={this.state.showGaleria}/>
         </div>
       </div>
     )

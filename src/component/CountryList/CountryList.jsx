@@ -2,9 +2,6 @@ import React from 'react';
 // import countriesList from './countries.json';
 import countryList from '../MapLeaflet/map.geo.json';
 import { Scrollbars } from 'react-custom-scrollbars';
-import Uploader from '../Uploader/upload';
-import FireBase from "../../Firebase/FireBase";
-
 import './countris.css';
 
 export default class CountryList extends React.Component {
@@ -12,17 +9,11 @@ export default class CountryList extends React.Component {
 		super(props)
 
 		this.state = {
-			country: null,
-			openWindow: false,
 			filter: '',
 		}
 	}
-
-	openWindow(country) {
-		this.setState({
-			country,
-			openWindow: true,
-		});	
+	openWindow (country) {
+		this.props.setMainState(country);
 	}
 
 	filterCountries(event) {

@@ -13,12 +13,13 @@ export default class Item extends React.Component {
         }
     }
 
-    deleteUser() {
+    deleteImage() {
         const user = FireBase.firebase.auth().currentUser;
         const countryRef = FireBase.firebase.storage().ref(`user/cloud-photos/${user.uid}/${this.props.country}`);
         const imageRef = countryRef.child(`${this.props.title}`);
+        this.props.updateGaleria(this.props.title);
         imageRef.delete().then(function() {
-            // File deleted successfully
+            //Something
           }).catch(function(error) {
             // Uh-oh, an error occurred!
           });
@@ -40,7 +41,7 @@ export default class Item extends React.Component {
         const img = this.props.image;
         return ( 
             <div className="item" key={img}>
-                <button onClick={() => this.deleteUser()}>X</button>
+                <button onClick={() => this.deleteImage()}>X</button>
                 <a href="javascript:void(0);" onClick={() => this.openModal()}>
                     <img src={img} alt={img}/>
                 </a>

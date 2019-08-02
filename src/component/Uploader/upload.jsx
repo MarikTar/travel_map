@@ -7,20 +7,30 @@ import './uploader.css';
 window.URL = window.URL || window.webkitURL;
 
 export default class Upload extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             images: [],
-        }
+            openWindow: false
+        }   
         this.user = FireBase.firebase.auth().currentUser;
     }
+
+    componentWillReceiveProps(props) {
+        this.setState({
+            openWindow: props.showUploader
+        });
+        this.setState({
+            images: []
+        });
+    } 
 
     addImages(fileList) {
         for(let i = 0; i < fileList.length; i += 1) {
             const img = fileList[i];
             const photoBase = FireBase.firebase.storage().ref(`user/cloud-photos/${this.user.uid}/${this.props.country}/${img.name}`);
             if (!img.type.startsWith('image/')) { 
-                continue; 
+                continue;
             }
             const images = this.state.images;
             const imgURL = window.URL.createObjectURL(img);           
@@ -32,6 +42,7 @@ export default class Upload extends React.Component {
                 photoBase.put(img);  
                 this.setState({
                     images: images,
+                    country: this.props.country
                 });
             }
         }
@@ -69,11 +80,11 @@ export default class Upload extends React.Component {
 
     closeUploader() {
         this.setState({
-            display: "none"
+            openWindow: false
         })
     }
 
-    render() { 
+    render() {
         let propImages = [];
         for(let i = 0; i < this.props.images.length; i += 1) {
             propImages.push({
@@ -83,7 +94,7 @@ export default class Upload extends React.Component {
         }
         let images = [...propImages,...this.state.images];  
         return (
-           <div className="uploader" style={{display: this.props.showUploader ? "block" : "none"}}>
+           <div className="uploader" style={{display: this.state.openWindow ? "block" : "none"}}>
                <button onClick={() => this.closeUploader()}>X</button>
                 <div id="upload-container"  
                     onDragEnter={(e) => this.onDragOverEnter(e)}
