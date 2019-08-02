@@ -19,7 +19,7 @@ export default class Dashboard extends React.Component {
 
   onClick(e) {
     this.setState({
-      displayUploader: 'flex',
+      displayUploader: 'block',
       country: e.target.innerHTML
     });
     const user = FireBase.firebase.auth().currentUser;
@@ -40,8 +40,8 @@ export default class Dashboard extends React.Component {
           });
   
           element.getDownloadURL()
-          .then(url => { 
-            images[i] = url;  
+          .then(url => {
+            images[i] = url;
             this.setState({
               images: images
             });
@@ -56,8 +56,6 @@ export default class Dashboard extends React.Component {
     })
     .catch(err => console.log(err));
   }
-
-
 
   render() {
     return (

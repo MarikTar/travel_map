@@ -66,11 +66,14 @@ export default class Upload extends React.Component {
         let fileList = e.dataTransfer.files;
         this.addImages(fileList);
     }
-    componentWillReceiveProps() {
-        // console.log(this.props.imageTitles);
+
+    closeUploader() {
+        this.setState({
+            display: "none"
+        })
     }
+
     render() { 
-        // console.log(this.props.images, this.props.imageTitles);
         let obj = [];
         for(let i = 0; i < this.props.images.length; i += 1) {
             obj.push({
@@ -81,6 +84,7 @@ export default class Upload extends React.Component {
         let images = [...obj,...this.state.images];  
         return (
            <div className="uploader" style={{display: this.props.showUploader}}>
+               <button onClick={() => this.closeUploader()}>X</button>
                 <div id="upload-container"  
                     onDragEnter={(e) => this.onDragOverEnter(e)}
                     onDragOver={(e) => this.onDragOverEnter(e)}
