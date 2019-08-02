@@ -1,6 +1,5 @@
 import React from 'react';
 import Item from './item';
-import FireBase from "../Auth/FireBase";
 
 import './galeria.css';
 import Loader from './loader.gif'

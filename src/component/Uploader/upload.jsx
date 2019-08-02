@@ -1,7 +1,7 @@
 import React from 'react';
 import uploadImg from './Upload.svg'
 import Galeria from '../Galeria/galeria';
-import FireBase from "../Auth/FireBase";
+import FireBase from "../../Firebase/FireBase";
 
 import './uploader.css';
 window.URL = window.URL || window.webkitURL;

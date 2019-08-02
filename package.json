@@ -3,21 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "exif-js": "^2.3.0",
     "firebase": "^6.3.0",
+    "leaflet": "^1.5.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-awesome-modal": "^2.0.5",
+    "react-avatar-editor": "^11.0.7",
     "react-dom": "^16.8.6",
-    "react-redux": "^7.1.0",
+    "react-input-slider": "^5.0.16",
+    "react-leaflet": "^2.4.0",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "react-transition-group": "^4.2.1",
     "reactjs-popup": "^1.4.1",
-    "redux": "^4.0.4"
+    "redux": "^4.0.4",
+    "shortid": "^2.2.14"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=8080 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

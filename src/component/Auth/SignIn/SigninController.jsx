@@ -1,24 +1,19 @@
 import React, { Component } from 'react';
-import SingUpView from './SignUpView';
+import SignInView from './SigninView';
 import FireBase from "../../../Firebase/FireBase";
 
-export default class SignUpController extends Component {
+export default class SignInController extends Component {
   state = {
     email: null,
     password: null,
-    're-password': null,
     formValidate: false,
+    isTypeInput: false,
     customValidation: {
       email: {
         isValid: null,
         message: ''
       },
       password: {
-        isValid: null,
-        message: '',
-        isType: false
-      },
-      're-password': {
         isValid: null,
         message: '',
         isType: false
@@ -39,7 +34,7 @@ export default class SignUpController extends Component {
 
     try {
       await FireBase.firebase
-        .auth().createUserWithEmailAndPassword(email.value, password.value);
+        .auth().signInWithEmailAndPassword(email.value, password.value);
       this.props.history.push('/dashboard');
     } catch (error) {
       this.setState({fireBaseError: error.message});
@@ -56,15 +51,7 @@ export default class SignUpController extends Component {
         customValidation.email.isValid = this.validEmail(value, customValidation.email);
         break;
       case 'password':
-        customValidation.password.isValid = this.validPasword(value, customValidation.password);
-        if (formValidate) {
-          this.validRePassowrd(value, customValidation);
-        } else if (value === this.state['re-password']) {
-          customValidation['re-password'].isValid = true;
-        }
-        break;
-      case 're-password':
-        this.validRePassowrd(value, customValidation);
+        customValidation.password.isValid = this.validPassword(value, customValidation.password);
         break;
     }
 
@@ -92,28 +79,15 @@ export default class SignUpController extends Component {
     return true;
   };
 
-  validPasword(value, error) {
-    const regExp = /^(?=.*[a-z])(?=.*\d).{6,}$/;
+  validPassword(value, error) {
 
     if (value.length < 6) {
       error.message = 'At least 6 characters';
-      return false;
-    } else if (!regExp.test(value)) {
-      error.message = 'Password must contain letters and numbers';
       return false;
     }
 
     return true;
   };
-
-  validRePassowrd = (value, customValidation) => {
-    if (value !== this.state.password) {
-      customValidation['re-password'].isValid = false;
-      customValidation['re-password'].message = 'Passwords do not match';
-    } else {
-      customValidation['re-password'].isValid = true;
-    }
-  }
 
   handlerShowPassword = evt => {
     const { name, type } = evt.target.previousElementSibling;
@@ -124,18 +98,19 @@ export default class SignUpController extends Component {
   }
 
   render() {
-    const { formValidate, customValidation } = this.state;
+    const { formValidate, customValidation, isTypeInput } = this.state;
 
     return(
-      <SingUpView 
+      <SignInView 
         onSubmit={ this.handleSubmit }
         onChange={ this.handlerChange }
         isFormValidate={ formValidate }
-        onToggleType={ this.handlerShowPassword }
         isCustomValidate={ customValidation }
+        onToggleType={ this.handlerShowPassword }
+        isTypedField={ isTypeInput }
         fireBaseError={ this.state.fireBaseError } 
         loading={ this.state.fireBaseLoading }
       />
-    );
+    )
   }
 }

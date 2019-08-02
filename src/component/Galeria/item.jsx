@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-awesome-modal';
-import FireBase from "../Auth/FireBase";
+import FireBase from "../../Firebase/FireBase";
 
 import './galeria.css';
 window.URL = window.URL || window.webkitURL;

@@ -1,71 +1,145 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Storage from "../Storage/Storage";
+import { CSSTransition } from 'react-transition-group';
+import ServiceFirebaseStore from "../../Services/ServiceFirebaseStore";
+import Modal from '../Modal/Modal';
 
 export default class ProfileUser extends Component {
   static propTypes = {
     photoURL: PropTypes.object
   };
 
- constructor(props) {
-   super(props);
+  FirebaseStore = new ServiceFirebaseStore();
+  fileInput = React.createRef();
+  inputFile = React.createRef();
+  uid = this.props.user.uid;
 
-   this.state = {
-     pictureFile: null,
-     loaded: false,
-     url: null,
-     success: false
+  state = {
+    pictureFile: null,
+    defaultAvatar: null,
+    updateFile: false, 
+    cropperOpen: false,
+    img: null,
+    zoom: 1,
+    isOpen: false
    };
 
-   this.fileInput = React.createRef();
- }
-
   componentWillUpdate(nextProps, nextState, nextContext) {
-    if (this.state.loaded !== nextState.loaded && nextState.pictureFile) {
-      Storage.addStore(nextState.pictureFile, nextProps.user, nextState.loaded, this.setUrl);
+    if (nextState.pictureFile !== this.state.pictureFile) {
+      this.FirebaseStore.updateProfileUserAvatar(nextState.pictureFile, this.updateUserProfile);
     }
 
-    if (!nextState.url) {
-      Storage.getStoreDefaultAvatar(this.setUrl);
+    if (!nextState.defaultAvatar && !nextProps.user.photoURL) {
+      this.FirebaseStore.getStoreDefaultAvatar(this.setDefaultAvatar);
     }
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.user.photoURL !== this.props.user.photoURL) {
-      this.updateUserProfile();
-    }
+  handlerChange = evt => {
+    const files = evt.target.files[0];
+    const url = window.URL.createObjectURL(files);
+    this.fileInput.current.value = '';
 
-    if (this.state.success && localStorage.getItem("avatar") === null) {
-      this.addLocalStorage(this.state.url);
+    this.setState({
+      cropperOpen: true,
+      img: url,
+      isOpen: true,
+      updateFile: false
+    });
+  };
+
+  handlerClick = () => {
+    this.fileInput.current.click();
+  };
+
+  handlerSave = () => {
+    if (this.editor) {
+      const canvasScaled = this.editor.getImageScaledToCanvas();
+
+      canvasScaled.toBlob(blob => {
+        // const cropperImg = canvasScaled.toDataURL();
+
+        this.setState({
+          pictureFile: blob,
+          cropperOpen: false,
+          updateFile: true
+        });
+      });
     }
-  }
+  };
 
   addLocalStorage(value) {
     localStorage.setItem("avatar", JSON.stringify(value));
     this.forceUpdate();
   }
 
-  getLocalStorage() {
-    return localStorage.getItem("avatar").replace(/\"/g, "");
+  handlerCancel = () => {
+    this.handlerResetZommSlider();
+
+    this.setState({
+      cropperOpen: false,
+      isOpen: false
+    });
+  };
+
+
+  handlerZoomSlider = value => {
+    this.setState({zoom: value});
+  };
+
+  handlerResetZommSlider = () => {
+    this.setState({zoom: 1});
+  };
+
+  setEditorRef = editor => this.editor = editor;
+
+  updateUserProfile = url => {
+    if (url) {
+      this.handlerResetZommSlider();
+      this.setState({
+        isOpen: false,
+        updateFile: false,
+        img: null
+      });
+    }
+  };
+
+  setDefaultAvatar = url => {
+    if (url) {
+      this.setState({defaultAvatar: url});
+    }
   }
 
   render() {
     const { photoURL } = this.props.user;
-    // console.log(this.props.user.photoURL);
+    const { defaultAvatar, img, zoom, isOpen, updateFile } = this.state;
 
     return(
       <div>
-        {
-          (this.state.success || !photoURL) || !!localStorage.getItem("avatar") ?
-            <button
-              type="button"
-              title="add profile photo"
-              className="upload-file"
-              onClick={ this.handlerClick }
-            >
-              <img src={ !photoURL ? this.getLocalStorage() : photoURL } alt="add profile photo"/>
-            </button> : null
-        }
+          <CSSTransition
+            in={ isOpen }
+            timeout={ 300 }
+            classNames="popup"
+            unmountOnExit
+          >
+            <Modal 
+              onCancel={ this.handlerCancel }
+              onSave={ this.handlerSave }
+              onRef={ this.setEditorRef }
+              avatar={ img }
+              rangeZoom={ zoom }
+              onChangeZoom={ this.handlerZoomSlider }
+              updateFile={ updateFile }
+            /> 
+          </CSSTransition>
+        <button
+          type="button"
+          title="add profile photo"
+          className="upload-file profile-avatar"
+          onClick={ this.handlerClick }
+        > 
+          <span className="profile-avatar-label">Add</span>
+          { !(defaultAvatar || photoURL) ? <span className="upload-loading" /> : <img src={ !photoURL ? defaultAvatar : photoURL } alt="add profile photo"/> }
+        </button>
         <input
           accept="image/jpeg,image/png"
           type="file"
@@ -76,32 +150,5 @@ export default class ProfileUser extends Component {
         />
       </div>
     )
-  }
-
-  handlerChange = evt => {
-    const files = evt.target.files[0];
-
-    this.setState({
-      pictureFile: files,
-      loaded: true
-    });
-  };
-
-  handlerClick = () => {
-    this.fileInput.current.click();
-  };
-
-  setUrl = value => {
-    this.setState({
-      url: value,
-      loaded: false,
-      success: true
-    });
-  };
-
-  updateUserProfile() {
-    const { url } = this.state;
-
-    this.props.user.updateProfile({photoURL: url});
   };
 }

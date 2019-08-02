@@ -1,0 +1,43 @@
+.auth-socials {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.auth-socials button:first-child {
+  margin-right: 15px;
+}
+
+.auth-social-button {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  width: auto;
+  padding: 2px;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  transition: background-color 0.15s;
+  cursor: pointer;
+  box-shadow: 0 0 8px 1px rgba(82, 82, 82, 0.1);
+  transition: transform 0.15s ease-in;
+}
+
+.auth-social-button:hover {
+  transform: scale(1.1);
+}
+
+.icon-gpl {
+  background: url("../../source/g-pl.svg") no-repeat center/18px;
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+}
+
+.icon-fb {
+  background: url("../../source/fb.svg") no-repeat center/18px;
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+}

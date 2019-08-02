@@ -1,0 +1,238 @@
+/*
+Auth
+=============================
+*/
+
+.container-auth {
+  display: flex;
+  justify-content: center;
+}
+
+/*
+Auth-information
+=============================
+*/
+
+.auth-information {
+  background: rgba(65, 166, 241, 0.9);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 75px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  max-width: 355px;
+}
+
+.auth-information-heading {
+  font-size: 28px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.auth-information-descr {
+  font-size: 14px;
+  font-weight: 300;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.button-view {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 300;
+  height: 45px;
+  line-height: 45px;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background: transparent;
+  display: inline-block;
+  border: 1px solid #fff;
+  border-radius: 32px;
+  width: 175px;
+  margin-top: 25px;
+  transition: background 0.15s ease-in, color 0.15s ease-in;
+}
+
+.button-view:hover {
+  background: #fff;
+  color: #333;
+}
+
+/*
+Auth-form
+=============================
+*/
+
+.wrapper-auth {
+  width: 475px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 55px 55px 75px 55px;
+}
+
+.auth-title {
+	font-size: 28px;
+	font-weight: 500;
+	color: #cccccc;
+	text-align: center;
+	margin-bottom: 25px;
+}
+
+.auth-or {
+  font-size: 14px;
+  text-align: center;
+  color: #989898;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.auth-field {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.field {
+  width: 100%;
+  padding: 15px 20px;
+  border: 1px solid #f2f2f2;
+  border-radius: 30px;
+  background: #FCFBFC;
+  outline: none;
+}
+
+.eye {
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  background: url('../../source/eye.svg') no-repeat center/contain;
+  display: block;
+  width: 20px;
+  height: 20px;
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity 0.15s ease-in;
+}
+
+.field:focus {
+  border-color: #41A6F1;
+  background: #fff;
+}
+
+.field.is-error {
+  border-color: rgb(222, 53, 11);
+}
+
+.error-server {
+  font-size: 12px;
+  color: rgb(222, 53, 11);
+  text-align: center;
+  margin-top: 15px;
+}
+
+.auth-button {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.button-send {
+  display: inline-flex;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 300;
+  text-transform: uppercase;
+  max-width: 100%;
+  white-space: nowrap;
+  vertical-align: middle;
+  width: 175px;
+  color: rgb(255, 255, 255);
+  height: 45px;
+  line-height: 45px;
+  border-width: 0;
+  text-decoration: none;
+  border-radius: 30px;
+  padding: 0 8px;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  outline: none;
+}
+
+.button-send:enabled {
+  background: #41A6F1;
+  cursor: pointer;
+}
+
+.button-send:disabled {
+  background-color: #cecece;
+  cursor: default;
+}
+
+.button-send:enabled.button-send:hover {
+  background: #75c4ff;
+}
+
+.field-valid {
+  position: absolute;
+  top: calc(50% - (15px / 2));
+  left: -25px;
+  display: block;
+  width: 15px;
+  height: 15px;
+  background: url('../../source/checked.svg') no-repeat center/contain;
+}
+
+.text-error {
+  font-size: 12px;
+  color: rgb(222, 53, 11);
+  position: absolute;
+  left: 20px;
+  bottom: -20px;
+  display: block;
+}
+
+/*
+Auth-animate route
+=============================
+*/
+
+.example-enter {
+  opacity: 0;
+}
+
+.example-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.example-exit {
+  opacity: 0;
+}
+
+.example-exit-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+/*
+Auth-animate error message
+=============================
+*/
+.alert-enter {
+  opacity: 0;
+}
+.alert-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+.alert-exit {
+  opacity: 1;
+}
+.alert-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
