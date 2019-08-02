@@ -106,12 +106,12 @@ export default class MapLeaFlet extends Component {
       <Map 
         className="map" 
         center={position} 
-        zoom={ 2 }
+        zoom={ 3 }
         maxBounds={ [[90, -180], [-70, 180]] }
       >
         <TileLayer
           url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-          minZoom={ 2 }
+          minZoom={ 3 }
           maxZoom={ 5 }
         />
         <GeoJSON 
