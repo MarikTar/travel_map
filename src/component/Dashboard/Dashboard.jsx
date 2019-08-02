@@ -34,6 +34,14 @@ export default class Dashboard extends Component {
     this.serviceDB.getDataFromDB(this.updateState, null);
   }
 
+  setMainState = (country) => {
+    this.setState({
+        countrys: country,
+        openWindow: true,
+    })
+    console.log(country)//получает страну при нажатии add
+}
+
   updateState = (loading, lat, lon, country) => {
     if (!lat || !lon) {
       return;
@@ -109,10 +117,10 @@ export default class Dashboard extends Component {
       </header>
         <div className="layout">
           <main className="main-content">
-            <Map lat={ latitude } lon={ longitude } country={ country } />
+            <Map lat={ latitude } lon={ longitude } country={ country } setMainState={this.setMainState.bind(this)}/>
           </main>
           <aside className="sidebar">
-            <Sidebar country={ country }/>
+            <Sidebar country={ country } setMainState={this.setMainState.bind(this)}/>
           </aside>
         </div>
       </div>
