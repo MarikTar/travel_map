@@ -28,7 +28,7 @@ class Auth extends Component {
 								className="button-view"
 								role="button"
 							>
-								{ currentPath }
+								{ pathname === '/login' ? 'Sign Up' : 'Sign In' }
 							</Link>
 						</div>
 					</CSSTransition>

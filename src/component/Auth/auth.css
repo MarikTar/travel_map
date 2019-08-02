@@ -107,6 +107,19 @@ Auth-form
   outline: none;
 }
 
+.eye {
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  background: url('../../source/eye.svg') no-repeat center/contain;
+  display: block;
+  width: 20px;
+  height: 20px;
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity 0.15s ease-in;
+}
+
 .field:focus {
   border-color: #41A6F1;
   background: #fff;

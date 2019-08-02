@@ -4,21 +4,35 @@ import { CSSTransition } from 'react-transition-group';
 import AuthInput from "../AuthInput";
 
 export default function SignUpView(props) {
-  const { onSubmit, onChange, onFormValidate, onCustomValidate, fireBaseError, loading } = props;
+  const { onSubmit, onChange, onToggleType, isFormValidate, isCustomValidate, fireBaseError, loading } = props;
 
   return (
     <div className="wrapper-form">
-      <form className="auth" noValidate={ !onFormValidate } onSubmit={ onSubmit }>
+      <form className="auth" noValidate={ !isFormValidate } onSubmit={ onSubmit }>
         <div className="auth-fields">
-          <AuthInput onChange={ onChange } name='email' error={ onCustomValidate } />
-          <AuthInput onChange={ onChange } name='password' error={ onCustomValidate } />
-          <AuthInput onChange={ onChange } name='re-password' error={ onCustomValidate } />
+          <AuthInput 
+            onChange={ onChange } 
+            name='email' 
+            error={ isCustomValidate } 
+          />
+          <AuthInput 
+            onChange={ onChange } 
+            name='password' 
+            error={ isCustomValidate }
+            onShowPassword={ onToggleType }
+          />
+          <AuthInput 
+            onChange={ onChange } 
+            name='re-password' 
+            error={ isCustomValidate } 
+            onShowPassword={ onToggleType }
+          />
         </div>
         <div className="auth-button">
           <button
             type="submit"
             className="button-send"
-            disabled={ !onFormValidate }
+            disabled={ !isFormValidate }
           >
             { loading ? 'loading...' : 'Sign up' }
           </button>
@@ -39,8 +53,10 @@ export default function SignUpView(props) {
 SignUpView.propTypes = {
   onSubmit: PropTypes.func,
   onChange: PropTypes.func,
-  onFormValidate: PropTypes.bool,
-  onCustomValidate: PropTypes.object,
+  onShowPassword: PropTypes.func,
+  isFormValidate: PropTypes.bool,
+  isCustomValidate: PropTypes.object,
   fireBaseError: PropTypes.string,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  isTypedField: PropTypes.bool
 }

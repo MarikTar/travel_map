@@ -15,11 +15,13 @@ export default class SignUpController extends Component {
       },
       password: {
         isValid: null,
-        message: ''
+        message: '',
+        isType: false
       },
       're-password': {
         isValid: null,
-        message: ''
+        message: '',
+        isType: false
       }
     },
     fireBaseError: null,
@@ -113,6 +115,14 @@ export default class SignUpController extends Component {
     }
   }
 
+  handlerShowPassword = evt => {
+    const { name, type } = evt.target.previousElementSibling;
+    const { customValidation } = this.state;
+    customValidation[name].isType = type === 'password';
+
+    this.setState({customValidation});
+  }
+
   render() {
     const { formValidate, customValidation } = this.state;
 
@@ -120,8 +130,9 @@ export default class SignUpController extends Component {
       <SingUpView 
         onSubmit={ this.handleSubmit }
         onChange={ this.handlerChange }
-        onFormValidate={ formValidate }
-        onCustomValidate={ customValidation }
+        isFormValidate={ formValidate }
+        onToggleType={ this.handlerShowPassword }
+        isCustomValidate={ customValidation }
         fireBaseError={ this.state.fireBaseError } 
         loading={ this.state.fireBaseLoading }
       />
