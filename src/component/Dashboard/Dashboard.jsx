@@ -31,8 +31,9 @@ export default class Dashboard extends React.Component {
       country: [],
       error: null
     }
+    
     this.fileInput = React.createRef();
-    this.uid = FireBase.firebase.auth().currentUser.uid;
+    this.uid = FireBase.firebase.auth().currentUser.uid;  
   }
 
   updateState = (loading, lat, lon, country) => {
@@ -118,7 +119,7 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
-    const { latitude, longitude, country, loading } = this.state;
+    const { latitude, longitude, country, loading } = this.state; 
     return (
 
       <div className="dashboard-container">

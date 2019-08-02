@@ -74,14 +74,14 @@ export default class Upload extends React.Component {
     }
 
     render() { 
-        let obj = [];
+        let propImages = [];
         for(let i = 0; i < this.props.images.length; i += 1) {
-            obj.push({
+            propImages.push({
                 image: this.props.images[i],
                 title: this.props.imageTitles[i]
             });
         }
-        let images = [...obj,...this.state.images];  
+        let images = [...propImages,...this.state.images];  
         return (
            <div className="uploader" style={{display: this.props.showUploader ? "block" : "none"}}>
                <button onClick={() => this.closeUploader()}>X</button>

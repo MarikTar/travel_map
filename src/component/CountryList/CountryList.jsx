@@ -25,7 +25,7 @@ export default class CountryList extends React.Component {
 		this.setState({
 			country,
 			openWindow: true,
-		});
+		});	
 		const user = FireBase.firebase.auth().currentUser;
 		const storage = FireBase.firebase.storage();
 		const imagesDir = storage.ref(`user/cloud-photos/${user.uid}/${country}`);
