@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group';
 import PropTypes from "prop-types";
 
 export default function AuthInput(props) {
-  const { name, error, onChange, onShowPassword, reference } = props;
+  const { name, error, onChange, onShowPassword, reference, eye } = props;
 
   return (
     <div className="auth-field">
@@ -16,7 +16,7 @@ export default function AuthInput(props) {
         onChange={ onChange }
         ref={ reference }
       />
-      { name !== 'email' ? 
+      { name !== 'email' && eye ? 
         <span 
           className="eye" 
           style={{ opacity: error[name].isType ? 0.8 : 0.4 }} 

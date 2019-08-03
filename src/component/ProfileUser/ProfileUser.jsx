@@ -38,6 +38,7 @@ export default class ProfileUser extends Component {
     const files = evt.target.files[0];
     const url = window.URL.createObjectURL(files);
     this.fileInput.current.value = '';
+    this.handlerResetZommSlider();
 
     this.setState({
       cropperOpen: true,
@@ -88,11 +89,8 @@ export default class ProfileUser extends Component {
 
   updateUserProfile = url => {
     if (url) {
-      this.handlerResetZommSlider();
       this.setState({
-        isOpen: false,
-        updateFile: false,
-        img: null
+        isOpen: false
       });
     }
   };
@@ -108,23 +106,23 @@ export default class ProfileUser extends Component {
     const { defaultAvatar, img, zoom, isOpen, updateFile } = this.state;
 
     return(
-      <div>
-          <CSSTransition
-            in={ isOpen }
-            timeout={ 300 }
-            classNames="popup"
-            unmountOnExit
-          >
-            <Modal 
-              onCancel={ this.handlerCancel }
-              onSave={ this.handlerSave }
-              onRef={ this.setEditorRef }
-              avatar={ img }
-              rangeZoom={ zoom }
-              onChangeZoom={ this.handlerZoomSlider }
-              updateFile={ updateFile }
-            /> 
-          </CSSTransition>
+      <>
+        <CSSTransition
+          in={ isOpen }
+          timeout={ 300 }
+          classNames="popup"
+          unmountOnExit
+        >
+          <Modal 
+            onCancel={ this.handlerCancel }
+            onSave={ this.handlerSave }
+            onRef={ this.setEditorRef }
+            avatar={ img }
+            rangeZoom={ zoom }
+            onChangeZoom={ this.handlerZoomSlider }
+            updateFile={ updateFile }
+          /> 
+        </CSSTransition>
         <button
           type="button"
           title="add profile photo"
@@ -142,7 +140,7 @@ export default class ProfileUser extends Component {
           onChange={ this.handlerChange }
           ref={ this.fileInput }
         />
-      </div>
+      </>
     )
   };
 }

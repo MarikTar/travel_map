@@ -20,12 +20,14 @@ export default function SignUpView(props) {
             name='password' 
             error={ isCustomValidate }
             onShowPassword={ onToggleType }
+            eye
           />
           <AuthInput 
             onChange={ onChange } 
             name='re-password' 
             error={ isCustomValidate } 
             onShowPassword={ onToggleType }
+            eye
           />
         </div>
         <div className="auth-button">

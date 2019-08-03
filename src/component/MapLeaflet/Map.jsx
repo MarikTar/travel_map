@@ -64,18 +64,21 @@ export default class MapLeaFlet extends Component {
     evt.target.resetStyle(evt.layer);
   }
 
-  onMouseOver (evt) {
+  onMouseOver = (evt) => {
     const ctx = evt.layer;
-    ctx.setStyle({
-      weight: 3,
-      color: '#666',
-      fillOpacity: 0.7,
-    })
+    if (typeof ctx.setStyle === 'function') {
+      ctx.setStyle({
+        weight: 3,
+        color: '#666',
+        fillOpacity: 0.7,
+      })
+    }
   }
 
   onClickGetCountry = evt => {
     const countrys = evt.layer.feature.properties.name;
-    this.props.setMainState(countrys);
+    const id = evt.layer.feature.id;
+    this.props.setMainState(countrys, id);
   }
 
   onClickAddCustomElement = evt => {
@@ -118,9 +121,9 @@ export default class MapLeaFlet extends Component {
           onMouseOut={ this.onMouseOut }
           onClick={ this.onClickGetCountry } // this.onClick.bind(this) // onClick replace to onClickAddCustomElement
         />
-        {marks.map((position, idx) => 
+        {/* {marks.map((position, idx) => 
           <Marker key={`marker-${idx}`} position={ position } />
-        )}
+        )} */}
       </Map>
     )
   }

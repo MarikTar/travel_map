@@ -15,8 +15,7 @@ export default class SignInController extends Component {
       },
       password: {
         isValid: null,
-        message: '',
-        isType: false
+        message: ''
       }
     },
     fireBaseError: null,
@@ -89,16 +88,8 @@ export default class SignInController extends Component {
     return true;
   };
 
-  handlerShowPassword = evt => {
-    const { name, type } = evt.target.previousElementSibling;
-    const { customValidation } = this.state;
-    customValidation[name].isType = type === 'password';
-
-    this.setState({customValidation});
-  }
-
   render() {
-    const { formValidate, customValidation, isTypeInput } = this.state;
+    const { formValidate, customValidation } = this.state;
 
     return(
       <SignInView 
@@ -107,7 +98,6 @@ export default class SignInController extends Component {
         isFormValidate={ formValidate }
         isCustomValidate={ customValidation }
         onToggleType={ this.handlerShowPassword }
-        isTypedField={ isTypeInput }
         fireBaseError={ this.state.fireBaseError } 
         loading={ this.state.fireBaseLoading }
       />

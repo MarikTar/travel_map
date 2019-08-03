@@ -21,9 +21,9 @@ export default class Dashboard extends Component {
 
     this.state = {
       loading: false,
-      latitude: 0,
-      longitude: 0,
-      country: [],
+      lat: 0,
+      lon: 0,
+      countrys: [],
       error: null
     }
     this.fileInput = React.createRef();
@@ -31,30 +31,38 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.serviceDB.getDataFromDB(this.updateState, null);
+    this.serviceDB.getDataGpsFromDB(this.updateGpsData, null);
+    this.serviceDB.getCountriesFromDB(this.updateCountrys, this.state.countrys);
   }
 
-  setMainState = (country) => {
+  setMainState(country, id) {
+    this.serviceDB.setCountryAtDB(country, id);
+    
     this.setState({
-        countrys: country,
-        openWindow: true,
-    })
+      openWindow: true
+    });
+
     console.log(country)//получает страну при нажатии add
 }
 
-  updateState = (loading, lat, lon, country) => {
-    if (!lat || !lon) {
-      return;
-    }
+  updateGpsData = (loading, lat, lon, country) => {
+    const { countrys } = this.state;
+
     this.setState({
       loading,
-      latitude: lat,
-      longitude: lon,
-      country: [
-        ...this.state.country,
+      lat,
+      lon,
+      countrys: [
+        ...countrys,
         country
       ]
-    })
+    });
+  }
+
+  updateCountrys = countrys => {
+    this.setState({
+      countrys
+    }); 
   }
 
   handlerClick = () => {
@@ -68,7 +76,7 @@ export default class Dashboard extends Component {
   }
 
   uploadPhotos(file) {
-    this.serviceGps.setGPSCoordinatesDB(file, this.updateState, this.getError);
+    this.serviceGps.setGPSCoordinatesDB(file, this.updateGpsData, this.getError);
   }
 
   getError = error => {
@@ -81,7 +89,7 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    const { latitude, longitude, country, loading } = this.state;
+    const { lat, lon, countrys, loading } = this.state;
 
     return (
       <div className="dashboard-container">
@@ -117,10 +125,10 @@ export default class Dashboard extends Component {
       </header>
         <div className="layout">
           <main className="main-content">
-            <Map lat={ latitude } lon={ longitude } country={ country } setMainState={this.setMainState.bind(this)}/>
+            <Map lat={ lat } lon={ lon } country={ countrys } setMainState={this.setMainState.bind(this)}/>
           </main>
           <aside className="sidebar">
-            <Sidebar country={ country } setMainState={this.setMainState.bind(this)}/>
+            <Sidebar country={ countrys } setMainState={this.setMainState.bind(this)}/>
           </aside>
         </div>
       </div>
