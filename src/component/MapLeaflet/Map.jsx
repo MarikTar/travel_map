@@ -37,7 +37,7 @@ export default class MapLeaFlet extends Component {
       this.setState({
         marks: [
           ...marks,
-          [ lat, lon ]
+          [lat, lon]
         ]
       });
     }
@@ -60,11 +60,11 @@ export default class MapLeaFlet extends Component {
     return this.countrys.includes(country) ? 0.2 : 0.8;
   }
 
-  onMouseOut = evt => {
+  onMouseOut(evt) {
     evt.target.resetStyle(evt.layer);
   }
 
-  onMouseOver (evt) {
+  onMouseOver(evt) {
     const ctx = evt.layer;
     ctx.setStyle({
       weight: 3,
@@ -73,14 +73,14 @@ export default class MapLeaFlet extends Component {
     })
   }
 
-  onClickGetCountry = evt => {
+  onClickGetCountry(evt) {
     const countrys = evt.layer.feature.properties.name;
     this.props.setMainState(countrys);
   }
 
-  onClickAddCustomElement = evt => {
+  onClickAddCustomElement(evt) {
     const countryId = evt.layer.feature.id;
-    
+
     if (this.buttonAddPhoto) {
       this.buttonAddPhoto.remove(evt.target);
     }
@@ -92,7 +92,7 @@ export default class MapLeaFlet extends Component {
         this.buttonAddPhoto.addTo(evt.target);
         //test
         const BAP = document.getElementById('bap');
-        BAP.addEventListener('click', ()=> console.log(cordinates))
+        BAP.addEventListener('click', () => console.log(cordinates))
       });
   }
 
@@ -100,26 +100,26 @@ export default class MapLeaFlet extends Component {
     const position = [this.state.lat, this.state.lng];
     const { marks } = this.state;
     return (
-      <Map 
-        className="map" 
-        center={position} 
-        zoom={ 3 }
-        maxBounds={ [[90, -180], [-70, 180]] }
+      <Map
+        className="map"
+        center={position}
+        zoom={3}
+        maxBounds={[[90, -180], [-70, 180]]}
       >
         <TileLayer
           url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-          minZoom={ 3 }
-          maxZoom={ 5 }
+          minZoom={3}
+          maxZoom={5}
         />
-        <GeoJSON 
-          data={ MapGeo } 
-          style={ this.layerStyled.bind(this) }
-          onMouseOver={ this.onMouseOver }
-          onMouseOut={ this.onMouseOut }
-          onClick={ this.onClickGetCountry } // this.onClick.bind(this) // onClick replace to onClickAddCustomElement
+        <GeoJSON
+          data={MapGeo}
+          style={this.layerStyled.bind(this)}
+          onMouseOver={this.onMouseOver}
+          onMouseOut={this.onMouseOut.bind(this)}
+          onClick={this.onClickAddCustomElement.bind(this)} // this.onClick.bind(this) // onClick replace to onClickAddCustomElement
         />
-        {marks.map((position, idx) => 
-          <Marker key={`marker-${idx}`} position={ position } />
+        {marks.map((position, idx) =>
+          <Marker key={`marker-${idx}`} position={position} />
         )}
       </Map>
     )

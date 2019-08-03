@@ -17,12 +17,12 @@ export default class ProfileUser extends Component {
   state = {
     pictureFile: null,
     defaultAvatar: null,
-    updateFile: false, 
+    updateFile: false,
     cropperOpen: false,
     img: null,
     zoom: 1,
     isOpen: false
-   };
+  };
 
   componentWillUpdate(nextProps, nextState, nextContext) {
     if (nextState.pictureFile !== this.state.pictureFile) {
@@ -77,11 +77,11 @@ export default class ProfileUser extends Component {
   };
 
   handlerZoomSlider = value => {
-    this.setState({zoom: value});
+    this.setState({ zoom: value });
   };
 
   handlerResetZommSlider = () => {
-    this.setState({zoom: 1});
+    this.setState({ zoom: 1 });
   };
 
   setEditorRef = editor => this.editor = editor;
@@ -99,7 +99,7 @@ export default class ProfileUser extends Component {
 
   setDefaultAvatar = url => {
     if (url) {
-      this.setState({defaultAvatar: url});
+      this.setState({ defaultAvatar: url });
     }
   }
 
@@ -107,40 +107,40 @@ export default class ProfileUser extends Component {
     const { photoURL } = this.props.user;
     const { defaultAvatar, img, zoom, isOpen, updateFile } = this.state;
 
-    return(
+    return (
       <div>
-          <CSSTransition
-            in={ isOpen }
-            timeout={ 300 }
-            classNames="popup"
-            unmountOnExit
-          >
-            <Modal 
-              onCancel={ this.handlerCancel }
-              onSave={ this.handlerSave }
-              onRef={ this.setEditorRef }
-              avatar={ img }
-              rangeZoom={ zoom }
-              onChangeZoom={ this.handlerZoomSlider }
-              updateFile={ updateFile }
-            /> 
-          </CSSTransition>
+        <CSSTransition
+          in={isOpen}
+          timeout={300}
+          classNames="popup"
+          unmountOnExit
+        >
+          <Modal
+            onCancel={this.handlerCancel}
+            onSave={this.handlerSave}
+            onRef={this.setEditorRef}
+            avatar={img}
+            rangeZoom={zoom}
+            onChangeZoom={this.handlerZoomSlider}
+            updateFile={updateFile}
+          />
+        </CSSTransition>
         <button
           type="button"
           title="add profile photo"
           className="upload-file profile-avatar"
-          onClick={ this.handlerClick }
-        > 
+          onClick={this.handlerClick}
+        >
           <span className="profile-avatar-label">Add</span>
-          { !(defaultAvatar || photoURL) ? <span className="upload-loading" /> : <img src={ !photoURL ? defaultAvatar : photoURL } alt="add profile photo"/> }
+          {!(defaultAvatar || photoURL) ? <span className="upload-loading" /> : <img src={!photoURL ? defaultAvatar : photoURL} alt="add profile photo" />}
         </button>
         <input
           accept="image/jpeg,image/png"
           type="file"
-          multiple={ false }
+          multiple={false}
           className="input-file"
-          onChange={ this.handlerChange }
-          ref={ this.fileInput }
+          onChange={this.handlerChange}
+          ref={this.fileInput}
         />
       </div>
     )
