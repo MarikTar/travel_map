@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { divIcon, marker } from "leaflet";
-import { Map, Marker, TileLayer, GeoJSON } from 'react-leaflet';
+import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import MapGeo from './map.geo.json';
 import ServiceGeoCordinate from '../../Services/ServiceGeoCordinats';
 import './map.css';
@@ -16,7 +16,7 @@ export default class MapLeaFlet extends Component {
   countrys = [];
   serviceGeoCordinate = new ServiceGeoCordinate();
   customIconMarker = divIcon({
-    html: `<button id='bap'>TEST</button>`,
+    html: `<div><button id='addPhoto'>TEST</button></div>`,
     className: 'iconButtonAddPhoto',
   });
   buttonAddPhoto = null;
@@ -66,20 +66,18 @@ export default class MapLeaFlet extends Component {
 
   onMouseOver(evt) {
     const ctx = evt.layer;
-    ctx.setStyle({
-      weight: 3,
-      color: '#666',
-      fillOpacity: 0.7,
-    })
-  }
-
-  onClickGetCountry(evt) {
-    const countrys = evt.layer.feature.properties.name;
-    this.props.setMainState(countrys);
+    if (typeof ctx.setStyle === 'function') {
+      ctx.setStyle({
+        weight: 3,
+        color: '#666',
+        fillOpacity: 0.7,
+      })
+    }
   }
 
   onClickAddCustomElement(evt) {
     const countryId = evt.layer.feature.id;
+    const country = evt.layer.feature.properties.name;
 
     if (this.buttonAddPhoto) {
       this.buttonAddPhoto.remove(evt.target);
@@ -90,9 +88,11 @@ export default class MapLeaFlet extends Component {
       .then(cordinates => {
         this.buttonAddPhoto = marker(cordinates, { icon: this.customIconMarker })
         this.buttonAddPhoto.addTo(evt.target);
-        //test
-        const BAP = document.getElementById('bap');
-        BAP.addEventListener('click', () => console.log(cordinates))
+        const addPhoto = document.getElementById('addPhoto');
+        addPhoto.addEventListener('click', (evt) => {
+          evt.stopPropagation();
+          this.props.setMainState(country)
+        })
       });
   }
 
@@ -116,11 +116,8 @@ export default class MapLeaFlet extends Component {
           style={this.layerStyled.bind(this)}
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut.bind(this)}
-          onClick={this.onClickAddCustomElement.bind(this)} // this.onClick.bind(this) // onClick replace to onClickAddCustomElement
+          onClick={this.onClickAddCustomElement.bind(this)}
         />
-        {marks.map((position, idx) =>
-          <Marker key={`marker-${idx}`} position={position} />
-        )}
       </Map>
     )
   }
