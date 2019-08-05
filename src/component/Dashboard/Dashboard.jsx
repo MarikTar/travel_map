@@ -18,25 +18,30 @@ export default class Dashboard extends React.Component {
   serviceDB = new ServiceDB();
   serviceGps = new ServiceGPS();
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       images: [],
       imageTitles: [],
       showGaleria: true,
       loading: false,
-      latitude: 0,
-      longitude: 0,
       country: "",
+      lat: 0,
+      lon: 0,
       countrys: [],
       error: null
     }
-    
     this.fileInput = React.createRef();
-    this.uid = FireBase.firebase.auth().currentUser.uid;  
+    this.uid = props.user.uid;
   }
 
-  setMainState = (country) => {
+  
+  componentDidMount() {
+    // this.serviceDB.getDataGpsFromDB(this.updateGpsData, null);
+    this.serviceDB.getCountriesFromDB(this.updateCountrys, this.state.countrys);
+  }
+
+  setMainState = (country, id) => {
     const countrys = this.state.countrys;
     countrys.push(country);
     this.setState({
@@ -45,8 +50,9 @@ export default class Dashboard extends React.Component {
         openWindow: true,
         images: [],
         imageTitles: [],
-    })
-    // console.log(country)//получает страну при нажатии add
+        uploaderHeight: '100%',
+        id
+    });
     const user = FireBase.firebase.auth().currentUser;
     const storage = FireBase.firebase.storage();
     const imagesDir = storage.ref(`user/cloud-photos/${user.uid}/${country}`);
@@ -57,7 +63,8 @@ export default class Dashboard extends React.Component {
       if(items.length > 0) {
         this.setState({
           showGaleria: false,
-        })
+          uploaderHeight: '100px'
+        });
         for (let i = 0; i < items.length; i += 1) {
           const element = storage.ref(items[i].fullPath);
           element.getMetadata().then(data => {
@@ -77,31 +84,32 @@ export default class Dashboard extends React.Component {
           .then(() => {
             this.setState({
               showGaleria: true
-            })
-          })
+            });
+          });
         } 
       }
     })
     .catch(err => console.log(err));
-}
-
-  updateState = (loading, lat, lon, country) => {
-    if (!lat || !lon) {
-      return;
-    }
-    this.setState({
-      loading,
-      latitude: lat,
-      longitude: lon,
-      country: [
-        ...this.state.country,
-        country
-      ]
-    })
   }
 
-  componentDidMount() {
-    this.serviceDB.getDataFromDB(this.updateState, null);
+  updateGpsData = (loading, lat, lon, country) => {
+    const { countrys } = this.state;
+
+    this.setState({
+      loading,
+      lat,
+      lon,
+      countrys: [
+        ...countrys,
+        country
+      ]
+    });
+  }
+
+  updateCountrys = countrys => {
+    this.setState({
+      countrys
+    }); 
   }
 
   handlerClick = () => {
@@ -115,7 +123,7 @@ export default class Dashboard extends React.Component {
   }
 
   uploadPhotos(file) {
-    this.serviceGps.setGPSCoordinatesDB(file, this.updateState, this.getError);
+    this.serviceGps.setGPSCoordinatesDB(file, this.updateGpsData, this.getError);
   }
 
   getError = error => {
@@ -128,9 +136,8 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
-    const { latitude, longitude, countrys, loading } = this.state; 
+    const { lat, lon, countrys, loading } = this.state;
     return (
-
       <div className="dashboard-container">
         <header className="dashboard">
         <div className="dashboard-title">
@@ -164,17 +171,18 @@ export default class Dashboard extends React.Component {
       </header>
         <div className="layout">
           <main className="main-content">
-            <Map lat={ latitude } lon={ longitude } country={ this.state.countrys } setMainState={this.setMainState.bind(this)}/>
+            <Map lat={ lat } lon={ lon } country={ countrys } setMainState={this.setMainState.bind(this)}/>
           </main>
           <aside className="sidebar">
             <Sidebar country={ countrys } setMainState={this.setMainState.bind(this)}/>
           </aside>
-          {/* {console.log(this.state.showGaleria)} */}
           <Uploader country={this.state.country}
-							showUploader={this.state.openWindow}
-							images={this.state.images}
-							imageTitles={this.state.imageTitles}
-							showGaleria={this.state.showGaleria}/>
+                    showUploader={this.state.openWindow}
+                    images={this.state.images}
+                    imageTitles={this.state.imageTitles}
+                    showGaleria={this.state.showGaleria}
+                    uploaderHeight={this.state.uploaderHeight}
+                    id={this.state.id}/>
         </div>
       </div>
     )

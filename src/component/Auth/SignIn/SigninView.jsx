@@ -18,7 +18,7 @@ export default function signIn(props) {
           onChange={ onChange }
           name='password'
           error={ isCustomValidate }
-          onShowPassword={ onToggleType }
+          eye={false}
         />
       </div>
       <div className="auth-button">

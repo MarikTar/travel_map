@@ -10,9 +10,6 @@ export default class Galeria extends React.Component {
     constructor() {
         super();
     }
-    updateGaleria(title) {
-        console.log(title);
-    }
     render() {
         return ( 
             !this.props.showGaleria ? <img src={Loader} alt="Loader"/> :
@@ -21,7 +18,6 @@ export default class Galeria extends React.Component {
                     <Item image={image.image}
                           title={image.title}
                           country={this.props.country}
-                          updateGaleria={this.updateGaleria.bind(this)}
                           key={key}/> )}
             </div>
         )

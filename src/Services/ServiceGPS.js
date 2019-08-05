@@ -1,11 +1,12 @@
 import FireBase from "../Firebase/FireBase";
 import Geocoder from './ServiceGeocoder';
 import EXIF from 'exif-js';
-import shortid from 'shortid';
+
 
 export default class ServiceGPS {
   coordinates = {}
   uid = FireBase.firebase.auth().currentUser.uid;
+  ref = `user/cloud-photos/${this.uid}/location`;
 
 	getGPS(coordinates) {
     if (!coordinates) {
@@ -16,7 +17,6 @@ export default class ServiceGPS {
 
 	setGPSCoordinatesDB(file, update, error) {
 		EXIF.getData(file, () => {
-      const key = shortid.generate();
       const gpsTags = ['GPSLatitude', 'GPSLongitude'];
 
       gpsTags.forEach(val => this.coordinates[val] = this.getGPS(EXIF.getTag(file, val)));
@@ -33,10 +33,10 @@ export default class ServiceGPS {
         this.coordinates.GPSLongitude,
         file
       ).getGeocoder(
-        `user/cloud-photos/${this.uid}/${key}`,
+        this.ref,
         update,
         this.coordinates
       )
     })
-	}
+  }
 }

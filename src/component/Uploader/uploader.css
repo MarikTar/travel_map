@@ -1,12 +1,12 @@
 .uploader{
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 10%;
+    left: calc(23% - 3px);
     background: #fff;
-    max-width: 700px;
+    max-width: 1015px;
     overflow: auto;
     width: 100%;
-    height: calc(100vh - 106px);
+    height: calc(90vh);
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -32,19 +32,14 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 400px;
-    height: 400px;
+    width: 100%;
+    height: 100%;
     outline: 2px dashed #5d5d5d;
     outline-offset: -12px;
-    background-color: #e0f2f7;
+    background: url('Upload.svg') no-repeat center center ,#e0f2f7;
+    background-size: 50% 50%;
     font-family: 'Segoe UI';
     color: #1f3c44;
-  }
-  
-  #upload-container img {
-    width: 40%;
-    margin-bottom: 20px;
-    user-select: none;
   }
   
   #upload-container label {
@@ -77,4 +72,11 @@
   #upload-container.dragover {
     background-color: #fafafa;
     outline-offset: -17px;
+  }
+
+  #close-uploader {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
   }
