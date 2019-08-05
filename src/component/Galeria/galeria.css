@@ -1,13 +1,45 @@
-.galeria .item {
+.galeria .photo {
+    position: relative;
     display: inline-block;
     width: 200px;
+    height: 200px;
+    vertical-align: top;
+    padding-right: 15px;
+    padding-left: 15px
+}
+
+.delete-image, .close-modal  {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.delete-image:hover, .close-modal:hover {
+    opacity: 0.5;
+}
+
+.delete-image:active, .close-modal:active {
+    cursor: grabbing
 }
 
 .galeria img{
     max-width: 100%;
+    max-height: 100%
+}
+.pop-image {
+    text-align: center;
+}
+.pop-image img {
+    z-index: 10000;
+    max-width: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.galeria .item .pop-image {
-    z-index: 10000;
-    width: 70%;
-}
+.close-modal {
+    right: 0;
+} 

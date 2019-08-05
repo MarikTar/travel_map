@@ -43,18 +43,20 @@ export default class Item extends React.Component {
     render() {
         const img = this.props.image;
         return ( 
-            <div className="item" key={img} style={{display: this.state.display}}>
-                <button onClick={() => this.deleteImage()}>X</button>
+            <div className="photo" key={img} style={{display: this.state.display}}>
+                <button class="delete-image" onClick={() => this.deleteImage()}>❌</button>
                 <a href="javascript:void(0);" 
                    onClick={() => this.openModal()}
                 >
                     <img src={img} alt={img}/>
                 </a>
-                <Modal visible={this.state.visible} width="500" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                    <div>
-                        <div className='pop-image'><img src={img} alt={img}/></div>
-                        <a href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
-                    </div>
+                <Modal visible={this.state.visible}
+                        width="500" height="500"
+                        effect="fadeInUp"
+                        onClickAway={() => this.closeModal()}
+                >
+                    <div className='pop-image'><img src={img} alt={img}/></div>
+                    <button onClick={() => this.closeModal()} class="close-modal">&#x274C;</button>
                 </Modal>
             </div>
         )

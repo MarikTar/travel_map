@@ -102,7 +102,7 @@ export default class Upload extends React.Component {
         return (
            <div className="uploader" 
                 style={{display: this.state.openWindow ? "block" : "none",}}>
-               <button onClick={() => this.closeUploader()} id="close-uploader">X</button>
+               <button onClick={() => this.closeUploader()} id="close-uploader">⚔️</button>{/*✖ ⚔ ⚔️*/}
                 <div id="upload-container" 
                     style={{
                         height: this.state.uploaderHeight
@@ -117,9 +117,9 @@ export default class Upload extends React.Component {
                                type="file" 
                                name="file" 
                                multiple accept="image/*"
-                               autofocus="true"/>
-                        <label htmlFor="file-input">Выберите файл</label>
-                        <span> или перетащите его сюда</span>
+                               ref={input => input && input.focus()}/>
+                        <label htmlFor="file-input">Browse photos</label>
+                        <span> or drag them here</span>
                     </div>
                 </div>
                 <Galeria images={images} 

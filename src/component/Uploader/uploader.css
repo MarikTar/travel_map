@@ -1,11 +1,14 @@
+*{
+  box-sizing: border-box;
+}
+
 .uploader{
     position: absolute;
-    top: 10%;
-    left: calc(23% - 3px);
+    top: calc(10% + 1px);
+    left: 300px;
     background: #fff;
-    max-width: 1015px;
+    width: calc(100% - 300px);
     overflow: auto;
-    width: 100%;
     height: calc(90vh);
     margin: 0 auto;
     display: flex;
@@ -74,9 +77,19 @@
     outline-offset: -17px;
   }
 
-  #close-uploader {
+  #close-uploader{
     position: absolute;
-    top: 10px;
+    font-size: 24px;
+    top: 5px;
     right: 10px;
+    background: none;
+    border: none;
     cursor: pointer;
-  }
+}
+#close-uploader:hover#close-uploader {
+    opacity: 0.5;
+}
+
+#close-uploader:active#close-uploader {
+    cursor: grabbing
+}
