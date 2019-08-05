@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9991632b.chunk.css",
+    "main.js": "/static/js/main.5f68a7c9.chunk.js",
+    "main.js.map": "/static/js/main.5f68a7c9.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/js/2.f4ad80fd.chunk.js": "/static/js/2.f4ad80fd.chunk.js",
+    "static/js/2.f4ad80fd.chunk.js.map": "/static/js/2.f4ad80fd.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.ae70aed63eb6a069abac66f088403704.js": "/precache-manifest.ae70aed63eb6a069abac66f088403704.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.9991632b.chunk.css.map": "/static/css/main.9991632b.chunk.css.map",
+    "static/media/auth.css": "/static/media/eye.043f9099.svg",
+    "static/media/auth-scials.css": "/static/media/g-pl.09aea0f5.svg",
+    "static/media/dashboard.css": "/static/media/loader.22043e8c.gif",
+    "static/media/app.css": "/static/media/main-bg.c06c9419.jpg",
+    "static/media/countris.css": "/static/media/search.4dee039c.svg"
+  }
+}
