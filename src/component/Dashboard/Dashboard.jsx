@@ -29,6 +29,7 @@ export default class Dashboard extends React.Component {
       lat: 0,
       lon: 0,
       countrys: [],
+      test: '',
       error: null
     }
     this.fileInput = React.createRef();
@@ -37,7 +38,7 @@ export default class Dashboard extends React.Component {
 
   
   componentDidMount() {
-    // this.serviceDB.getDataGpsFromDB(this.updateGpsData, null);
+    this.serviceDB.getDataGpsFromDB(this.updateGpsData, null);
     this.serviceDB.getCountriesFromDB(this.updateCountrys, this.state.countrys);
   }
 

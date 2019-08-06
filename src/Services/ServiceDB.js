@@ -17,7 +17,7 @@ export default class ServiceDB {
       .then(snapshot => {
         const data = snapshot.val();
 
-        if (!data) {
+        if (!data || !data.location) {
           return;
         }
 

@@ -102,7 +102,7 @@ export default class Upload extends React.Component {
         return (
            <div className="uploader" 
                 style={{display: this.state.openWindow ? "block" : "none",}}>
-               <button onClick={() => this.closeUploader()} id="close-uploader">⚔️</button>{/*✖ ⚔ ⚔️*/}
+               <button onClick={() => this.closeUploader()} id="close-uploader">✖</button>{/*✖ ⚔ ⚔️*/}
                 <div id="upload-container" 
                     style={{
                         height: this.state.uploaderHeight

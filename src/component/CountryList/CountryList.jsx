@@ -1,7 +1,7 @@
 import React from 'react';
 // import countriesList from './countries.json';
 import countryList from '../MapLeaflet/map.geo.json';
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars';//
 import './countris.css';
 
 export default class CountryList extends React.Component {
@@ -13,7 +13,9 @@ export default class CountryList extends React.Component {
 		}
 	}
 	openWindow (country) {
-		this.props.setMainState(country);
+		this.props.setMainState(country); 
+		console.log();
+		
 	}
 
 	filterCountries(event) {
