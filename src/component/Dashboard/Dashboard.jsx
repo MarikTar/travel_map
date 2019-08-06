@@ -4,6 +4,7 @@ import FireBase from "../../Firebase/FireBase";
 import ProfileUser from "../ProfileUser/ProfileUser";
 import Map from '../MapLeaflet/Map';
 import Sidebar from '../CountryList/CountryList';
+import DropDown from '../DropDown/DropDown';
 import ServiceGPS from '../../Services/ServiceGPS';
 import ServiceDB from '../../Services/ServiceDB';
 import './dashboard.css';
@@ -88,12 +89,19 @@ export default class Dashboard extends Component {
     }
   }
 
+  handlerSlideOutMenu = () => {
+    console.log('foo');
+  }
+
   render() {
     const { lat, lon, countrys, loading } = this.state;
 
     return (
       <div className="dashboard-container">
         <header className="dashboard">
+        <button className="btn-burger">
+          <span className="humburger" />
+        </button>
         <div className="dashboard-title">
           Dashboard
         </div>
@@ -121,6 +129,9 @@ export default class Dashboard extends Component {
           >
             Log out
           </button>
+          <DropDown
+            onUpload={ this.handlerClick }
+          />
         </div>
       </header>
         <div className="layout">

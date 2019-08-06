@@ -9,6 +9,20 @@ Auth
   min-height: 545px;
 }
 
+@media screen and (min-width:320px) and (max-width: 420px) {
+  .container-auth {
+    min-height: auto;
+    height: 100%;
+  }
+}
+
+@media screen and (min-width:675px) and (max-width: 992px) {
+  .container-auth {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
 /*
 Auth-information
 =============================
@@ -25,6 +39,19 @@ Auth-information
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
   max-width: 355px;
+}
+
+@media screen and (min-width: 320px) and (max-width: 675px) {
+  .auth-information {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 675px) and (max-width: 992px) {
+  .auth-information {
+    max-width: 285px;
+    padding: 15px 25px;
+  }
 }
 
 .auth-information-heading {
@@ -78,7 +105,31 @@ Auth-form
   border-bottom-right-radius: 8px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 55px 55px 75px 55px;
+  padding: 55px 55px 65px 55px;
+}
+
+@media screen and (min-width: 320px) and (max-width: 420px) {
+  .wrapper-auth {
+    width: 100%;
+    padding: 0 6% 0 6%;
+    border-radius: 0;
+  }
+}
+
+@media screen and (min-width: 420px) and (max-width: 675px) {
+  .wrapper-auth {
+    min-width: 375px;
+    max-width: 425px;
+    margin: 0 auto;
+    padding: 0 35px 0 35px;
+    border-radius: 8px;
+  }
+}
+
+@media screen and (min-width: 675px) and (max-width: 992px) {
+  .wrapper-auth {
+    width: 420px;
+  }
 }
 
 .auth-title {
@@ -89,6 +140,12 @@ Auth-form
 	margin-bottom: 25px;
 }
 
+@media screen and (min-width: 320px) and (max-width: 370px) {
+  .auth-title {
+    margin-bottom: 15px;
+  }
+}
+
 .auth-or {
   font-size: 14px;
   text-align: center;
@@ -97,23 +154,37 @@ Auth-form
   margin-bottom: 12px;
 }
 
+@media screen and (min-width: 320px) and (max-width: 370px) {
+  .auth-or {
+    display: none;
+  }
+}
+
 .auth-field {
   position: relative;
   margin-bottom: 20px;
 }
 
 .field {
+  font-size: 14px;
   width: 100%;
   padding: 15px 20px;
   border: 1px solid #f2f2f2;
   border-radius: 30px;
   background: #FCFBFC;
   outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.field::-webkit-input-placeholder {
+  font-size: 14px;
 }
 
 .eye {
   position: absolute;
-  top: 13px;
+  top: 17px;
   right: 15px;
   background: url('../../source/eye.svg') no-repeat center/contain;
   display: block;
@@ -180,6 +251,14 @@ Auth-form
   background: #75c4ff;
 }
 
+@media screen and (min-width: 320px) and (max-width: 420px) {
+  .button-send {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+  }
+}
+
 .field-valid {
   position: absolute;
   top: calc(50% - (15px / 2));
@@ -188,6 +267,31 @@ Auth-form
   width: 15px;
   height: 15px;
   background: url('../../source/checked.svg') no-repeat center/contain;
+}
+
+@media screen and (min-width: 320px) and (max-width: 420px) {
+  .field-valid {
+    left: -6%;
+  }
+}
+
+.auth-bottom {
+  font-size: 14px;
+  color: #989898;
+  text-align: center;
+  margin-top: 15px;
+}
+
+@media screen and (min-width: 675px) {
+  .auth-bottom{
+    display: none;
+  }
+}
+
+.auth-link {
+  font-size: 16px;
+  color: #4292e7;
+  text-decoration: none;
 }
 
 .text-error {

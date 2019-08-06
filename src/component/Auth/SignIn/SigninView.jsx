@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AuthInput from "../AuthInput";
 import { CSSTransition } from "react-transition-group";
+import AuthInput from "../AuthInput";
 
 export default function signIn(props) {
   const { onSubmit, onChange, isFormValidate, isCustomValidate, onToggleType, fireBaseError, loading } = props;

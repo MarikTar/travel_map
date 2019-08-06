@@ -1,0 +1,45 @@
+.popup-message {
+	position: fixed;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: 20px;
+	font-size: 12px;
+	text-align: center;
+	color: #323232;
+	background: #f1f1f1;
+	border-radius: 4px;
+	width: 300px;
+	padding: 10px;
+	opacity: 0;
+}
+
+.popup-message::before {
+	content: "";
+	position: absolute;
+	left: calc(50% - 12px);
+	bottom: -12px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 12px 12px 0 12px;
+	border-color: #f1f1f1 transparent transparent transparent;
+}
+
+.popup-message span {
+	font-weight: 600;
+}
+
+.icon-upload {
+	background: url('../../source/upload.svg') no-repeat center/contain;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+}
+
+.apple-message-appear-done {
+	opacity: 0;
+	transition: opacity 400ms ease-in;
+} 
+.apple-message-enter-done {
+	opacity: 1;
+}

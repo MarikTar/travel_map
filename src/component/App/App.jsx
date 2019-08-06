@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Redirect } from "react-router-dom";
 import PrivateRoute from "../Auth/PrivateRouter";
 import Dashboard from "../Dashboard/Dashboard";
 import Auth from '../Auth/Auth';
+import Popup from '../Popup/Popup';
 import FireBase from "../../Firebase/FireBase";
 import './app.css';
 
@@ -34,27 +35,32 @@ class App extends Component {
 
   render() {
     const { authenticated, user, loaded } = this.state;
-
     if (!loaded) {
       return <div>Loading...</div>
     }
 
     return(
-      <Router>
-        <div 
-          className={ `main-container ${ !authenticated ? 'app-auth' : 'app-dashboard' }` }
-        >
-          <PrivateRoute
-            exact
-            path='/dashboard'
-            component={ Dashboard }
-            authenticated={ authenticated }
-            user={ user }
+      <>
+        <Router>
+          <div 
+            className={ `main-container ${ !authenticated ? 'app-auth' : 'app-dashboard' }` }
+          >
+            <PrivateRoute
+              exact
+              path='/dashboard'
+              component={ Dashboard }
+              authenticated={ authenticated }
+              user={ user }
+            />
+            <Redirect exact from="/" to={ !authenticated ? '/login' : '/dashboard' } />
+            { !authenticated ? <Auth/> : null }
+          </div>
+        </Router>
+        <Popup 
+          loader={ loaded } 
+          authenticated={ authenticated }
           />
-          <Redirect exact from="/" to={ !authenticated ? '/login' : '/dashboard' } />
-          { !authenticated ? <Auth/> : null }
-        </div>
-      </Router>
+      </>
     );
   }
 }

@@ -55,6 +55,12 @@ class Auth extends Component {
 							<Route exact path="/signup" component={ SignUp } />
 						</div>
 					</CSSTransition>
+					<div className="auth-bottom">
+						{ pathname === '/login' ? 'You do not have an account?' : 'Do you have an account?' }&nbsp;
+						<Link to={ pathname === '/login' ? '/signup' : '/login' } className="auth-link" >
+						{ pathname === '/login' ? 'Sign Up' : 'Sign In' }
+						</Link>
+					</div>
 				</div>
 			</div>
 		);

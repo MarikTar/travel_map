@@ -13,7 +13,7 @@ export default function SignUpView(props) {
           <AuthInput 
             onChange={ onChange } 
             name='email' 
-            error={ isCustomValidate } 
+            error={ isCustomValidate }
           />
           <AuthInput 
             onChange={ onChange } 

@@ -26,6 +26,7 @@ export default class ServiceGeocoder {
 
 	setDataDB({ results }, ref, callback, coordinates) {
 		const country = results[0].components.country;
+		console.log(results);
 
 		if (!country) {
 			return;

@@ -79,6 +79,7 @@ export default class MapLeaFlet extends Component {
     const countrys = evt.layer.feature.properties.name;
     const id = evt.layer.feature.id;
     this.props.setMainState(countrys, id);
+    console.log(evt);
   }
 
   onClickAddCustomElement = evt => {
@@ -95,7 +96,7 @@ export default class MapLeaFlet extends Component {
         this.buttonAddPhoto.addTo(evt.target);
         //test
         const BAP = document.getElementById('bap');
-        BAP.addEventListener('click', ()=> console.log(cordinates))
+        BAP.addEventListener('click', (evt)=> {evt.stopPropagation(); console.log(cordinates)})
       });
   }
 
