@@ -29,7 +29,7 @@ export default class SignUpController extends Component {
   };
 
   processing(value) {
-    this.setState({fireBaseLoading: value});
+    this.setState({ fireBaseLoading: value });
   }
 
   handleSubmit = async event => {
@@ -42,7 +42,7 @@ export default class SignUpController extends Component {
         .auth().createUserWithEmailAndPassword(email.value, password.value);
       this.props.history.push('/dashboard');
     } catch (error) {
-      this.setState({fireBaseError: error.message});
+      this.setState({ fireBaseError: error.message });
       this.processing(false);
     }
   };
@@ -65,6 +65,8 @@ export default class SignUpController extends Component {
         break;
       case 're-password':
         this.validRePassowrd(value, customValidation);
+        break;
+      default:
         break;
     }
 
@@ -120,21 +122,21 @@ export default class SignUpController extends Component {
     const { customValidation } = this.state;
     customValidation[name].isType = type === 'password';
 
-    this.setState({customValidation});
+    this.setState({ customValidation });
   }
 
   render() {
     const { formValidate, customValidation } = this.state;
 
-    return(
-      <SingUpView 
-        onSubmit={ this.handleSubmit }
-        onChange={ this.handlerChange }
-        isFormValidate={ formValidate }
-        onToggleType={ this.handlerShowPassword }
-        isCustomValidate={ customValidation }
-        fireBaseError={ this.state.fireBaseError } 
-        loading={ this.state.fireBaseLoading }
+    return (
+      <SingUpView
+        onSubmit={this.handleSubmit}
+        onChange={this.handlerChange}
+        isFormValidate={formValidate}
+        onToggleType={this.handlerShowPassword}
+        isCustomValidate={customValidation}
+        fireBaseError={this.state.fireBaseError}
+        loading={this.state.fireBaseLoading}
       />
     );
   }

@@ -151,3 +151,27 @@
   height: 18px;
   margin-left: 10px;
 }
+
+#pin{
+  height: 80px;
+  background: url('../../source/pin.svg') no-repeat center;
+  background-size: 120px;
+  position: relative;
+}
+
+#addPhoto{
+  padding: 0;
+  width: 35px;
+  height: 35px;
+  background: url('../../source/plus.svg') no-repeat center;
+  background-size: cover;
+  border-radius: 50%;
+  position: absolute;
+  top: 7px;
+  left: 7px;
+}
+
+
+#addPhoto:hover{
+  cursor: pointer;
+}
