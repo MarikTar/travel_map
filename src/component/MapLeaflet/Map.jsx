@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { divIcon, marker } from "leaflet";
-import { Map, TileLayer, GeoJSON } from 'react-leaflet';
+import { Map, TileLayer, GeoJSON} from 'react-leaflet';
 import MapGeo from './map.geo.json';
 import ServiceGeoCordinate from '../../Services/ServiceGeoCordinats';
 import './map.css';
@@ -16,9 +16,12 @@ export default class MapLeaFlet extends Component {
   countrys = [];
   serviceGeoCordinate = new ServiceGeoCordinate();
   customIconMarker = divIcon({
-    html: `<div><button id='addPhoto'>TEST</button></div>`,
+    html: `<div id="pin"><button id="addPhoto"></button></div>`,
     className: 'iconButtonAddPhoto',
+    iconAnchor: [20, 80],
+    iconSize: [50, 80]
   });
+
   buttonAddPhoto = null;
 
   state = {
@@ -51,6 +54,8 @@ export default class MapLeaFlet extends Component {
     const country = properties.name;
     return {
       color: '#000',
+      fill: true,
+      fillColor: 'gray',
       weight: 1.5,
       fillOpacity: this.markedСountries(country)
     }
@@ -70,35 +75,50 @@ export default class MapLeaFlet extends Component {
       ctx.setStyle({
         weight: 3,
         color: '#666',
+        fillColor: '#41A6F1',
         fillOpacity: 0.7,
       })
     }
   }
 
   onClickAddCustomElement(evt) {
-    const countryId = evt.layer.feature.id;
-    const country = evt.layer.feature.properties.name;
+    if (evt.layer.feature) {
+      const countryId = evt.layer.feature.id;
+      const country = evt.layer.feature.properties.name;
 
-    if (this.buttonAddPhoto) {
-      this.buttonAddPhoto.remove(evt.target);
-    }
+      if (this.buttonAddPhoto) {
+        this.buttonAddPhoto.remove(evt.target);
+      }
 
-    this.serviceGeoCordinate
-      .getCordinates(countryId)
-      .then(cordinates => {
-        this.buttonAddPhoto = marker(cordinates, { icon: this.customIconMarker })
-        this.buttonAddPhoto.addTo(evt.target);
-        const addPhoto = document.getElementById('addPhoto');
-        addPhoto.addEventListener('click', (evt) => {
-          evt.stopPropagation();
-          this.props.setMainState(country)
+      this.serviceGeoCordinate
+        .getCordinates(countryId)
+        .then(cordinates => {
+          this.buttonAddPhoto = marker(cordinates, { icon: this.customIconMarker })
+          this.buttonAddPhoto.addTo(evt.target);
+          const addPhoto = document.getElementById('addPhoto');
+          addPhoto.addEventListener('click', (evt) => {
+            evt.stopPropagation();
+            this.props.setMainState(country)
+          })
+          this.setState({
+            lat: cordinates[0],
+            lng: cordinates[1],
+          })
         })
-      });
+        .catch(() => {
+          this.buttonAddPhoto = marker([evt.latlng.lat, evt.latlng.lng], { icon: this.customIconMarker })
+          this.buttonAddPhoto.addTo(evt.target);
+          const addPhoto = document.getElementById('addPhoto');
+          addPhoto.addEventListener('click', (evt) => {
+            evt.stopPropagation();
+            this.props.setMainState(country)
+          })
+        })
+    }
   }
 
   render() {
     const position = [this.state.lat, this.state.lng];
-    const { marks } = this.state;
     return (
       <Map
         className="map"
@@ -108,7 +128,7 @@ export default class MapLeaFlet extends Component {
       >
         <TileLayer
           url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-          minZoom={3}
+          minZoom={2}
           maxZoom={5}
         />
         <GeoJSON
