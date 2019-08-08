@@ -42,6 +42,11 @@ export default class Dashboard extends React.Component {
     this.serviceDB.getCountriesFromDB(this.updateCountrys, this.state.countrys);
   }
 
+  clearCountry(country) {
+    console.log(country);
+    
+  }
+
   setMainState = (country, id) => {
     const countrys = this.state.countrys;
     countrys.push(country);
@@ -183,7 +188,8 @@ export default class Dashboard extends React.Component {
                     imageTitles={this.state.imageTitles}
                     showGaleria={this.state.showGaleria}
                     uploaderHeight={this.state.uploaderHeight}
-                    id={this.state.id}/>
+                    id={this.state.id}
+                    clearCountry={this.clearCountry.bind(this)}/>
         </div>
       </div>
     )

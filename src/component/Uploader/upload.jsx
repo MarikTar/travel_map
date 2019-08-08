@@ -124,7 +124,8 @@ export default class Upload extends React.Component {
                 </div>
                 <Galeria images={images} 
                          country={this.props.country}
-                         showGaleria={this.props.showGaleria}/>
+                         showGaleria={this.props.showGaleria}
+                         clearCountry={this.props.clearCountry}/>
            </div>
         )
     }

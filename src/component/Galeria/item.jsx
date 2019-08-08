@@ -18,9 +18,7 @@ export default class Item extends React.Component {
         const user = FireBase.firebase.auth().currentUser;
         const countryRef = FireBase.firebase.storage().ref(`user/cloud-photos/${user.uid}/${this.props.country}`);
         const imageRef = countryRef.child(`${this.props.title}`);
-        this.setState({
-            display: "none"
-        })
+        this.props.deleteImage(this.props.index);
         imageRef.delete().then(function() {
 
           }).catch(function(error) {
@@ -44,7 +42,7 @@ export default class Item extends React.Component {
         const img = this.props.image;
         return ( 
             <div className="photo" key={img} style={{display: this.state.display}}>
-                <button class="delete-image" onClick={() => this.deleteImage()}>❌</button>
+                <button className="delete-image" onClick={() => this.deleteImage()}>❌</button>
                 <a href="javascript:void(0);" 
                    onClick={() => this.openModal()}
                 >
@@ -56,7 +54,7 @@ export default class Item extends React.Component {
                         onClickAway={() => this.closeModal()}
                 >
                     <div className='pop-image'><img src={img} alt={img}/></div>
-                    <button onClick={() => this.closeModal()} class="close-modal">&#x274C;</button>
+                    <button onClick={() => this.closeModal()} className="close-modal">&#x274C;</button>
                 </Modal>
             </div>
         )
