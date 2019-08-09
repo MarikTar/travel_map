@@ -16,7 +16,7 @@ export default class CountryList extends React.Component {
 		this.props.setMainState(country);
 	}
 	addMarker(id){
-		this.props.setAddMarker(id.toLowerCase());
+		this.props.setAddMarker(id);
 	}
 
 	filterCountries(event) {
@@ -80,7 +80,7 @@ class Country extends React.Component {
 	onMouseOver(){
 		const flag = `https://restcountries.eu/data/${this.props.id.toLowerCase()}.svg`
 		this.setState({
-			background: `url(${flag}) no-repeat left center/contain`
+			background: `url(${flag}) no-repeat left center/contain`// cover/contain
 		})
 	}
 	onMouseOut(){
@@ -100,7 +100,6 @@ class Country extends React.Component {
 			<div className="item" 
 				style={{
 					background: this.state.background,
-					backgroundSize: 'contain'
 				}} 
 				onClick={this.onClick.bind(this)}
 				onMouseOver={()=>this.onMouseOver()}

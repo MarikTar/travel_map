@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { divIcon, marker } from "leaflet";
-import { Map, TileLayer, GeoJSON} from 'react-leaflet';
+import { Map, TileLayer, GeoJSON, LayersControl } from 'react-leaflet';
 import MapGeo from './map.geo.json';
 import ServiceGeoCordinate from '../../Services/ServiceGeoCordinats';
 import './map.css';
@@ -34,8 +34,12 @@ export default class MapLeaFlet extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { lat, lon, country } = nextProps;
+    const { lat, lon, country, cid } = nextProps;
     const { marks } = this.state;
+
+    if (cid) {
+      this.test(cid)
+    }
 
     if (lat !== this.props.lat && lon !== this.props.lon) {
       this.setState({
@@ -81,7 +85,7 @@ export default class MapLeaFlet extends Component {
       })
     }
   }
-  test(id){
+  test(id) {
     console.log('test', id)
   }
 
@@ -91,7 +95,7 @@ export default class MapLeaFlet extends Component {
       const country = evt.layer.feature.properties.name;
 
       if (this.buttonAddPhoto) {
-        this.buttonAddPhoto.remove(evt.target);
+        this.buttonAddPhoto.remove();
       }
 
       this.serviceGeoCordinate
@@ -110,15 +114,15 @@ export default class MapLeaFlet extends Component {
             zoom: 4,
           })
         })
-        .catch(() => {
-          this.buttonAddPhoto = marker([evt.latlng.lat, evt.latlng.lng], { icon: this.customIconMarker })
-          this.buttonAddPhoto.addTo(evt.target);
-          const addPhoto = document.getElementById('addPhoto');
-          addPhoto.addEventListener('click', (evt) => {
-            evt.stopPropagation();
-            this.props.setMainState(country)
-          })
+      .catch(() => {
+        this.buttonAddPhoto = marker([evt.latlng.lat, evt.latlng.lng], { icon: this.customIconMarker })
+        this.buttonAddPhoto.addTo(evt.target);
+        const addPhoto = document.getElementById('addPhoto');
+        addPhoto.addEventListener('click', (evt) => {
+          evt.stopPropagation();
+          this.props.setMainState(country)
         })
+      })
     }
   }
 
@@ -142,7 +146,7 @@ export default class MapLeaFlet extends Component {
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut.bind(this)}
           onClick={this.onClickAddCustomElement.bind(this)}
-        />
+        />     
       </Map>
     )
   }

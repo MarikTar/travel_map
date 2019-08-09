@@ -24,10 +24,12 @@ export default class Dashboard extends Component {
       latitude: 0,
       longitude: 0,
       country: [],
-      error: null
+      error: null,
+      cid: '',
     }
     this.fileInput = React.createRef();
     this.uid = this.props.user.uid;
+    this.cid = '';
   }
 
   componentDidMount() {
@@ -55,6 +57,15 @@ export default class Dashboard extends Component {
         country
       ]
     })
+  }
+
+  addMarkerOnMap(id){
+    if(this.cid!==id){
+      this.cid = id;
+      this.setState({
+        cid: this.cid
+      })
+    }
   }
 
   handlerClick = () => {
@@ -117,10 +128,10 @@ export default class Dashboard extends Component {
       </header>
         <div className="layout">
           <main className="main-content">
-            <Map lat={ latitude } lon={ longitude } country={ country } setMainState={this.setMainState.bind(this)} test={'asd'}/>
+            <Map lat={ latitude } lon={ longitude } country={ country } setMainState={this.setMainState.bind(this)} cid={this.state.cid}/>
           </main>
           <aside className="sidebar">
-            <Sidebar country={ country } setMainState={this.setMainState.bind(this)} setAddMarker={(id)=>console.log('setAddMarker',id)}/>
+            <Sidebar country={ country } setMainState={this.setMainState.bind(this)} setAddMarker={(id)=>this.addMarkerOnMap(id)}/>
           </aside>
         </div>
       </div>
