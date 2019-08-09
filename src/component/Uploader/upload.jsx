@@ -1,5 +1,4 @@
 import React from 'react';
-import uploadImg from './Upload.svg'
 import Galeria from '../Galeria/galeria';
 import FireBase from "../../Firebase/FireBase";
 import ServiceDB from '../../Services/ServiceDB';
@@ -13,16 +12,12 @@ export default class Upload extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            images: [],
-            openWindow: false,
+            images: []
         }   
         this.user = FireBase.firebase.auth().currentUser;
     }
 
     componentWillReceiveProps(props) {
-        this.setState({
-            openWindow: props.showUploader
-        });
         this.setState({
             images: [],
             uploaderHeight: props.uploaderHeight
@@ -30,7 +25,7 @@ export default class Upload extends React.Component {
     } 
 
     addImages(fileList) {
-        this.serviceDB.setCountryAtDB(this.props.country, this.props.id);
+        this.serviceDB.setCountryAtDB(this.props.country);
         for(let i = 0; i < fileList.length; i += 1) {
             const img = fileList[i];
             const photoBase = FireBase.firebase.storage().ref(`user/cloud-photos/${this.user.uid}/${this.props.country}/${img.name}`);
@@ -84,12 +79,6 @@ export default class Upload extends React.Component {
         this.addImages(fileList);
     }
 
-    closeUploader() {
-        this.setState({
-            openWindow: false
-        })
-    }
-
     render() {
         let propImages = [];
         for(let i = 0; i < this.props.images.length; i += 1) {
@@ -99,12 +88,12 @@ export default class Upload extends React.Component {
             });
         }
         let images = [...propImages,...this.state.images];  
-        console.log("some log");
+        console.log("daw");
         
         return (
            <div className="uploader" 
-                style={{display: this.state.openWindow ? "flex" : "none",}}>
-               <button onClick={() => this.closeUploader()} id="close-uploader">✖</button>{/*✖ ⚔ ⚔️*/}
+                style={{display: this.props.openWindow ? "block" : "none",}}>
+               <button onClick={() => this.props.onClickChangeOpenWidow()} id="close-uploader">✖</button>{/*✖ ⚔ ⚔️*/}
                 <div id="upload-container" 
                     style={{
                         height: this.state.uploaderHeight

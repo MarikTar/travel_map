@@ -23,7 +23,7 @@ export default class SignInController extends Component {
   };
 
   processing(value) {
-    this.setState({fireBaseLoading: value});
+    this.setState({ fireBaseLoading: value });
   }
 
   handleSubmit = async event => {
@@ -36,7 +36,7 @@ export default class SignInController extends Component {
         .auth().signInWithEmailAndPassword(email.value, password.value);
       this.props.history.push('/dashboard');
     } catch (error) {
-      this.setState({fireBaseError: error.message});
+      this.setState({ fireBaseError: error.message });
       this.processing(false);
     }
   };
@@ -51,6 +51,8 @@ export default class SignInController extends Component {
         break;
       case 'password':
         customValidation.password.isValid = this.validPassword(value, customValidation.password);
+        break;
+      default:
         break;
     }
 

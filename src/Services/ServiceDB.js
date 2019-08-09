@@ -31,9 +31,9 @@ export default class ServiceDB {
       }, error => console.log(error));
   }
   
-  setCountryAtDB(country, id) {
+  setCountryAtDB(country) {
     FireBase.firebase.database().ref(`user/cloud-photos/${this.uid}/countrys`)
-			.update({[`country-${id.toLowerCase()}`]: country});
+			.update({[`${country}`]: country});
   }
 
   getCountriesFromDB(callback, array) {

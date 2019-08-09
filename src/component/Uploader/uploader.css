@@ -10,9 +10,6 @@
     overflow: auto;
     height: calc(90.7vh);
     margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
     border: 2px solid black;
     z-index: 1000000;
   }

@@ -9,7 +9,6 @@ import ServiceDB from '../../Services/ServiceDB';
 import Uploader from '../Uploader/upload';
 
 import './dashboard.css';
-import { async } from 'q';
 window.URL = window.URL || window.webkitURL;
 export default class Dashboard extends React.Component {
   static propTypes = {
@@ -26,15 +25,16 @@ export default class Dashboard extends React.Component {
       imageTitles: [],
       showGaleria: true,
       loading: false,
-      country: "",
-      lat: 0,
-      lon: 0,
+      latitude: 0,
+      longitude: 0,
+      country: [],
       countrys: [],
-      test: '',
-      error: null
+      error: null,
+      cid: '',
     }
     this.fileInput = React.createRef();
-    this.uid = props.user.uid;
+    this.uid = this.props.user.uid;
+    this.cid = '';
   }
 
 
@@ -45,10 +45,9 @@ export default class Dashboard extends React.Component {
 
   clearCountry(country) {
     // console.log(country);
-
   }
 
-  setMainState = async (country, id) => {
+  setMainState = async (country) => {
     const countrys = this.state.countrys;
     countrys.push(country);
     this.setState({
@@ -58,7 +57,6 @@ export default class Dashboard extends React.Component {
       images: [],
       imageTitles: [],
       uploaderHeight: '100%',
-      id
     });
     const user = FireBase.firebase.auth().currentUser;
     const storage = FireBase.firebase.storage();
@@ -68,6 +66,7 @@ export default class Dashboard extends React.Component {
     const listAll = await imagesDir.listAll().then();
     if (listAll.items.length > 0) {
       this.setState({
+        countrys: countrys,
         showGaleria: false,
         uploaderHeight: '100px'
       });
@@ -78,13 +77,12 @@ export default class Dashboard extends React.Component {
           titles[i] = listAll.items[i].name;
         });
       }
-      this.setState({
-        imageTitles: titles,
-        images: images,
-        showGaleria: true
-      });
-
     }
+    this.setState({
+      imageTitles: titles,
+      images: images,
+      showGaleria: true
+    });
   }
 
   updateGpsData = (loading, lat, lon, country) => {
@@ -105,6 +103,21 @@ export default class Dashboard extends React.Component {
     this.setState({
       countrys
     });
+  }
+
+  onClickChangeOpenWidow() {
+    this.setState({
+      openWindow: !this.state.openWindow
+    });
+  }
+
+  addMarkerOnMap(id,country){
+    if(this.cid!==id){
+      this.cid = id;
+      this.setState({
+        cid: [this.cid,country]
+      })
+    }
   }
 
   handlerClick = () => {
@@ -135,8 +148,8 @@ export default class Dashboard extends React.Component {
     return (
       <div className="dashboard-container">
         <header className="dashboard">
-          <div className="dashboard-title">
-            Dashboard
+        <div className="dashboard-title">
+          Travel map
         </div>
           <div className='profile'>
             <button
@@ -166,19 +179,21 @@ export default class Dashboard extends React.Component {
         </header>
         <div className="layout">
           <main className="main-content">
-            <Map lat={lat} lon={lon} country={countrys} setMainState={this.setMainState.bind(this)} />
+            <Map lat={ lat } lon={ lon } country={ countrys } setMainState={this.setMainState.bind(this)} cid={this.state.cid}/>
           </main>
           <aside className="sidebar">
-            <Sidebar country={countrys} setMainState={this.setMainState.bind(this)} />
+            <Sidebar country={ countrys } setMainState={this.setMainState.bind(this)} setAddMarker={(id,country)=>this.addMarkerOnMap(id,country)}/>
           </aside>
           <Uploader country={this.state.country}
-            showUploader={this.state.openWindow}
-            images={this.state.images}
-            imageTitles={this.state.imageTitles}
-            showGaleria={this.state.showGaleria}
-            uploaderHeight={this.state.uploaderHeight}
-            id={this.state.id}
-            clearCountry={this.clearCountry.bind(this)} />
+                    showUploader={this.state.openWindow}
+                    images={this.state.images}
+                    imageTitles={this.state.imageTitles}
+                    showGaleria={this.state.showGaleria}
+                    openWindow={this.state.openWindow}
+                    uploaderHeight={this.state.uploaderHeight}
+                    id={this.state.id}
+                    clearCountry={this.clearCountry.bind(this)}
+                    onClickChangeOpenWidow={this.onClickChangeOpenWidow.bind(this)}/>
         </div>
       </div>
     )

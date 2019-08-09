@@ -37,7 +37,44 @@
 	color: #323232;
 	display: flex;
 	justify-content: space-between;
-	padding: 6px 25px;
+	padding: 16px 25px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.item:hover{
+	transform: translateY(-3px);
+	box-shadow: 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
+	cursor: pointer;
+	text-shadow: 
+		-0   -2px 0   #FFFFFF,
+		 0   -2px 0   #FFFFFF,
+		-0    2px 0   #FFFFFF,
+		 0    2px 0   #FFFFFF,
+		-2px -0   0   #FFFFFF,
+		 2px -0   0   #FFFFFF,
+		-2px  0   0   #FFFFFF,
+		 2px  0   0   #FFFFFF,
+		-1px -2px 0   #FFFFFF,
+		 1px -2px 0   #FFFFFF,
+		-1px  2px 0   #FFFFFF,
+		 1px  2px 0   #FFFFFF,
+		-2px -1px 0   #FFFFFF,
+		 2px -1px 0   #FFFFFF,
+		-2px  1px 0   #FFFFFF,
+		 2px  1px 0   #FFFFFF,
+		-2px -2px 0   #FFFFFF,
+		 2px -2px 0   #FFFFFF,
+		-2px  2px 0   #FFFFFF,
+		 2px  2px 0   #FFFFFF,
+		-2px -2px 0   #FFFFFF,
+		 2px -2px 0   #FFFFFF,
+		-2px  2px 0   #FFFFFF,
+		 2px  2px 0   #FFFFFF;
+	/* text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15); */
+	transition: transform 0.2s ease-in;
+}
+
+.item:active{
+	box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
 }
 
 .item-country {
@@ -57,7 +94,7 @@
 .icon-add {
 	background: url('../../source/plus.svg') no-repeat center/contain;
 	display: block;
-	width: 18px;
-	height: 18px;
+	width: 28px;
+	height: 28px;
 	transition: opacyti 0.15s ease-in;
 }
