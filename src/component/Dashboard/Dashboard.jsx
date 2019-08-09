@@ -59,11 +59,11 @@ export default class Dashboard extends Component {
     })
   }
 
-  addMarkerOnMap(id){
+  addMarkerOnMap(id,country){
     if(this.cid!==id){
       this.cid = id;
       this.setState({
-        cid: this.cid
+        cid: [this.cid,country]
       })
     }
   }
@@ -131,7 +131,7 @@ export default class Dashboard extends Component {
             <Map lat={ latitude } lon={ longitude } country={ country } setMainState={this.setMainState.bind(this)} cid={this.state.cid}/>
           </main>
           <aside className="sidebar">
-            <Sidebar country={ country } setMainState={this.setMainState.bind(this)} setAddMarker={(id)=>this.addMarkerOnMap(id)}/>
+            <Sidebar country={ country } setMainState={this.setMainState.bind(this)} setAddMarker={(id,country)=>this.addMarkerOnMap(id,country)}/>
           </aside>
         </div>
       </div>

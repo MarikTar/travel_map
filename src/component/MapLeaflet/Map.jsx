@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { divIcon, marker } from "leaflet";
-import { Map, TileLayer, GeoJSON, LayersControl } from 'react-leaflet';
+import { Map, TileLayer, GeoJSON, Marker } from 'react-leaflet';
 import MapGeo from './map.geo.json';
 import ServiceGeoCordinate from '../../Services/ServiceGeoCordinats';
 import './map.css';
@@ -23,6 +23,7 @@ export default class MapLeaFlet extends Component {
   });
 
   buttonAddPhoto = null;
+  cid = null;
 
   state = {
     lat: 55,
@@ -31,14 +32,17 @@ export default class MapLeaFlet extends Component {
     countrys: null,
     openWindow: false,
     zoom: 2,
+    markAddPhoto: [],
+    country: null,
   }
 
   componentWillUpdate(nextProps, nextState) {
     const { lat, lon, country, cid } = nextProps;
     const { marks } = this.state;
 
-    if (cid) {
-      this.test(cid)
+    if (this.cid !== cid && cid) {
+      this.cid = cid;
+      this.onClickAddCustomElement(this.cid)
     }
 
     if (lat !== this.props.lat && lon !== this.props.lon) {
@@ -85,45 +89,27 @@ export default class MapLeaFlet extends Component {
       })
     }
   }
-  test(id) {
-    console.log('test', id)
-  }
 
   onClickAddCustomElement(evt) {
-    if (evt.layer.feature) {
-      const countryId = evt.layer.feature.id;
-      const country = evt.layer.feature.properties.name;
+    if (Array.isArray(evt)) {
+      this.onClickChangeCoordinateMarker(evt[0], evt[1])
+    } else {
+      this.onClickChangeCoordinateMarker(evt.layer.feature.id, evt.layer.feature.properties.name)
+    }
+  }
 
-      if (this.buttonAddPhoto) {
-        this.buttonAddPhoto.remove();
-      }
-
-      this.serviceGeoCordinate
-        .getCordinates(countryId)
-        .then(cordinates => {
-          this.buttonAddPhoto = marker(cordinates, { icon: this.customIconMarker })
-          this.buttonAddPhoto.addTo(evt.target);
-          const addPhoto = document.getElementById('addPhoto');
-          addPhoto.addEventListener('click', (evt) => {
-            evt.stopPropagation();
-            this.props.setMainState(country)
-          })
-          this.setState({
-            lat: cordinates[0],
-            lng: cordinates[1],
-            zoom: 4,
-          })
-        })
-      .catch(() => {
-        this.buttonAddPhoto = marker([evt.latlng.lat, evt.latlng.lng], { icon: this.customIconMarker })
-        this.buttonAddPhoto.addTo(evt.target);
-        const addPhoto = document.getElementById('addPhoto');
-        addPhoto.addEventListener('click', (evt) => {
-          evt.stopPropagation();
-          this.props.setMainState(country)
+  onClickChangeCoordinateMarker(id, country) {
+    this.serviceGeoCordinate
+      .getCordinates(id)
+      .then(cordinates => {
+        this.setState({
+          country: country,
+          lat: cordinates[0],
+          lng: cordinates[1],
+          markAddPhoto: [cordinates],
+          zoom: 3,
         })
       })
-    }
   }
 
   render() {
@@ -146,8 +132,18 @@ export default class MapLeaFlet extends Component {
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut.bind(this)}
           onClick={this.onClickAddCustomElement.bind(this)}
-        />     
-      </Map>
+        />
+        {this.state.markAddPhoto.map((position, id) =>
+
+          <Marker
+            position={position}
+            key={id}
+            icon={this.customIconMarker}
+            onclick={() => this.props.setMainState(this.state.country)}
+          />
+        )
+        }
+      </Map >
     )
   }
 }

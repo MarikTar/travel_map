@@ -15,8 +15,8 @@ export default class CountryList extends React.Component {
 	openWindow (country) {
 		this.props.setMainState(country);
 	}
-	addMarker(id){
-		this.props.setAddMarker(id);
+	addMarker(id,country){
+		this.props.setAddMarker(id,country);
 	}
 
 	filterCountries(event) {
@@ -90,7 +90,7 @@ class Country extends React.Component {
 	}
 	onClick()
 	{
-		this.props.addMarker(this.props.id)
+		this.props.addMarker(this.props.id,this.props.country)
 	}
 	onAdd() {
 		this.props.openWindow(this.props.country)
