@@ -107,7 +107,7 @@ export default class MapLeaFlet extends Component {
           lat: cordinates[0],
           lng: cordinates[1],
           markAddPhoto: [cordinates],
-          zoom: 3,
+          zoom: 4,
         })
       })
       .catch(()=>{

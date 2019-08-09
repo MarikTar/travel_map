@@ -80,7 +80,7 @@ class Country extends React.Component {
 	onMouseOver(){
 		const flag = `https://restcountries.eu/data/${this.props.id.toLowerCase()}.svg`
 		this.setState({
-			background: `url(${flag}) no-repeat left center/contain`// cover/contain
+			background: `url(${flag}) no-repeat center center/auto 100px`// cover/contain no-repeat right center/10% auto
 		})
 	}
 	onMouseOut(){
