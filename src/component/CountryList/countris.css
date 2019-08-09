@@ -39,6 +39,13 @@
 	justify-content: space-between;
 	padding: 6px 25px;
 }
+.item:hover{
+	transform: translateY(-3px);
+	box-shadow: 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
+	cursor: pointer;
+
+	transition: transform 0.2s ease-in
+}
 
 .item-country {
 	transition: transform 0.15s ease-in;

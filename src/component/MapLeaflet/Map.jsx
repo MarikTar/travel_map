@@ -30,6 +30,7 @@ export default class MapLeaFlet extends Component {
     marks: [],
     countrys: null,
     openWindow: false,
+    zoom: 2,
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -80,6 +81,9 @@ export default class MapLeaFlet extends Component {
       })
     }
   }
+  test(id){
+    console.log('test', id)
+  }
 
   onClickAddCustomElement(evt) {
     if (evt.layer.feature) {
@@ -103,6 +107,7 @@ export default class MapLeaFlet extends Component {
           this.setState({
             lat: cordinates[0],
             lng: cordinates[1],
+            zoom: 4,
           })
         })
         .catch(() => {
@@ -123,7 +128,7 @@ export default class MapLeaFlet extends Component {
       <Map
         className="map"
         center={position}
-        zoom={3}
+        zoom={this.state.zoom}
         maxBounds={[[90, -180], [-70, 180]]}
       >
         <TileLayer

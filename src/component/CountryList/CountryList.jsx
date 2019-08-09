@@ -15,6 +15,9 @@ export default class CountryList extends React.Component {
 	openWindow (country) {
 		this.props.setMainState(country);
 	}
+	addMarker(id){
+		this.props.setAddMarker(id.toLowerCase());
+	}
 
 	filterCountries(event) {
 		let filtertext = event.target.value.trim();
@@ -48,9 +51,11 @@ export default class CountryList extends React.Component {
 							if (countrys.properties.name.toLowerCase().indexOf(this.state.filter) !== -1) {
 								return(
 									<Country
+										id={countrys.id}
 										country={countrys.properties.name}
 										key={countrys.properties.name}
 										openWindow={this.openWindow.bind(this)}
+										addMarker={this.addMarker.bind(this)}
 									/>
 								)
 							} else {
@@ -65,12 +70,41 @@ export default class CountryList extends React.Component {
 }
 
 class Country extends React.Component {
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			background: 'none'
+		}
+	}
+	onMouseOver(){
+		const flag = `https://restcountries.eu/data/${this.props.id.toLowerCase()}.svg`
+		this.setState({
+			background: `url(${flag}) no-repeat left center/contain`
+		})
+	}
+	onMouseOut(){
+		this.setState({
+			background: 'none'
+		})
+	}
+	onClick()
+	{
+		this.props.addMarker(this.props.id)
+	}
 	onAdd() {
 		this.props.openWindow(this.props.country)
 	}
 	render() {
 		return (
-			<div className="item">
+			<div className="item" 
+				style={{
+					background: this.state.background,
+					backgroundSize: 'contain'
+				}} 
+				onClick={this.onClick.bind(this)}
+				onMouseOver={()=>this.onMouseOver()}
+				onMouseOut={()=>this.onMouseOut()}>
 				<span className="item-country">{this.props.country}</span>
 				<AddPhoto add={this.onAdd.bind(this)} />
 			</div>

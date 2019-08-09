@@ -87,7 +87,7 @@ export default class Dashboard extends Component {
       <div className="dashboard-container">
         <header className="dashboard">
         <div className="dashboard-title">
-          Dashboard
+          Travel map
         </div>
         <div className='profile'>
           <button 
@@ -117,10 +117,10 @@ export default class Dashboard extends Component {
       </header>
         <div className="layout">
           <main className="main-content">
-            <Map lat={ latitude } lon={ longitude } country={ country } setMainState={this.setMainState.bind(this)}/>
+            <Map lat={ latitude } lon={ longitude } country={ country } setMainState={this.setMainState.bind(this)} test={'asd'}/>
           </main>
           <aside className="sidebar">
-            <Sidebar country={ country } setMainState={this.setMainState.bind(this)}/>
+            <Sidebar country={ country } setMainState={this.setMainState.bind(this)} setAddMarker={(id)=>console.log('setAddMarker',id)}/>
           </aside>
         </div>
       </div>
