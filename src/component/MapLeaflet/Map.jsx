@@ -39,7 +39,7 @@ export default class MapLeaFlet extends Component {
   componentWillUpdate(nextProps, nextState) {
     const { lat, lon, country, cid } = nextProps;
     const { marks } = this.state;
-
+    
     if (this.cid !== cid && cid) {
       this.cid = cid;
       this.onClickAddCustomElement(this.cid)
@@ -92,13 +92,13 @@ export default class MapLeaFlet extends Component {
 
   onClickAddCustomElement(evt) {
     if (Array.isArray(evt)) {
-      this.onClickChangeCoordinateMarker(evt[0], evt[1])
+      this.changeCoordinateMarker(evt[0], evt[1])
     } else {
-      this.onClickChangeCoordinateMarker(evt.layer.feature.id, evt.layer.feature.properties.name)
+      this.changeCoordinateMarker(evt.layer.feature.id, evt.layer.feature.properties.name)
     }
   }
 
-  onClickChangeCoordinateMarker(id, country) {
+  changeCoordinateMarker(id, country) {
     this.serviceGeoCordinate
       .getCordinates(id)
       .then(cordinates => {
@@ -110,6 +110,16 @@ export default class MapLeaFlet extends Component {
           zoom: 3,
         })
       })
+      .catch(()=>{
+        this.setState({
+          country: country,
+          markAddPhoto: [],
+          zoom: 2,
+        })
+      })
+  }
+  test(evt){
+    console.log(evt.target)
   }
 
   render() {
@@ -134,15 +144,13 @@ export default class MapLeaFlet extends Component {
           onClick={this.onClickAddCustomElement.bind(this)}
         />
         {this.state.markAddPhoto.map((position, id) =>
-
           <Marker
             position={position}
             key={id}
             icon={this.customIconMarker}
-            onclick={() => this.props.setMainState(this.state.country)}
+            onClick={() => this.props.setMainState(this.state.country)}
           />
-        )
-        }
+        )}
       </Map >
     )
   }
