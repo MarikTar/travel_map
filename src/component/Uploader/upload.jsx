@@ -99,9 +99,11 @@ export default class Upload extends React.Component {
             });
         }
         let images = [...propImages,...this.state.images];  
+        console.log("some log");
+        
         return (
            <div className="uploader" 
-                style={{display: this.state.openWindow ? "block" : "none",}}>
+                style={{display: this.state.openWindow ? "flex" : "none",}}>
                <button onClick={() => this.closeUploader()} id="close-uploader">✖</button>{/*✖ ⚔ ⚔️*/}
                 <div id="upload-container" 
                     style={{

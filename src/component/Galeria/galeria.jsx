@@ -2,7 +2,7 @@ import React from 'react';
 import Item from './item';
 
 import './galeria.css';
-import Loader from './loader.gif'
+import Loader from '../../source/loader.gif'
 
 window.URL = window.URL || window.webkitURL;
 
@@ -35,7 +35,7 @@ export default class Galeria extends React.Component {
 
     render() {
         return ( 
-            !this.props.showGaleria ? <img src={Loader} alt="Loader"/> :
+            !this.props.showGaleria ? <img src={Loader} alt="Loader" className="loader"/> :
             <div className='galeria'>
                 {this.state.images.map((image, index) => 
                     <Item image={image.image}

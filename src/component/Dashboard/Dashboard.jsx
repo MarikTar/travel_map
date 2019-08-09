@@ -9,6 +9,7 @@ import ServiceDB from '../../Services/ServiceDB';
 import Uploader from '../Uploader/upload';
 
 import './dashboard.css';
+import { async } from 'q';
 window.URL = window.URL || window.webkitURL;
 export default class Dashboard extends React.Component {
   static propTypes = {
@@ -36,66 +37,54 @@ export default class Dashboard extends React.Component {
     this.uid = props.user.uid;
   }
 
-  
+
   componentDidMount() {
     this.serviceDB.getDataGpsFromDB(this.updateGpsData, null);
     this.serviceDB.getCountriesFromDB(this.updateCountrys, this.state.countrys);
   }
 
   clearCountry(country) {
-    console.log(country);
-    
+    // console.log(country);
+
   }
 
-  setMainState = (country, id) => {
+  setMainState = async (country, id) => {
     const countrys = this.state.countrys;
     countrys.push(country);
     this.setState({
-        country: country,
-        countrys: countrys,
-        openWindow: true,
-        images: [],
-        imageTitles: [],
-        uploaderHeight: '100%',
-        id
+      country: country,
+      countrys: countrys,
+      openWindow: true,
+      images: [],
+      imageTitles: [],
+      uploaderHeight: '100%',
+      id
     });
     const user = FireBase.firebase.auth().currentUser;
     const storage = FireBase.firebase.storage();
     const imagesDir = storage.ref(`user/cloud-photos/${user.uid}/${country}`);
     let images = [];
     let titles = [];
-    imagesDir.listAll().then(list => {
-      let items = list.items;
-      if(items.length > 0) {
-        this.setState({
-          showGaleria: false,
-          uploaderHeight: '100px'
+    const listAll = await imagesDir.listAll().then();
+    if (listAll.items.length > 0) {
+      this.setState({
+        showGaleria: false,
+        uploaderHeight: '100px'
+      });
+      for (let i = 0; i < listAll.items.length; i += 1) {
+        const element = storage.ref(listAll.items[i].fullPath);
+        await element.getDownloadURL().then(url => {
+          images[i] = url;
+          titles[i] = listAll.items[i].name;
         });
-        for (let i = 0; i < items.length; i += 1) {
-          const element = storage.ref(items[i].fullPath);
-          element.getMetadata().then(data => {
-            titles[i] = data.name;
-            this.setState({
-              imageTitles: titles
-            })
-          });
-  
-          element.getDownloadURL()
-          .then(url => {
-            images[i] = url;
-            this.setState({
-              images: images
-            });
-          })
-          .then(() => {
-            this.setState({
-              showGaleria: true
-            });
-          });
-        } 
       }
-    })
-    .catch(err => console.log(err));
+      this.setState({
+        imageTitles: titles,
+        images: images,
+        showGaleria: true
+      });
+
+    }
   }
 
   updateGpsData = (loading, lat, lon, country) => {
@@ -115,7 +104,7 @@ export default class Dashboard extends React.Component {
   updateCountrys = countrys => {
     this.setState({
       countrys
-    }); 
+    });
   }
 
   handlerClick = () => {
@@ -125,7 +114,7 @@ export default class Dashboard extends React.Component {
   handlerChange = evt => {
     const files = Array.from(evt.target.files);
     files.forEach(file => this.uploadPhotos(file));
-    this.setState({loading: true});
+    this.setState({ loading: true });
   }
 
   uploadPhotos(file) {
@@ -146,50 +135,50 @@ export default class Dashboard extends React.Component {
     return (
       <div className="dashboard-container">
         <header className="dashboard">
-        <div className="dashboard-title">
-          Dashboard
+          <div className="dashboard-title">
+            Dashboard
         </div>
-        <div className='profile'>
-          <button 
-            type="button" 
-            className="upload-photos"
-            onClick={ this.handlerClick }
-          >
-            <span className="upload-icon" />
-            <span className="upload-photos-label">Upload Files</span>
-            { loading ? <span className="upload-loading" /> : null }
-          <input 
-            type="file" 
-            multiple
-            className="input-file"
-            onChange={ this.handlerChange }
-            ref={ this.fileInput }
-          />
+          <div className='profile'>
+            <button
+              type="button"
+              className="upload-photos"
+              onClick={this.handlerClick}
+            >
+              <span className="upload-icon" />
+              <span className="upload-photos-label">Upload Files</span>
+              {loading ? <span className="upload-loading" /> : null}
+              <input
+                type="file"
+                multiple
+                className="input-file"
+                onChange={this.handlerChange}
+                ref={this.fileInput}
+              />
+            </button>
+            <ProfileUser user={this.props.user} />
+            <button
+              className="btn-logout"
+              onClick={() => FireBase.firebase.auth().signOut()}
+            >
+              Log out
           </button>
-          <ProfileUser user={ this.props.user } />
-          <button 
-            className="btn-logout" 
-            onClick={ () => FireBase.firebase.auth().signOut() }
-          >
-            Log out
-          </button>
-        </div>
-      </header>
+          </div>
+        </header>
         <div className="layout">
           <main className="main-content">
-            <Map lat={ lat } lon={ lon } country={ countrys } setMainState={this.setMainState.bind(this)}/>
+            <Map lat={lat} lon={lon} country={countrys} setMainState={this.setMainState.bind(this)} />
           </main>
           <aside className="sidebar">
-            <Sidebar country={ countrys } setMainState={this.setMainState.bind(this)}/>
+            <Sidebar country={countrys} setMainState={this.setMainState.bind(this)} />
           </aside>
           <Uploader country={this.state.country}
-                    showUploader={this.state.openWindow}
-                    images={this.state.images}
-                    imageTitles={this.state.imageTitles}
-                    showGaleria={this.state.showGaleria}
-                    uploaderHeight={this.state.uploaderHeight}
-                    id={this.state.id}
-                    clearCountry={this.clearCountry.bind(this)}/>
+            showUploader={this.state.openWindow}
+            images={this.state.images}
+            imageTitles={this.state.imageTitles}
+            showGaleria={this.state.showGaleria}
+            uploaderHeight={this.state.uploaderHeight}
+            id={this.state.id}
+            clearCountry={this.clearCountry.bind(this)} />
         </div>
       </div>
     )

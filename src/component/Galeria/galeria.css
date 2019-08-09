@@ -1,3 +1,8 @@
+.loader {
+    flex-basis: 100%;
+    text-align: center
+}
+
 .galeria .photo {
     position: relative;
     display: inline-block;
