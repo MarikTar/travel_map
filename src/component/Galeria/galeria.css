@@ -1,6 +1,11 @@
 .loader {
-    flex-basis: 100%;
-    text-align: center
+    align-self: center;
+}
+
+.galeria {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .galeria .photo {
@@ -37,7 +42,6 @@
     text-align: center;
 }
 .pop-image img {
-    z-index: 10000;
     max-width: 500px;
     position: absolute;
     top: 50%;

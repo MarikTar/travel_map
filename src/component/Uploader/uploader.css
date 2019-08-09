@@ -4,12 +4,11 @@
 
 .uploader{
     position: absolute;
-    top: calc(10% + 1px);
-    left: 300px;
+    top: 9.3%;
     background: #fff;
-    width: calc(100% - 300px);
+    width: 100%;
     overflow: auto;
-    height: calc(90vh);
+    height: calc(90.7vh);
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
