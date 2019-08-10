@@ -22,12 +22,13 @@
     padding: 5px 15px
 }
 
-.backgroundSVG{
+/* .backgroundSVG{
     position: absolute;
     top: 0;
-    width: 0;
-    height: 0;
-}
+    width: 1000px;
+    height: 500px;
+} */
+
 
 .leaflet-marker-pane {
     animation: pulsate 1s ease-in-out 3;

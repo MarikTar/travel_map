@@ -13,7 +13,7 @@ export default class MapLeaFlet extends Component {
     country: PropTypes.array
   }
 
-  countrys = ['UKR', 'BLR', 'USA','RUS'];
+  countrys = [];
   serviceGeoCordinate = new ServiceGeoCordinate();
   customIconMarker = divIcon({
     html: `<div id="pin"><button id="addPhoto"></button></div>`,
@@ -70,7 +70,7 @@ export default class MapLeaFlet extends Component {
   }
 
   markedСountries(id) {
-    return this.countrys.includes(id) ? `url("#imgpattern_${id}")` : 'grey';
+    return this.countrys.includes(id) ? '#41A6F1' : 'grey';
   }
 
   onMouseOut(evt) {
@@ -90,8 +90,9 @@ export default class MapLeaFlet extends Component {
       ctx.setStyle({
         weight: 3,
         color: '#666',
-        fillColor: '#41A6F1', //'url("#imgpattern")'
-        fillOpacity: 0.7,
+        fillColor: '#fff',
+        //fillColor: '#41A6F1', //'url("#imgpattern")'  '#41A6F1'
+        fillOpacity: 0.6,
       })
     }
   }
@@ -117,18 +118,23 @@ export default class MapLeaFlet extends Component {
       })
   }
 
-  createBackgroundFlag(id) {
-    return (
-      <svg className="backgroundSVG" key={id}>
-        <defs>
-          <pattern id={`imgpattern_${id}`}  width="100%" height="100%">
-            <image preserveAspectRatio="xMidYMin meet"
-              xlinkHref={`https://restcountries.eu/data/${id.toLowerCase()}.svg`} />
-          </pattern>
-        </defs>
-      </svg>
-    )
-  }
+  // createBackgroundFlag(id) {
+  //   return (
+  //     <svg className="backgroundSVG" key={id} style={{
+  //       position: "absolute",
+  //       top: '0',
+  //       height: '100%',
+  //       width: '100%',
+  //     }}>
+  //       <defs>
+  //         <pattern id={`imgpattern_${id}`}  width="1" height="1">
+  //           <image width='100%' /*preserveAspectRatio="xMidYMin meet"*/
+  //             xlinkHref={`https://restcountries.eu/data/${id.toLowerCase()}.svg`} />
+  //         </pattern>
+  //       </defs>
+  //     </svg>
+  //   )
+  // }
 
   render() {
     const position = [this.state.lat, this.state.lng];
@@ -164,7 +170,7 @@ export default class MapLeaFlet extends Component {
           )}
         </Map >
         <div className="showCountry">{this.state.country}</div>
-        {this.countrys.map((flag) => this.createBackgroundFlag(flag))}
+        {/* {this.countrys.map((flag) => this.createBackgroundFlag(flag))} */}
         {/* <svg className="backgroundSVG">
           <defs>
             <pattern id="imgpattern" x="0" y="0" width="1" height="1">
