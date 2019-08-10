@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { divIcon, marker } from "leaflet";
-import { Map, TileLayer, GeoJSON, Marker } from 'react-leaflet';
+import { Map, TileLayer, GeoJSON, Marker, } from 'react-leaflet';
 import MapGeo from './map.geo.json';
 import ServiceGeoCordinate from '../../Services/ServiceGeoCordinats';
 import './map.css';
@@ -13,7 +13,7 @@ export default class MapLeaFlet extends Component {
     country: PropTypes.array
   }
 
-  countrys = [];
+  countrys = ['UKR', 'BLR', 'USA','RUS'];
   serviceGeoCordinate = new ServiceGeoCordinate();
   customIconMarker = divIcon({
     html: `<div id="pin"><button id="addPhoto"></button></div>`,
@@ -29,129 +29,151 @@ export default class MapLeaFlet extends Component {
     lat: 55,
     lng: 10,
     marks: [],
-    countrys: null,
+    countrys: [],
     openWindow: false,
     zoom: 2,
-    markAddPhoto: [],
+    markAddPhoto: [], //show arrow markers(only 1 marker in)
     country: null,
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { lat, lon, country, cid } = nextProps;
-    const { marks } = this.state;
-    
+    const { lat, lon, country, cid } = nextProps;// ? lat, lon, country
+    //  ? const { marks } = this.state;
+
     if (this.cid !== cid && cid) {
       this.cid = cid;
-      this.onClickAddCustomElement(this.cid)
+      this.onClickAddCustomElement(cid)
     }
 
-    if (lat !== this.props.lat && lon !== this.props.lon) {
-      this.setState({
-        marks: [
-          ...marks,
-          [lat, lon]
-        ]
-      });
-    }
-
+    //  ?
+    // if (lat !== this.props.lat && lon !== this.props.lon) {
+    //   this.setState({
+    //     marks: [
+    //       ...marks,
+    //       [lat, lon]
+    //     ]
+    //   });
+    // }
     if (country !== this.props.country) {
       this.countrys = country;
     }
   }
 
-  layerStyled({ properties }) {
-    const country = properties.name;
+  layerStyled({ id }) {
     return {
       color: '#000',
       fill: true,
-      fillColor: 'gray',
+      fillColor: this.markedСountries(id),
       weight: 1.5,
-      fillOpacity: this.markedСountries(country)
+      fillOpacity: 0.8
     }
   }
 
-  markedСountries(country) {
-    return this.countrys.includes(country) ? 0.2 : 0.8;
+  markedСountries(id) {
+    return this.countrys.includes(id) ? `url("#imgpattern_${id}")` : 'grey';
   }
 
   onMouseOut(evt) {
     evt.target.resetStyle(evt.layer);
+    this.setState({
+      country: null,
+    })
   }
 
   onMouseOver(evt) {
     const ctx = evt.layer;
+    const countryHover = ctx.feature.properties.name
+    this.setState({
+      country: countryHover,
+    })
     if (typeof ctx.setStyle === 'function') {
       ctx.setStyle({
         weight: 3,
         color: '#666',
-        fillColor: '#41A6F1',
+        fillColor: '#41A6F1', //'url("#imgpattern")'
         fillOpacity: 0.7,
       })
     }
   }
 
-  onClickAddCustomElement(evt) {
-    if (Array.isArray(evt)) {
-      this.changeCoordinateMarker(evt[0], evt[1])
-    } else {
-      this.changeCoordinateMarker(evt.layer.feature.id, evt.layer.feature.properties.name)
-    }
-  }
-
-  changeCoordinateMarker(id, country) {
+  onClickAddCustomElement(id) {
     this.serviceGeoCordinate
       .getCordinates(id)
       .then(cordinates => {
         this.setState({
-          country: country,
+          cid: id,
           lat: cordinates[0],
           lng: cordinates[1],
           markAddPhoto: [cordinates],
           zoom: 4,
         })
       })
-      .catch(()=>{
+      .catch(() => {
         this.setState({
-          country: country,
+          cid: id,
           markAddPhoto: [],
           zoom: 2,
         })
       })
   }
-  test(evt){
-    console.log(evt.target)
+
+  createBackgroundFlag(id) {
+    return (
+      <svg className="backgroundSVG" key={id}>
+        <defs>
+          <pattern id={`imgpattern_${id}`}  width="100%" height="100%">
+            <image preserveAspectRatio="xMidYMin meet"
+              xlinkHref={`https://restcountries.eu/data/${id.toLowerCase()}.svg`} />
+          </pattern>
+        </defs>
+      </svg>
+    )
   }
 
   render() {
     const position = [this.state.lat, this.state.lng];
     return (
-      <Map
-        className="map"
-        center={position}
-        zoom={this.state.zoom}
-        maxBounds={[[90, -180], [-70, 180]]}
-      >
-        <TileLayer
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-          minZoom={2}
-          maxZoom={5}
-        />
-        <GeoJSON
-          data={MapGeo}
-          style={this.layerStyled.bind(this)}
-          onMouseOver={this.onMouseOver}
-          onMouseOut={this.onMouseOut.bind(this)}
-          onClick={this.onClickAddCustomElement.bind(this)}
-        />
-        {this.state.markAddPhoto.map((position, id) =>
-          <Marker
-            position={position}
-            key={id}
-            icon={this.customIconMarker}
-            onClick={() => this.props.setMainState(this.state.country)}
+      <React.Fragment>
+        <Map
+          className="map"
+          center={position}
+          zoom={this.state.zoom}
+          maxBounds={[[90, -180], [-70, 180]]}
+        >
+          <TileLayer
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+            minZoom={2}
+            maxZoom={5}
           />
-        )}
-      </Map >
+          <GeoJSON
+            data={MapGeo}
+            style={this.layerStyled.bind(this)}
+            onMouseOver={this.onMouseOver.bind(this)}
+            onMouseOut={this.onMouseOut.bind(this)}
+            onClick={(evt) => this.onClickAddCustomElement(evt.layer.feature.id)}
+          >
+
+          </GeoJSON>
+          {this.state.markAddPhoto.map((position, id) =>
+            <Marker
+              position={position}
+              key={id}
+              icon={this.customIconMarker}
+              onClick={() => this.props.setMainState(this.state.cid)}
+            />
+          )}
+        </Map >
+        <div className="showCountry">{this.state.country}</div>
+        {this.countrys.map((flag) => this.createBackgroundFlag(flag))}
+        {/* <svg className="backgroundSVG">
+          <defs>
+            <pattern id="imgpattern" x="0" y="0" width="1" height="1">
+              <image width="100" height="250"
+                xlinkHref="https://restcountries.eu/data/qat.svg" />
+            </pattern>
+          </defs>
+        </svg> */}
+      </React.Fragment>
     )
   }
 }
