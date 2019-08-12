@@ -17,12 +17,12 @@ export default class ProfileUser extends Component {
   state = {
     pictureFile: null,
     defaultAvatar: null,
-    updateFile: false, 
+    updateFile: false,
     cropperOpen: false,
     img: null,
     zoom: 1,
     isOpen: false
-   };
+  };
 
   componentDidMount() {
     if (!this.state.defaultAvatar && !this.props.user.photoURL) {
@@ -80,11 +80,11 @@ export default class ProfileUser extends Component {
   };
 
   handlerZoomSlider = value => {
-    this.setState({zoom: value});
+    this.setState({ zoom: value });
   };
 
   handlerResetZommSlider = () => {
-    this.setState({zoom: 1});
+    this.setState({ zoom: 1 });
   };
 
   setEditorRef = editor => this.editor = editor;
@@ -99,7 +99,7 @@ export default class ProfileUser extends Component {
 
   setDefaultAvatar = url => {
     if (url) {
-      this.setState({defaultAvatar: url});
+      this.setState({ defaultAvatar: url });
     }
   }
 
@@ -129,18 +129,18 @@ export default class ProfileUser extends Component {
           type="button"
           title="add profile photo"
           className="upload-file profile-avatar"
-          onClick={ this.handlerClick }
-        > 
+          onClick={this.handlerClick}
+        >
           <span className="profile-avatar-label">Add</span>
           { !(defaultAvatar || photoURL) ? <span className="upload-loading" /> : <img src={ !photoURL ? defaultAvatar : photoURL } alt="add profile"/> }
         </button>
         <input
           accept="image/jpeg,image/png"
           type="file"
-          multiple={ false }
+          multiple={false}
           className="input-file"
-          onChange={ this.handlerChange }
-          ref={ this.fileInput }
+          onChange={this.handlerChange}
+          ref={this.fileInput}
         />
       </>
     )

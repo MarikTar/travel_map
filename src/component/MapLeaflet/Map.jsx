@@ -140,18 +140,18 @@ export default class MapLeaFlet extends Component {
 
   render() {
     const position = [this.state.lat, this.state.lng];
-
+            
     return (
-      <Map 
-        className="map" 
-        center={position} 
-        zoom={ 3 }
-        maxBounds={ [[90, -180], [-70, 180]] }
+      <Map
+        className="map"
+        center={position}
+        zoom={3}
+        maxBounds={[[90, -180], [-70, 180]]}
       >
         <TileLayer
           url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-          minZoom={ 3 }
-          maxZoom={ 5 }
+          minZoom={2}
+          maxZoom={5}
         />
         <GeoJSON 
           data={ MapGeo } 
