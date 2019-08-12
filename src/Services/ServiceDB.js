@@ -1,9 +1,13 @@
 import FireBase from "../Firebase/FireBase";
 import ServiceFirebaseStore from './ServiceFirebaseStore';
+import store from '../Storage/store';
 
 export default class ServiceDB {
-  uid = FireBase.firebase.auth().currentUser.uid;
   serviceStore = new ServiceFirebaseStore();
+
+  uid = FireBase.firebase.auth().currentUser.uid;
+  user = FireBase.firebase.auth().currentUser;
+  base_url = `users/${this.uid}/photos`;
 
   appealToDB(ref) {
     return FireBase.firebase.database()
@@ -12,39 +16,113 @@ export default class ServiceDB {
     .once("value")
   }
 
-	getDataGpsFromDB(callback, file) {
-		this.appealToDB(`user/cloud-photos/${this.uid}`)
+	getDataGpsFromDB(updateGpsLocation, file, id) {
+		this.appealToDB(`${this.base_url}`)
       .then(snapshot => {
-        const data = snapshot.val();
-
-        if (!data || !data.location) {
-          return;
-        }
-
-        Object.values(data.location).forEach(({ city, country, lat, lon }) => {
-          callback(false, lat, lon, country);
+        const { location } = snapshot.val() || {};
+        const data = {};
+        
+        if (location) {
+          Object.values(location).forEach(item => { //({ lat, lon, ...code })
+          for (let key in item) {
+            if (key.includes('code_')) {
+              data['id'] = item[key];
+            } else {
+              data[key] = item[key];
+            }
+          }
 
           if (file) {
-            this.serviceStore.addFileStore(country, file)
+            this.serviceStore.addFileStore(id, file)
           }
-        });
+        })
+        }
+
+        updateGpsLocation(
+          false,
+          data,
+          true
+        );
       }, error => console.log(error));
   }
   
-  setCountryAtDB(country, id) {
-    FireBase.firebase.database().ref(`user/cloud-photos/${this.uid}/countrys`)
-			.update({[`country-${id.toLowerCase()}`]: country});
+  checkForId(update, id) {
+    FireBase.firebase.database()
+		.ref()
+		.child(`${this.base_url}`)
+		.once('value')
+		.then(snaphot => {
+			const data = snaphot.val();
+
+			if (!data) {
+        this.setIDCountry(id);
+			} else {
+        const code  = id.toLowerCase();
+
+        Object.values(data).forEach(item => {
+					if (!item.hasOwnProperty(item[`code_${ code }`])) {
+            this.updateId(id);
+					}
+				});
+      }
+      
+      this.getCountriesFromDB(update);
+		});
+  }
+  
+  setIDCountry(id) {
+    FireBase.firebase.database().ref(`${this.base_url}/location/${id}`)
+			.set(
+        {
+          [`code_${id.toLowerCase()}`]: id
+        }
+      );
   }
 
-  getCountriesFromDB(callback, array) {
-    this.appealToDB(`user/cloud-photos/${this.uid}/countrys`)
+  updateId(id) {
+    FireBase.firebase.database().ref(`${this.base_url}/location/${id}`)
+			.update(
+        {
+          [`code_${id.toLowerCase()}`]: id
+        }
+      );
+  }
+  getCountriesFromDB(callback, countrysID = []) {
+    this.appealToDB(`${this.base_url}/location`)
       .then(snapshot => {
-        const countrys = snapshot.val();
-        if (!countrys) {
-          return;
+        const location = snapshot.val() ? Object.values(snapshot.val()) : [];
+        const a = [];
+
+        if (!location.length) {
+          callback(a, true);
+          return
         }
 
-        callback(array.concat(Object.values(countrys)));
+        location.forEach(item => {
+          a.push(...Object.values(item));
+        });
+
+        callback(a.filter(val => typeof val === 'string'), true);
       });
+  }
+
+  deleteFromLocationDB(
+    { id }, 
+    update, 
+    updateCountryID, 
+    countrysID
+  ) {
+    const codeId = `code_${id.toLowerCase()}`;
+
+    store.forEach(item => {
+      if (!item[codeId] || !item[codeId].length) {
+        FireBase.firebase.database()
+          .ref(`${this.base_url}/location`)
+          .child(id)
+          .remove();
+        this.getCountriesFromDB(updateCountryID, countrysID);
+        update(false, false, false);
+      }
+    });
   }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
-import ServiceFirebaseStore from "../../Services/ServiceFirebaseStore";
+import ServiceFirebaseStore from '../../Services/ServiceFirebaseStore';
 import Modal from '../Modal/Modal';
 
 export default class ProfileUser extends Component {
@@ -9,7 +9,7 @@ export default class ProfileUser extends Component {
     photoURL: PropTypes.object
   };
 
-  FirebaseStore = new ServiceFirebaseStore();
+  serviceStore = new ServiceFirebaseStore();
   fileInput = React.createRef();
   inputFile = React.createRef();
   uid = this.props.user.uid;
@@ -24,13 +24,15 @@ export default class ProfileUser extends Component {
     isOpen: false
    };
 
+  componentDidMount() {
+    if (!this.state.defaultAvatar && !this.props.user.photoURL) {
+      this.serviceStore.getStoreDefaultAvatar(this.setDefaultAvatar);
+    }
+  }
+
   componentWillUpdate(nextProps, nextState, nextContext) {
     if (nextState.pictureFile !== this.state.pictureFile) {
-      this.FirebaseStore.updateProfileUserAvatar(nextState.pictureFile, this.updateUserProfile);
-    }
-
-    if (!nextState.defaultAvatar && !nextProps.user.photoURL) {
-      this.FirebaseStore.getStoreDefaultAvatar(this.setDefaultAvatar);
+      this.serviceStore.updateProfileUserAvatar(nextState.pictureFile, this.updateUserProfile);
     }
   };
 
@@ -130,7 +132,7 @@ export default class ProfileUser extends Component {
           onClick={ this.handlerClick }
         > 
           <span className="profile-avatar-label">Add</span>
-          { !(defaultAvatar || photoURL) ? <span className="upload-loading" /> : <img src={ !photoURL ? defaultAvatar : photoURL } alt="add profile photo"/> }
+          { !(defaultAvatar || photoURL) ? <span className="upload-loading" /> : <img src={ !photoURL ? defaultAvatar : photoURL } alt="add profile"/> }
         </button>
         <input
           accept="image/jpeg,image/png"

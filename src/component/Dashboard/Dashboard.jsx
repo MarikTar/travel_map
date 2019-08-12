@@ -4,14 +4,14 @@ import FireBase from "../../Firebase/FireBase";
 import ProfileUser from "../ProfileUser/ProfileUser";
 import Map from '../MapLeaflet/Map';
 import Sidebar from '../CountryList/CountryList';
-import DropDown from '../DropDown/DropDown';
+import Uploader from '../Uploader/upload';
 import ServiceGPS from '../../Services/ServiceGPS';
 import ServiceDB from '../../Services/ServiceDB';
 import './dashboard.css';
 
 export default class Dashboard extends Component {
   static propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object 
   }
 
   serviceDB = new ServiceDB();
@@ -21,48 +21,71 @@ export default class Dashboard extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      upload: false,
+      uploadData: false,
       lat: 0,
       lon: 0,
-      countrys: [],
-      error: null
+      countrysID: [],
+      error: null,
+      openWindow: false
     }
+    this.countryID = {};
+    this.uploadedFile = false;
     this.fileInput = React.createRef();
     this.uid = this.props.user.uid;
+    this.cid = '';
   }
 
   componentDidMount() {
-    this.serviceDB.getDataGpsFromDB(this.updateGpsData, null);
-    this.serviceDB.getCountriesFromDB(this.updateCountrys, this.state.countrys);
+    this.serviceDB.getDataGpsFromDB(
+      this.updateGpsData, 
+      null
+    );
   }
 
-  setMainState(country, id) {
-    this.serviceDB.setCountryAtDB(country, id);
-    
+  addMarkerOnMap(id){
+    if(this.cid!==id){
+      this.cid = id;
+      this.setState({
+        cid: id
+      })
+    }
+  }
+
+  setMainState = (id) => {
+    this.countryID = {id};
+
     this.setState({
       openWindow: true
     });
+  }
 
-    console.log(country)//получает страну при нажатии add
-}
+  updateGpsData = (
+    upload,
+    { lat, lon, id },
+    uploadData
+  ) => {
 
-  updateGpsData = (loading, lat, lon, country) => {
-    const { countrys } = this.state;
-
-    this.setState({
-      loading,
-      lat,
-      lon,
-      countrys: [
-        ...countrys,
-        country
-      ]
+    this.setState(({ countrysID }) => {
+      return {
+        upload,
+        lat,
+        lon,
+        countrysID: [
+          ...countrysID,
+          id
+        ],
+        uploadData
+      }
     });
   }
 
-  updateCountrys = countrys => {
+  updateCountrys = (id, uploadData) => {
     this.setState({
-      countrys
+      countrysID: [
+        ...id
+      ],
+      uploadData
     }); 
   }
 
@@ -73,28 +96,37 @@ export default class Dashboard extends Component {
   handlerChange = evt => {
     const files = Array.from(evt.target.files);
     files.forEach(file => this.uploadPhotos(file));
-    this.setState({loading: true});
+    this.setState({upload: true});
   }
 
   uploadPhotos(file) {
     this.serviceGps.setGPSCoordinatesDB(file, this.updateGpsData, this.getError);
+    this.uploadedFile = true;
   }
 
   getError = error => {
     if (error) {
       this.setState({
         error,
-        loading: false
+        upload: false
       });
     }
   }
 
-  handlerSlideOutMenu = () => {
-    console.log('foo');
+  closeUploader = () => {
+    this.setState({
+      openWindow: false
+    });
+
+    this.uploadedFile = false;
   }
 
   render() {
-    const { lat, lon, countrys, loading } = this.state;
+    const { lat, lon, countrysID, upload, openWindow } = this.state;
+
+    if (!this.state.uploadData) {
+      return <div>Loading...</div>
+    }
 
     return (
       <div className="dashboard-container">
@@ -113,7 +145,7 @@ export default class Dashboard extends Component {
           >
             <span className="upload-icon" />
             <span className="upload-photos-label">Upload Files</span>
-            { loading ? <span className="upload-loading" /> : null }
+            { upload ? <span className="upload-loading" /> : null }
           <input 
             type="file" 
             multiple
@@ -129,18 +161,24 @@ export default class Dashboard extends Component {
           >
             Log out
           </button>
-          <DropDown
-            onUpload={ this.handlerClick }
-          />
         </div>
       </header>
         <div className="layout">
           <main className="main-content">
-            <Map lat={ lat } lon={ lon } country={ countrys } setMainState={this.setMainState.bind(this)}/>
+            <Map lat={ lat } lon={ lon } countryID={ countrysID } setMainState={ this.setMainState } cid={this.state.cid} />
           </main>
           <aside className="sidebar">
-            <Sidebar country={ countrys } setMainState={this.setMainState.bind(this)}/>
+            <Sidebar countrysID={ this.countryID } setMainState={ this.setMainState } visited={ countrysID } setAddMarker={this.addMarkerOnMap.bind(this)} />
           </aside>
+          <Uploader
+            countryID={ this.countryID }
+            showUploader={ openWindow }
+            user={ this.props.user }
+            onClose={ this.closeUploader }
+            onUpdateCountrys={ this.updateCountrys }
+            countrysID={ countrysID }
+            uploadedFile={ this.uploadedFile }
+          />
         </div>
       </div>
     )

@@ -38,7 +38,6 @@ class App extends Component {
     if (!loaded) {
       return <div>Loading...</div>
     }
-
     return(
       <>
         <Router>

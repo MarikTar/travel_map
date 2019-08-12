@@ -6,7 +6,7 @@ import EXIF from 'exif-js';
 export default class ServiceGPS {
   coordinates = {}
   uid = FireBase.firebase.auth().currentUser.uid;
-  ref = `user/cloud-photos/${this.uid}/location`;
+  ref = `users/${this.uid}/photos/location`;
 
 	getGPS(coordinates) {
     if (!coordinates) {

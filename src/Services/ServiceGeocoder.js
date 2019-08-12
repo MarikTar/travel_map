@@ -13,44 +13,72 @@ export default class ServiceGeocoder {
 		this.uid = FireBase.firebase.auth().currentUser.uid;
 		this.file = file;
 		this.generateId = shortid.generate();
+		this.base_url = `users/${this.uid}/photos`;
 	}
 
-	async getGeocoder(ref, callback, coordinates) {
+	async getGeocoder(ref, update, coordinates) {
 		const response = await fetch(this.APIURL).then(response => {
 			if (response.ok) {
 				return response.json();
 			}
 		});
-		this.setDataDB(response, ref, callback, coordinates);
+		this.checkForCodeCountry(
+			response, 
+			ref, 
+			update,
+			coordinates
+		);
 	}
 
-	setDataDB({ results }, ref, callback, coordinates) {
-		const country = results[0].components.country;
-		console.log(results);
-
-		if (!country) {
-			return;
-		}
-
+	checkForCodeCountry( // set
+		{ results }, 
+		ref, 
+		update, 
+		coordinates
+		) {
+		const country_code = results[0].components['ISO_3166-1_alpha-3'];
+		
 		FireBase.firebase.database()
-			.ref()
-			.child(`user/cloud-photos/${this.uid}/countrys`)
-			.once("value")
-      .then(snapshot => {
-				const countrys = snapshot.val();
-				
-				if (!countrys || !Object.values(countrys).includes(country)) {
-					FireBase.firebase.database().ref(`${ref}/photo-${this.generateId}`)
-					.set({
-						"lat": coordinates.GPSLatitude,
-						"lon": coordinates.GPSLongitude,
-						"country": country
-					});
-					this.serviceDB.getDataGpsFromDB(callback, this.file);
-				} else {
-					callback(false, null, null, null);
-					this.serviceStore.addFileStore(country, this.file)
-				}
+		.ref()
+		.child(`${this.base_url}`)
+		.once('value')
+		.then(snaphot => {
+			const data = snaphot.val();
+
+			if (!data) {
+				this.setDataDB(ref, country_code, coordinates);
+			} else {
+				const code = country_code.toLowerCase();
+
+				data.forEach(item => {
+					if (!item.hasOwnProperty(item[`code_${ code }`])) {
+						this.updateDataDB(ref, country_code);
+					}
+				});
+			}
+
+			this.serviceDB.getDataGpsFromDB(update, this.file, country_code);
+		})
+
+		update(false, null, null, null);
+		this.serviceStore.addFileStore(country_code, this.file);
+	}
+
+	setDataDB(
+		ref, 
+		country_code,
+		coordinates
+		) {
+		FireBase.firebase.database().ref(`${ref}/${country_code}`)
+			.set({
+				"lat": coordinates.GPSLatitude,
+				"lon": coordinates.GPSLongitude,
+				[`code_${ country_code.toLowerCase() }`]: country_code
 			});
+	}
+
+	updateDataDB(ref, country_code) {
+		FireBase.firebase.database().ref(`${ref}/${country_code}/location/${country_code}`)
+			.update({[`code_${ country_code.toLowerCase() }`]: country_code});
 	}
 }

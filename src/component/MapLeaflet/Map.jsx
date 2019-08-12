@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { divIcon, marker } from "leaflet";
+import { divIcon } from "leaflet";
 import { Map, Marker, TileLayer, GeoJSON } from 'react-leaflet';
 import MapGeo from './map.geo.json';
 import ServiceGeoCordinate from '../../Services/ServiceGeoCordinats';
@@ -10,99 +10,137 @@ export default class MapLeaFlet extends Component {
   static propTypes = {
     lat: PropTypes.number,
     lon: PropTypes.number,
-    country: PropTypes.array
+    countrysID: PropTypes.array
   }
 
-  countrys = [];
   serviceGeoCordinate = new ServiceGeoCordinate();
   customIconMarker = divIcon({
-    html: `<button id='bap'>TEST</button>`,
+    html: `<div id="pin" class="map-marker"><button id="addPhoto" class="mark-btn"></button></div>`,
     className: 'iconButtonAddPhoto',
+    iconAnchor: [20, 80],
+    iconSize: [50, 80]
   });
+
   buttonAddPhoto = null;
+  cid = null;
 
   state = {
     lat: 55,
     lng: 10,
-    marks: [],
-    countrys: null,
-    openWindow: false,
+    countrysID: [],
+    markAddPhoto: []
   }
+
+ componentDidMount() {
+  const { countryID } = this.props;
+
+   if (countryID.length) {
+    this.setState(() => {
+      return {
+        countrysID: [
+         ...countryID
+       ]
+      }
+    });
+   }
+ }
 
   componentWillUpdate(nextProps, nextState) {
-    const { lat, lon, country } = nextProps;
-    const { marks } = this.state;
+    const { countryID, cid, ...rest } = nextProps;
 
-    if (lat !== this.props.lat && lon !== this.props.lon) {
-      this.setState({
-        marks: [
-          ...marks,
-          [ lat, lon ]
-        ]
+    if (this.cid !== cid && cid) {
+      this.cid = cid;
+      this.onClickAddCustomElement(cid)
+    }
+
+    // if (this.cid !== cid && cid) {
+    //   this.cid = cid;
+    //   this.onClickAddCustomElement(cid);
+    // }
+
+    // if (lat !== this.props.lat && lon !== this.props.lon) {
+    //   this.setState(() => {
+    //     return {
+    //       marks: [
+    //         ...marks,
+    //         [ lat, lon ]
+    //       ]
+    //     }
+    //   });
+    // }
+
+    if (nextProps.countryID !== this.props.countryID && nextProps.countryID !== nextState.countrysID) {
+      this.setState(() => {
+        return {
+          countrysID: [
+            ...countryID
+          ]
+        }
       });
     }
-
-    if (country !== this.props.country) {
-      this.countrys = country;
-    }
   }
 
-  layerStyled({ properties }) {
-    const country = properties.name;
+  layerStyled({ id }) {
     return {
       color: '#000',
+      fill: true,
+      fillColor: '#323232',
       weight: 1.5,
-      fillOpacity: this.markedСountries(country)
+      fillOpacity: this.markedСountries(id)
     }
   }
 
-  markedСountries(country) {
-    return this.countrys.includes(country) ? 0.2 : 0.8;
+  markedСountries(id) {
+    return this.state.countrysID.includes(id) ? 0.2 : 0.8;
   }
 
-  onMouseOut = evt => {
+  onMouseOut(evt) {
     evt.target.resetStyle(evt.layer);
+    // this.setState({
+    //   country: null,
+    // })
   }
 
-  onMouseOver = (evt) => {
+  onMouseOver(evt) {
     const ctx = evt.layer;
+    const countryHover = ctx.feature.properties.name
+    // this.setState({
+    //   country: countryHover,
+    // })
     if (typeof ctx.setStyle === 'function') {
       ctx.setStyle({
         weight: 3,
         color: '#666',
-        fillOpacity: 0.7,
+        fillColor: '#333',
+        fillOpacity: 0.6,
       })
     }
   }
 
-  onClickGetCountry = evt => {
-    const countrys = evt.layer.feature.properties.name;
-    const id = evt.layer.feature.id;
-    this.props.setMainState(countrys, id);
-    console.log(evt);
-  }
-
-  onClickAddCustomElement = evt => {
-    const countryId = evt.layer.feature.id;
-    
-    if (this.buttonAddPhoto) {
-      this.buttonAddPhoto.remove(evt.target);
-    }
-
+  onClickAddCustomElement(id) {
     this.serviceGeoCordinate
-      .getCordinates(countryId)
+      .getCordinates(id)
       .then(cordinates => {
-        this.buttonAddPhoto = marker(cordinates, { icon: this.customIconMarker })
-        this.buttonAddPhoto.addTo(evt.target);
-        //test
-        const BAP = document.getElementById('bap');
-        BAP.addEventListener('click', (evt)=> {evt.stopPropagation(); console.log(cordinates)})
-      });
+        this.setState({
+          cid: id,
+          lat: cordinates[0],
+          lng: cordinates[1],
+          markAddPhoto: [cordinates],
+          zoom: 5,
+        })
+      })
+      .catch(() => {
+        this.setState({
+          cid: id,
+          markAddPhoto: [],
+          zoom: 3,
+        })
+      })
   }
 
   render() {
     const position = [this.state.lat, this.state.lng];
-    const { marks } = this.state;
+
     return (
       <Map 
         className="map" 
@@ -120,11 +158,16 @@ export default class MapLeaFlet extends Component {
           style={ this.layerStyled.bind(this) }
           onMouseOver={ this.onMouseOver }
           onMouseOut={ this.onMouseOut }
-          onClick={ this.onClickGetCountry } // this.onClick.bind(this) // onClick replace to onClickAddCustomElement
+          onClick={(evt) => this.onClickAddCustomElement(evt.layer.feature.id)}
         />
-        {/* {marks.map((position, idx) => 
-          <Marker key={`marker-${idx}`} position={ position } />
-        )} */}
+        {this.state.markAddPhoto.map((position, id) => 
+          <Marker 
+            key={ id }
+            position={ position }
+            icon={this.customIconMarker}
+            onClick={() => this.props.setMainState(this.state.cid)}
+          />
+        )}
       </Map>
     )
   }
