@@ -25,9 +25,12 @@ body {
   font-weight: normal;
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: auto;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
   direction: ltr;
   color: #323232;
-  background-color: #f2f2f2;
+  background-color: #fff;
   height: 100%;
   margin: 0;
 }
@@ -42,4 +45,11 @@ img {
   max-width: 100%;
   height: auto;
   vertical-align: middle;
+}
+
+button {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  outline: none;
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { divIcon, marker } from "leaflet";
-import { Map, TileLayer, GeoJSON, Marker, } from 'react-leaflet';
+import { divIcon } from "leaflet";
+import { Map, Marker, TileLayer, GeoJSON } from 'react-leaflet';
 import MapGeo from './map.geo.json';
 import ServiceGeoCordinate from '../../Services/ServiceGeoCordinats';
 import './map.css';
@@ -10,13 +10,12 @@ export default class MapLeaFlet extends Component {
   static propTypes = {
     lat: PropTypes.number,
     lon: PropTypes.number,
-    country: PropTypes.array
+    countrysID: PropTypes.array
   }
 
-  countrys = [];
   serviceGeoCordinate = new ServiceGeoCordinate();
   customIconMarker = divIcon({
-    html: `<div id="pin"><button id="addPhoto"></button></div>`,
+    html: `<div id="pin" class="map-marker"><button id="addPhoto" class="mark-btn"></button></div>`,
     className: 'iconButtonAddPhoto',
     iconAnchor: [20, 80],
     iconSize: [50, 80]
@@ -28,34 +27,56 @@ export default class MapLeaFlet extends Component {
   state = {
     lat: 55,
     lng: 10,
-    marks: [],
-    countrys: [],
-    openWindow: false,
-    zoom: 2,
-    markAddPhoto: [], //show arrow markers(only 1 marker in)
-    country: null,
+    countrysID: [],
+    markAddPhoto: []
   }
 
+ componentDidMount() {
+  const { countryID } = this.props;
+
+   if (countryID.length) {
+    this.setState(() => {
+      return {
+        countrysID: [
+         ...countryID
+       ]
+      }
+    });
+   }
+ }
+
   componentWillUpdate(nextProps, nextState) {
-    const { lat, lon, country, cid } = nextProps;// ? lat, lon, country
-    //  ? const { marks } = this.state;
+    const { countryID, cid, ...rest } = nextProps;
 
     if (this.cid !== cid && cid) {
       this.cid = cid;
       this.onClickAddCustomElement(cid)
     }
 
-    //  ?
+    // if (this.cid !== cid && cid) {
+    //   this.cid = cid;
+    //   this.onClickAddCustomElement(cid);
+    // }
+
     // if (lat !== this.props.lat && lon !== this.props.lon) {
-    //   this.setState({
-    //     marks: [
-    //       ...marks,
-    //       [lat, lon]
-    //     ]
+    //   this.setState(() => {
+    //     return {
+    //       marks: [
+    //         ...marks,
+    //         [ lat, lon ]
+    //       ]
+    //     }
     //   });
     // }
-    if (country !== this.props.country) {
-      this.countrys = country;
+
+    if (nextProps.countryID !== this.props.countryID && nextProps.countryID !== nextState.countrysID) {
+      this.setState(() => {
+        return {
+          countrysID: [
+            ...countryID
+          ]
+        }
+      });
     }
   }
 
@@ -63,35 +84,34 @@ export default class MapLeaFlet extends Component {
     return {
       color: '#000',
       fill: true,
-      fillColor: this.markedСountries(id),
+      fillColor: '#323232',
       weight: 1.5,
-      fillOpacity: 0.8
+      fillOpacity: this.markedСountries(id)
     }
   }
 
   markedСountries(id) {
-    return this.countrys.includes(id) ? '#41A6F1' : 'grey';
+    return this.state.countrysID.includes(id) ? 0.2 : 0.8;
   }
 
   onMouseOut(evt) {
     evt.target.resetStyle(evt.layer);
-    this.setState({
-      country: null,
-    })
+    // this.setState({
+    //   country: null,
+    // })
   }
 
   onMouseOver(evt) {
     const ctx = evt.layer;
     const countryHover = ctx.feature.properties.name
-    this.setState({
-      country: countryHover,
-    })
+    // this.setState({
+    //   country: countryHover,
+    // })
     if (typeof ctx.setStyle === 'function') {
       ctx.setStyle({
         weight: 3,
         color: '#666',
-        fillColor: '#fff',
-        //fillColor: '#41A6F1', //'url("#imgpattern")'  '#41A6F1'
+        fillColor: '#333',
         fillOpacity: 0.6,
       })
     }
@@ -138,48 +158,35 @@ export default class MapLeaFlet extends Component {
 
   render() {
     const position = [this.state.lat, this.state.lng];
+            
     return (
-      <React.Fragment>
-        <Map
-          className="map"
-          center={position}
-          zoom={this.state.zoom}
-          maxBounds={[[90, -180], [-70, 180]]}
-        >
-          <TileLayer
-            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-            minZoom={2}
-            maxZoom={5}
+      <Map
+        className="map"
+        center={position}
+        zoom={3}
+        maxBounds={[[90, -180], [-70, 180]]}
+      >
+        <TileLayer
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+          minZoom={2}
+          maxZoom={5}
+        />
+        <GeoJSON 
+          data={ MapGeo } 
+          style={ this.layerStyled.bind(this) }
+          onMouseOver={ this.onMouseOver }
+          onMouseOut={ this.onMouseOut }
+          onClick={(evt) => this.onClickAddCustomElement(evt.layer.feature.id)}
+        />
+        {this.state.markAddPhoto.map((position, id) => 
+          <Marker 
+            key={ id }
+            position={ position }
+            icon={this.customIconMarker}
+            onClick={() => this.props.setMainState(this.state.cid)}
           />
-          <GeoJSON
-            data={MapGeo}
-            style={this.layerStyled.bind(this)}
-            onMouseOver={this.onMouseOver.bind(this)}
-            onMouseOut={this.onMouseOut.bind(this)}
-            onClick={(evt) => this.onClickAddCustomElement(evt.layer.feature.id)}
-          >
-
-          </GeoJSON>
-          {this.state.markAddPhoto.map((position, id) =>
-            <Marker
-              position={position}
-              key={id}
-              icon={this.customIconMarker}
-              onClick={() => this.props.setMainState(this.state.cid)}
-            />
-          )}
-        </Map >
-        <div className="showCountry">{this.state.country}</div>
-        {/* {this.countrys.map((flag) => this.createBackgroundFlag(flag))} */}
-        {/* <svg className="backgroundSVG">
-          <defs>
-            <pattern id="imgpattern" x="0" y="0" width="1" height="1">
-              <image width="100" height="250"
-                xlinkHref="https://restcountries.eu/data/qat.svg" />
-            </pattern>
-          </defs>
-        </svg> */}
-      </React.Fragment>
+        )}
+      </Map>
     )
   }
 }

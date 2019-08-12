@@ -1,13 +1,19 @@
 import FireBase from "../Firebase/FireBase";
+import store from '../Storage/store';
+import ServiceDB from './ServiceDB';
 
 export default class ServiceFirebaseStore {
   uid = FireBase.firebase.auth().currentUser.uid;
-  baseAvataUrl = 'user/cloud-avatar-user';
-  baseCloudPhoto = 'user/cloud-photos';
+  baseAvataUrl = `users/${this.uid}/avatar`;
+  baseCloudPhoto = `users/${this.uid}/photos`;
+
+  connect(ref) {
+    return FireBase.firebase.storage().ref(ref);
+  }
 
 	updateProfileUserAvatar(pictureFile, callback) {		
-    const avatarRef = FireBase.firebase.storage().ref(`${this.baseAvataUrl}/${this.uid}/avatar`);
-		avatarRef.put(pictureFile).then( snapshot => {
+    this.connect(`${this.baseAvataUrl}`)
+		.put(pictureFile).then( snapshot => {
       snapshot.ref.getDownloadURL().then(url => {
         FireBase.firebase.auth().currentUser.updateProfile({photoURL: url})
           .then(() => {
@@ -20,8 +26,8 @@ export default class ServiceFirebaseStore {
   }
   
   getStoreDefaultAvatar(setAvatar) {
-    const ref = FireBase.firebase.storage().ref(`${this.baseAvataUrl}/default-avatar/user.png`);
-    ref.getDownloadURL()
+    this.connect(`users/default_avatar/avatar.png`)
+    .getDownloadURL()
      .then(url => {
         fetch(url).then(res => {
           if (res.ok) {
@@ -36,8 +42,146 @@ export default class ServiceFirebaseStore {
       })
   }
 
-  addFileStore(country, file) {
-    FireBase.firebase.storage().ref(`${this.baseCloudPhoto}/${this.uid}/${country}/${file.name}`)
-      .put(file);
+  addFileStore(id, file) {
+    return this.connect(`${this.baseCloudPhoto}/${id}/${file.name}`)
+    .put(file);
+  }
+
+  updateCollection(
+    id, 
+    url, 
+    { name }, 
+    update, 
+    isPresent, 
+    countrysID,
+    fileUpload,
+    getData
+    ){
+    const countId = `code_${id.toLowerCase()}`;
+
+    if ((!store.length || store.length > 0) && !isPresent) {
+      store.push({
+        [countId]: [{url, name}]
+      });
+    }
+
+    store.forEach(item => {
+      if (isPresent && item.hasOwnProperty(countId)) {
+        if (!item[countId].length) {
+          item[countId].push({url, name});
+        }
+        const coincidence = item[countId].every(value => value.name !== name);
+
+        if (coincidence) {
+          item[countId].push({url, name});
+        }
+      }
+    });
+
+    if (!countrysID.length || !countrysID.includes(id)) {
+      new ServiceDB().checkForId(getData, id);
+    }
+
+    if (fileUpload) {
+      update(true, false, true);
+    }
+  }
+
+  getCollectionPhoto(
+    id,
+    uploadedFile, 
+    update, 
+    countrysID = [],
+    fileUpload,
+    getData,
+    ){
+
+    if (this.isEmptyStoreCountryID(id) && !uploadedFile) {
+      update(true, false, this.isEmptyStoreData(id));
+      return;
+    }
+
+    if (!uploadedFile) {
+      update(true, false, this.isEmptyStoreData(id));
+      return;
+    }
+
+    this.connect(`${this.baseCloudPhoto}/${id}`)
+    .listAll()
+    .then(({ items }) => {
+      if (items.length) {
+        items.forEach(photo => {
+          const item = this.connect(photo.fullPath);
+          const countId = `code_${id.toLowerCase()}`;
+
+          item.getDownloadURL()
+          .then(url => {
+            let isPresent = false;
+
+            store.forEach(item => {
+              if (item.hasOwnProperty(countId)) {
+                isPresent = true;
+                return;
+              }
+            });
+
+            this.updateCollection(
+              id, 
+              url, 
+              photo, 
+              update, 
+              isPresent,
+              countrysID,
+              fileUpload,
+              getData
+            );
+          })
+          .catch(err => console.log(err));
+        });
+      }
+    });
+  }
+
+  isEmptyStoreCountryID(id) {
+    if (!id) {
+      return;
+    }
+
+    const countId = `code_${id.toLowerCase()}`;
+    let isCountry = false;
+
+    store.forEach(item => {
+      if (item.hasOwnProperty(countId)) {
+        isCountry = true;
+      }
+    });
+
+    return isCountry;
+  }
+
+  isEmptyStoreData(id) {
+    if (!id) {
+      return;
+    }
+
+    const countId = `code_${id.toLowerCase()}`;
+    let isData = false;
+
+    store.forEach(item => {
+      if (item.hasOwnProperty(countId) && item[countId].length > 0) {
+        isData = true;
+      }
+    });
+
+    return isData;
+  }
+
+  removeStorageFile({ id }, items) {
+    items.forEach(item => {
+      FireBase.firebase.storage()
+      .ref(`${this.baseCloudPhoto}/${id}`)
+      .child(item)
+      .delete()
+    })
   }
 }

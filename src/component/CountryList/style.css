@@ -34,6 +34,7 @@
 }
 
 .item {
+	position: relative;
 	color: #323232;
 	display: flex;
 	justify-content: space-between;
@@ -110,4 +111,14 @@
 
 .icon-add:active{
 	box-shadow: inset 0px -3px 1px rgba(255, 255, 255, 1), inset 0 0px 3px rgba(0, 0, 0, 0.9);
+}
+
+.icon-visited {
+	position: absolute;
+	right: 55px;
+	bottom: 7px;
+	background: url('../../source/pictures.svg') no-repeat center/contain;
+	display: block;
+	width: 25px;
+	height: 25px;
 }

@@ -5,6 +5,12 @@
   margin-bottom: 25px;
 }
 
+@media screen and (min-width: 320px) and (max-width: 370px) {
+  .auth-socials {
+    margin-bottom: 20px;
+  }
+}
+
 .auth-socials button:first-child {
   margin-right: 15px;
 }
@@ -13,7 +19,8 @@
   display: flex;
   align-items: center;
   color: #fff;
-  width: auto;
+  width: 42px;
+  height: 42px;
   padding: 2px;
   background: transparent;
   border: 0;
@@ -31,13 +38,13 @@
 .icon-gpl {
   background: url("../../source/g-pl.svg") no-repeat center/18px;
   display: inline-block;
-  width: 35px;
-  height: 35px;
+  width: 100%;
+  height: 32px;
 }
 
 .icon-fb {
   background: url("../../source/fb.svg") no-repeat center/18px;
   display: inline-block;
-  width: 35px;
-  height: 35px;
+  width: 100%;
+  height: 32px;
 }
