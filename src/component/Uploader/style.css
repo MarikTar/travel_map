@@ -1,0 +1,140 @@
+.uploader-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5000;
+  background-color: rgba(0,0,0,0.9);
+}
+
+.uploader{
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  background: #fff;
+  width: 650px;
+  height: 500px;
+  border-radius: 8px;
+  box-shadow: 0 0 18px 1px rgba(0,0,0,0.1);
+  z-index: 1000;
+  transform: translateX(-50%);
+  padding: 0 25px;
+}
+
+.upload-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+}
+
+.upload-close {
+  background: transparent;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.uload-icon-close {
+  background: url('../../source/close.svg') no-repeat center/contain;
+  display: block;
+  width: 15px;
+  height: 15px;
+  opacity: 0.7;
+}
+
+.upload-information {
+  margin-top: 35px;
+}
+
+.upload-content {
+  padding: 12px 0 12px 0;
+}
+
+.gallery-wrapper {
+  display: flex;
+  height: 100%;
+}
+
+.wrapper-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.upload-title {
+  font-size: 28px;
+  text-align: center;
+  color: #74819c;
+  margin-top: 50px;
+  width: 100%;
+}
+
+.pic-info {
+  background: url('../../source/pictures.svg') no-repeat center/contain;
+  display: block;
+  width: 65px;
+  height: 65px;
+  margin: 30px auto;
+}
+
+.constroll-item {
+  position: relative;
+}
+
+.constroll-item .select {
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  color: #41a6f1;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.constroll-item .select:hover {
+  color: #0092ff;
+}
+
+.basket {
+  position: absolute;
+  top: 3px;
+  right: -25px;
+}
+
+.basket:enabled {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.basket:disabled  {
+  opacity: 0.5;
+}
+
+.basket:enabled .icon-basket {
+  background: url('../../source/garbage_enabled.svg') no-repeat center/contain;
+  display: block;
+  width: 15px;
+  height: 15px;
+}
+
+.basket:disabled .icon-basket {
+  background: url('../../source/garbage.svg') no-repeat center/contain;
+  display: block;
+  width: 15px;
+  height: 15px;
+}
+
+.head-title {
+  color: #323232;
+  font-weight: 500;
+}
+
+.upload-head .upload-loading {
+  position: absolute;
+  top: 14px;
+  right: 70px;
+  width: 25px;
+  height: 25px;
+}

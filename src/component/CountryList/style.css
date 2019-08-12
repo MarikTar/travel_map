@@ -34,6 +34,7 @@
 }
 
 .item {
+	position: relative;
 	color: #323232;
 	display: flex;
 	justify-content: space-between;
@@ -60,4 +61,14 @@
 	width: 18px;
 	height: 18px;
 	transition: opacyti 0.15s ease-in;
+}
+
+.icon-visited {
+	position: absolute;
+	right: 55px;
+	bottom: 7px;
+	background: url('../../source/pictures.svg') no-repeat center/contain;
+	display: block;
+	width: 25px;
+	height: 25px;
 }
