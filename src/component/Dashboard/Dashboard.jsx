@@ -8,6 +8,7 @@ import Uploader from '../Uploader/upload';
 import ServiceGPS from '../../Services/ServiceGPS';
 import ServiceDB from '../../Services/ServiceDB';
 import './dashboard.css';
+import logo from '../../source/logo.svg';
 
 export default class Dashboard extends Component {
   static propTypes = {
@@ -144,7 +145,7 @@ export default class Dashboard extends Component {
           <span className="humburger" />
         </button>
         <div className="dashboard-title">
-          Travel map
+          <img id='minelogo' src={logo} alt="logo"/><b>Travel map</b>
         </div>
         <div className='profile'>
           <button 
@@ -193,3 +194,4 @@ export default class Dashboard extends Component {
     )
   }
 }
+

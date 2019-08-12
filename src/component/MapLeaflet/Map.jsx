@@ -28,22 +28,23 @@ export default class MapLeaFlet extends Component {
     lat: 55,
     lng: 10,
     countrysID: [],
-    markAddPhoto: []
+    markAddPhoto: [],
+    country: null,
   }
 
- componentDidMount() {
-  const { countryID } = this.props;
+  componentDidMount() {
+    const { countryID } = this.props;
 
-   if (countryID.length) {
-    this.setState(() => {
-      return {
-        countrysID: [
-         ...countryID
-       ]
-      }
-    });
-   }
- }
+    if (countryID.length) {
+      this.setState(() => {
+        return {
+          countrysID: [
+            ...countryID
+          ]
+        }
+      });
+    }
+  }
 
   componentWillUpdate(nextProps, nextState) {
     const { countryID, cid, ...rest } = nextProps;
@@ -84,34 +85,34 @@ export default class MapLeaFlet extends Component {
     return {
       color: '#000',
       fill: true,
-      fillColor: '#323232',
+      fillColor: this.markedСountries(id),
       weight: 1.5,
-      fillOpacity: this.markedСountries(id)
+      fillOpacity: 0.6
     }
   }
 
   markedСountries(id) {
-    return this.state.countrysID.includes(id) ? 0.2 : 0.8;
+    return this.state.countrysID.includes(id) ? '#41A6F1' : '#323232'; //#41A6F1  //#323232
   }
 
   onMouseOut(evt) {
     evt.target.resetStyle(evt.layer);
-    // this.setState({
-    //   country: null,
-    // })
+    this.setState({
+      country: null,
+    })
   }
 
   onMouseOver(evt) {
     const ctx = evt.layer;
     const countryHover = ctx.feature.properties.name
-    // this.setState({
-    //   country: countryHover,
-    // })
+    this.setState({
+      country: countryHover,
+    })
     if (typeof ctx.setStyle === 'function') {
       ctx.setStyle({
         weight: 3,
         color: '#666',
-        fillColor: '#333',
+        fillColor: '#fff',
         fillOpacity: 0.6,
       })
     }
@@ -158,35 +159,38 @@ export default class MapLeaFlet extends Component {
 
   render() {
     const position = [this.state.lat, this.state.lng];
-            
+
     return (
-      <Map
-        className="map"
-        center={position}
-        zoom={3}
-        maxBounds={[[90, -180], [-70, 180]]}
-      >
-        <TileLayer
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-          minZoom={2}
-          maxZoom={5}
-        />
-        <GeoJSON 
-          data={ MapGeo } 
-          style={ this.layerStyled.bind(this) }
-          onMouseOver={ this.onMouseOver }
-          onMouseOut={ this.onMouseOut }
-          onClick={(evt) => this.onClickAddCustomElement(evt.layer.feature.id)}
-        />
-        {this.state.markAddPhoto.map((position, id) => 
-          <Marker 
-            key={ id }
-            position={ position }
-            icon={this.customIconMarker}
-            onClick={() => this.props.setMainState(this.state.cid)}
+      <React.Fragment>
+        <Map
+          className="map"
+          center={position}
+          zoom={3}
+          maxBounds={[[90, -180], [-70, 180]]}
+        >
+          <TileLayer
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+            minZoom={2}
+            maxZoom={5}
           />
-        )}
-      </Map>
+          <GeoJSON
+            data={MapGeo}
+            style={this.layerStyled.bind(this)}
+            onMouseOver={this.onMouseOver.bind(this)}
+            onMouseOut={this.onMouseOut.bind(this)}
+            onClick={(evt) => this.onClickAddCustomElement(evt.layer.feature.id)}
+          />
+          {this.state.markAddPhoto.map((position, id) =>
+            <Marker
+              key={id}
+              position={position}
+              icon={this.customIconMarker}
+              onClick={() => this.props.setMainState(this.state.cid)}
+            />
+          )}
+        </Map>
+        <div className="showCountry">{this.state.country}</div>
+      </React.Fragment>
     )
   }
 }
