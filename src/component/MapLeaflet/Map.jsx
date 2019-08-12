@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { divIcon, marker } from "leaflet";
+import { divIcon } from "leaflet";
 import { Map, TileLayer, GeoJSON, Marker } from 'react-leaflet';
 import MapGeo from './map.geo.json';
 import ServiceGeoCordinate from '../../Services/ServiceGeoCordinats';

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import FireBase from "../../Firebase/FireBase";
 import ProfileUser from "../ProfileUser/ProfileUser";
@@ -48,11 +48,8 @@ export default class Dashboard extends React.Component {
   }
 
   setMainState = async (country) => {
-    const countrys = this.state.countrys;
-    countrys.push(country);
     this.setState({
       country: country,
-      countrys: countrys,
       openWindow: true,
       images: [],
       imageTitles: [],
@@ -65,6 +62,8 @@ export default class Dashboard extends React.Component {
     let titles = [];
     const listAll = await imagesDir.listAll().then();
     if (listAll.items.length > 0) {
+      const countrys = this.state.countrys;
+      countrys.push(country);
       this.setState({
         countrys: countrys,
         showGaleria: false,
@@ -191,7 +190,6 @@ export default class Dashboard extends React.Component {
                     showGaleria={this.state.showGaleria}
                     openWindow={this.state.openWindow}
                     uploaderHeight={this.state.uploaderHeight}
-                    id={this.state.id}
                     clearCountry={this.clearCountry.bind(this)}
                     onClickChangeOpenWidow={this.onClickChangeOpenWidow.bind(this)}/>
         </div>

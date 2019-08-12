@@ -4,7 +4,7 @@ import AuthInput from "../AuthInput";
 import { CSSTransition } from "react-transition-group";
 
 export default function signIn(props) {
-  const { onSubmit, onChange, isFormValidate, isCustomValidate, onToggleType, fireBaseError, loading } = props;
+  const { onSubmit, onChange, isFormValidate, isCustomValidate, fireBaseError, loading } = props;
 
   return (
     <form className="auth" noValidate={ !isFormValidate } onSubmit={ onSubmit }>

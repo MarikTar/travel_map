@@ -88,7 +88,6 @@ export default class Upload extends React.Component {
             });
         }
         let images = [...propImages,...this.state.images];  
-        console.log("daw");
         
         return (
            <div className="uploader" 

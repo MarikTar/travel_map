@@ -136,7 +136,7 @@ export default class ProfileUser extends Component {
           onClick={this.handlerClick}
         >
           <span className="profile-avatar-label">Add</span>
-          {!(defaultAvatar || photoURL) ? <span className="upload-loading" /> : <img src={!photoURL ? defaultAvatar : photoURL} alt="add profile photo" />}
+          {!(defaultAvatar || photoURL) ? <span className="upload-loading" /> : <img src={!photoURL ? defaultAvatar : photoURL} alt="add profile avatar" />}
         </button>
         <input
           accept="image/jpeg,image/png"

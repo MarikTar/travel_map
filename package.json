@@ -2,6 +2,7 @@
   "name": "travel_map",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://mariktar.github.io/travel_map/",
   "dependencies": {
     "exif-js": "^2.3.0",
     "firebase": "^6.3.0",
@@ -24,7 +25,8 @@
     "start": "set PORT=8080 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "cp ./build/index.html ./build/404.html && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^2.1.1",
     "parcel": "^1.12.3"
   }
 }

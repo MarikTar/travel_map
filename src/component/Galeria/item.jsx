@@ -37,12 +37,11 @@ export default class Item extends React.Component {
             visible : false
         });
     }
-
     render() {
         const img = this.props.image;
         return ( 
             <div className="photo" key={img} style={{display: this.state.display}}>
-                <button className="delete-image" onClick={() => this.deleteImage()}>❌</button>
+                <button className="delete-image" onClick={() => this.deleteImage()}>&#x274C;</button>
                 <a href="javascript:void(0);" 
                    onClick={() => this.openModal()}
                 >
