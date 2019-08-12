@@ -121,7 +121,7 @@ export default class ServiceDB {
           .child(id)
           .remove();
         this.getCountriesFromDB(updateCountryID, countrysID);
-        update(false, false, false);
+        update(false, false, true);
       }
     });
   }

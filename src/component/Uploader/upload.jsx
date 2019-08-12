@@ -135,7 +135,7 @@ export default class Upload extends Component {
       this.props.countrysID
     );
 
-    this.forceUpdate();
+    //this.forceUpdate();
   }
 
   updateComponent = (

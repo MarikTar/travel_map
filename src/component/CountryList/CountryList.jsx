@@ -1,5 +1,4 @@
 import React from 'react';
-// import countriesList from './countries.json';
 import countryList from '../MapLeaflet/map.geo.json';
 import shortid from 'shortid';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -20,20 +19,19 @@ export default class CountryList extends React.Component {
 	addMarker(id) {
 		this.props.setAddMarker(id);
 	}
-
 	filterCountries(event) {
 		let filtertext = event.target.value.trim();
 		this.setState({
-				filter: filtertext.toLowerCase(),
+			filter: filtertext.toLowerCase(),
 		})
 	}
 	componentWillMount() {
 		countryList.features.sort(function (a, b) {
 			if (a.properties.name > b.properties.name) {
-					return 1;
+				return 1;
 			}
 			if (a.properties.name < b.properties.name) {
-					return -1;
+				return -1;
 			}
 			return 0;
 		});
@@ -51,7 +49,7 @@ export default class CountryList extends React.Component {
 					<div className={'country_list'}>
 						{countryList.features.map((countrys) => {
 							if (countrys.properties.name.toLowerCase().indexOf(this.state.filter) !== -1) {
-								return(
+								return (
 									<Country
 										id={countrys.id}
 										country={countrys.properties.name}

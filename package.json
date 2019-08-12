@@ -10,6 +10,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-avatar-editor": "^11.0.7",
+    "react-awesome-modal": "^2.0.5",
     "react-burger-menu": "^2.6.11",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.8.6",

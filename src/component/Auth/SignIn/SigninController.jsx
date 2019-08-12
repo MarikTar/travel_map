@@ -91,16 +91,16 @@ export default class SignInController extends Component {
   };
 
   render() {
-    const { formValidate, customValidation } = this.state;-
-    return(
-      <SignInView 
-        onSubmit={ this.handleSubmit }
-        onChange={ this.handlerChange }
-        isFormValidate={ formValidate }
-        isCustomValidate={ customValidation }
-        onToggleType={ this.handlerShowPassword }
-        fireBaseError={ this.state.fireBaseError } 
-        loading={ this.state.fireBaseLoading }
+    const { formValidate, customValidation } = this.state;
+    return (
+      <SignInView
+        onSubmit={this.handleSubmit}
+        onChange={this.handlerChange}
+        isFormValidate={formValidate}
+        isCustomValidate={customValidation}
+        onToggleType={this.handlerShowPassword}
+        fireBaseError={this.state.fireBaseError}
+        loading={this.state.fireBaseLoading}
       />
     )
   }
