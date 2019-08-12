@@ -33,10 +33,3 @@ body {
   overflow-x: hidden;
   height: 100%;
 }
-
-img {
-  display: inline-block;
-  max-width: 100%;
-  height: auto;
-  vertical-align: middle;
-}
