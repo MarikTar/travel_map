@@ -71,7 +71,6 @@ export default class Dashboard extends Component {
     },
     uploadData
   ) => {
-    console.log(id);
     this.setState(({ countrysID }) => {
       return {
         upload,

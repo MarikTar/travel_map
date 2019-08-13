@@ -52,9 +52,7 @@ export default class Item extends Component {
           <button 
             className="close-modal"
             onClick={ this.handlerToggleModal } 
-          >
-            X
-          </button>
+          />
         </Modal>
       </div>
     )

@@ -59,6 +59,11 @@ export default class Upload extends Component {
         true,
         nextProps.onUpdateCountrys
         );
+        store.forEach(item => {
+          if (item.hasOwnProperty([`code_${id.toLowerCase()}`]) && item[`code_${id.toLowerCase()}`].length || (item.hasOwnProperty([`code_${id.toLowerCase()}`]) && nextProps.uploadedFile)) {
+            this.setState({loading: true});
+          }
+        })
     }
 
     if (!nextProps.showUploader && nextState.uploaded) {
@@ -141,14 +146,16 @@ export default class Upload extends Component {
     uploaded, 
     selectItem, 
     storeEmpty,
-    selected = false) => {
+    selected = false,
+    loading
+    ) => {
 
     this.setState({
       uploaded,
       selectItem,
       storeEmpty,
       selected,
-      loading: false
+      loading
     });
   }
 
@@ -199,7 +206,7 @@ export default class Upload extends Component {
                 : <div className="upload-title">
                     You can upload your photos here.
                     <span className="pic-info" />
-                    { loading || this.props.uploadedFile ? 'loading...' : null }
+                    { loading && !this.state.uploaded ? 'loading...' : null }
                   </div>
                 }
               </div>

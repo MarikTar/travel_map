@@ -139,3 +139,21 @@
   width: 25px;
   height: 25px;
 }
+
+.close-modal {
+  background: url('../../source/close.svg') no-repeat center/contain;
+  width: 15px;
+  height: 15px;
+  right: 15px;
+  top: 15px;
+  opacity: 0.7;
+}
+
+.pop-image img {
+  z-index: 10000;
+  width: 345px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

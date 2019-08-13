@@ -6,6 +6,7 @@ export default class ServiceFirebaseStore {
   uid = FireBase.firebase.auth().currentUser.uid;
   baseAvataUrl = `users/${this.uid}/avatar`;
   baseCloudPhoto = `users/${this.uid}/photos`;
+  b = false
 
   connect(ref) {
     return FireBase.firebase.storage().ref(ref);
@@ -84,7 +85,7 @@ export default class ServiceFirebaseStore {
     }
 
     if (fileUpload) {
-      update(true, false, true);
+      update(true, false, true, false);
     }
   }
 
@@ -97,14 +98,8 @@ export default class ServiceFirebaseStore {
     getData,
     ){
 
-    if (this.isEmptyStoreCountryID(id) && !uploadedFile) {
-      update(true, false, this.isEmptyStoreData(id));
-      return;
-    }
-
-    if (!uploadedFile) {
-      update(true, false, this.isEmptyStoreData(id));
-      return;
+    if (!uploadedFile || (this.isEmptyStoreCountryID(id) && !uploadedFile)) {
+      update(true, false, this.isEmptyStoreData(id), false);
     }
 
     this.connect(`${this.baseCloudPhoto}/${id}`)
