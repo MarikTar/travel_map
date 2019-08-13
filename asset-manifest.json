@@ -1,21 +1,23 @@
 {
   "files": {
-    "main.css": "/travel_map/static/css/main.9979370c.chunk.css",
-    "main.js": "/travel_map/static/js/main.610deec0.chunk.js",
-    "main.js.map": "/travel_map/static/js/main.610deec0.chunk.js.map",
+    "main.css": "/travel_map/static/css/main.696f1a9e.chunk.css",
+    "main.js": "/travel_map/static/js/main.e00d18f9.chunk.js",
+    "main.js.map": "/travel_map/static/js/main.e00d18f9.chunk.js.map",
     "runtime~main.js": "/travel_map/static/js/runtime~main.8a99800c.js",
     "runtime~main.js.map": "/travel_map/static/js/runtime~main.8a99800c.js.map",
-    "static/js/2.d70b67af.chunk.js": "/travel_map/static/js/2.d70b67af.chunk.js",
-    "static/js/2.d70b67af.chunk.js.map": "/travel_map/static/js/2.d70b67af.chunk.js.map",
+    "static/js/2.41821885.chunk.js": "/travel_map/static/js/2.41821885.chunk.js",
+    "static/js/2.41821885.chunk.js.map": "/travel_map/static/js/2.41821885.chunk.js.map",
     "index.html": "/travel_map/index.html",
-    "precache-manifest.a0ac4b74a9812edced22877523b3b560.js": "/travel_map/precache-manifest.a0ac4b74a9812edced22877523b3b560.js",
+    "precache-manifest.98332a44ec030f8d4ff9c605d9163aac.js": "/travel_map/precache-manifest.98332a44ec030f8d4ff9c605d9163aac.js",
     "service-worker.js": "/travel_map/service-worker.js",
-    "static/css/main.9979370c.chunk.css.map": "/travel_map/static/css/main.9979370c.chunk.css.map",
-    "static/media/uploader.css": "/travel_map/static/media/Upload.91b99646.svg",
-    "static/media/auth.css": "/travel_map/static/media/eye.043f9099.svg",
-    "static/media/auth-scials.css": "/travel_map/static/media/g-pl.09aea0f5.svg",
-    "static/media/dashboard.css": "/travel_map/static/media/plus.5e5b511d.svg",
-    "static/media/app.css": "/travel_map/static/media/main-bg.c06c9419.jpg",
-    "static/media/countris.css": "/travel_map/static/media/search.4dee039c.svg"
+    "static/css/main.696f1a9e.chunk.css.map": "/travel_map/static/css/main.696f1a9e.chunk.css.map",
+    "static/media/auth.css": "/travel_map/static/media/eye.12f2877a.svg",
+    "static/media/style.css": "/travel_map/static/media/success.abad7db5.svg",
+    "static/media/dashboard.css": "/travel_map/static/media/plus.93fb7fcd.svg",
+    "static/media/auth-scials.css": "/travel_map/static/media/g-pl.4a77ccf6.svg",
+    "static/media/logo.svg": "/travel_map/static/media/logo.be00af7b.svg",
+    "static/media/app.css": "/travel_map/static/media/main-bg.da100aa3.jpg",
+    "static/media/map.css": "/travel_map/static/media/pin.8f2f0b36.svg",
+    "static/media/popup.css": "/travel_map/static/media/upload.d3c19b6a.svg"
   }
 }
