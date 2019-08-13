@@ -42,6 +42,7 @@ export default class Dashboard extends Component {
       this.updateGpsData, 
       null
     );
+    this.serviceDB.getCountriesFromDB(this.updateCountrys);
   }
 
   addMarkerOnMap(id){
@@ -63,10 +64,14 @@ export default class Dashboard extends Component {
 
   updateGpsData = (
     upload,
-    { lat, lon, id },
+    { 
+      lat = 0, 
+      lon = 0, 
+      id 
+    },
     uploadData
   ) => {
-
+    console.log(id);
     this.setState(({ countrysID }) => {
       return {
         upload,
@@ -135,7 +140,21 @@ export default class Dashboard extends Component {
     const { lat, lon, countrysID, upload, openWindow } = this.state;
 
     if (!this.state.uploadData) {
-      return <div>Loading...</div>
+      return(
+        <div className="loader-box">
+          <div className="loader">
+              <div className="element-animation">
+                <img src="http://i57.tinypic.com/30dighv.png" width="480" height="100" alt="Loader"/>
+              </div>
+          </div>
+          <ul className="labels">
+            <li className="label">Loading...</li>
+            <li className="label">Wandering...</li>
+            <li className="label">Thrillseeking...</li>
+            <li className="label">Adventuring...</li>
+          </ul>
+        </div>
+      )
     }
 
     return (

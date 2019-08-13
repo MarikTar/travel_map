@@ -21,21 +21,25 @@ export default class ServiceDB {
       .then(snapshot => {
         const { location } = snapshot.val() || {};
         const data = {};
-        
+
         if (location) {
           Object.values(location).forEach(item => { //({ lat, lon, ...code })
-          for (let key in item) {
-            if (key.includes('code_')) {
-              data['id'] = item[key];
-            } else {
-              data[key] = item[key];
+            if (!item.hasOwnProperty('lat') || !item.hasOwnProperty('lon')) {
+              return;
             }
-          }
 
-          if (file) {
-            this.serviceStore.addFileStore(id, file)
-          }
-        })
+            for (let key in item) {
+              if (key.includes('code_')) {
+                data['id'] = item[key];
+              } else {
+                data[key] = item[key];
+              }
+            }
+
+            if (file) {
+              this.serviceStore.addFileStore(id, file)
+            }
+          })
         }
 
         updateGpsLocation(
@@ -113,16 +117,18 @@ export default class ServiceDB {
     countrysID
   ) {
     const codeId = `code_${id.toLowerCase()}`;
+    let b = true;
 
     store.forEach(item => {
-      if (!item[codeId] || !item[codeId].length) {
+      if (item[codeId] && !item[codeId].length) {
         FireBase.firebase.database()
           .ref(`${this.base_url}/location`)
           .child(id)
           .remove();
         this.getCountriesFromDB(updateCountryID, countrysID);
-        update(false, false, true);
+        b = false;
       }
+      update(false, false, b);
     });
   }
 }

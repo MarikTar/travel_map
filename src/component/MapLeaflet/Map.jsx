@@ -36,12 +36,10 @@ export default class MapLeaFlet extends Component {
     const { countryID } = this.props;
 
     if (countryID.length) {
-      this.setState(() => {
-        return {
-          countrysID: [
-            ...countryID
-          ]
-        }
+      this.setState({
+        countrysID: [
+          ...countryID,
+        ]
       });
     }
   }

@@ -55,7 +55,8 @@ export default class ServiceFirebaseStore {
     isPresent, 
     countrysID,
     fileUpload,
-    getData
+    getData,
+    uploadedFile
     ){
     const countId = `code_${id.toLowerCase()}`;
 
@@ -78,7 +79,7 @@ export default class ServiceFirebaseStore {
       }
     });
 
-    if (!countrysID.length || !countrysID.includes(id)) {
+    if (!countrysID.includes(id)) {
       new ServiceDB().checkForId(getData, id);
     }
 
@@ -133,7 +134,8 @@ export default class ServiceFirebaseStore {
               isPresent,
               countrysID,
               fileUpload,
-              getData
+              getData,
+              uploadedFile
             );
           })
           .catch(err => console.log(err));
@@ -153,6 +155,7 @@ export default class ServiceFirebaseStore {
     store.forEach(item => {
       if (item.hasOwnProperty(countId)) {
         isCountry = true;
+        return;
       }
     });
 
@@ -170,6 +173,7 @@ export default class ServiceFirebaseStore {
     store.forEach(item => {
       if (item.hasOwnProperty(countId) && item[countId].length > 0) {
         isData = true;
+        return;
       }
     });
 

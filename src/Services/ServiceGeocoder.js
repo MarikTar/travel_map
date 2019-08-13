@@ -44,23 +44,32 @@ export default class ServiceGeocoder {
 		.once('value')
 		.then(snaphot => {
 			const data = snaphot.val();
+			let a = {};
 
 			if (!data) {
 				this.setDataDB(ref, country_code, coordinates);
 			} else {
 				const code = country_code.toLowerCase();
 
-				data.forEach(item => {
+				Object.values(data).forEach(item => {
 					if (!item.hasOwnProperty(item[`code_${ code }`])) {
-						this.updateDataDB(ref, country_code);
+						this.updateDataDB(ref, country_code, coordinates);
+					}
+
+					for (let key in item) {
+						if (key.includes('code_')) {
+							a['id'] = item[key];
+						} else {
+							a[key] = item[key];
+						}
 					}
 				});
 			}
-
+			
 			this.serviceDB.getDataGpsFromDB(update, this.file, country_code);
+			update(false, a, true);
 		})
-
-		update(false, null, null, null);
+		
 		this.serviceStore.addFileStore(country_code, this.file);
 	}
 
@@ -77,8 +86,13 @@ export default class ServiceGeocoder {
 			});
 	}
 
-	updateDataDB(ref, country_code) {
-		FireBase.firebase.database().ref(`${ref}/${country_code}/location/${country_code}`)
-			.update({[`code_${ country_code.toLowerCase() }`]: country_code});
+	updateDataDB(ref, country_code, coordinates) {
+		FireBase.firebase.database().ref(`${ref}/${country_code}`)
+			.update(
+				{
+					[`code_${ country_code.toLowerCase() }`]: country_code,
+					"lat": coordinates.GPSLatitude,
+					"lon": coordinates.GPSLongitude,
+				});
 	}
 }

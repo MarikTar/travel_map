@@ -49,6 +49,7 @@ export default class Upload extends Component {
 
   componentWillUpdate(nextProps, nextState) {
     const { id } = nextProps.countryID;
+
     if (nextProps.showUploader !== this.props.showUploader && !nextState.uploaded) {
       this.serviceStore.getCollectionPhoto(
         id,
@@ -122,7 +123,7 @@ export default class Upload extends Component {
       if (item.hasOwnProperty(id)) {
         item[id].splice(
           item[id]
-          .findIndex(element => !this.removeItem.includes(element.name)), 
+          .findIndex(element => this.removeItem.includes(element.name)), 
           this.removeItem.length
         );
       }
@@ -134,8 +135,6 @@ export default class Upload extends Component {
       this.props.onUpdateCountrys,
       this.props.countrysID
     );
-
-    //this.forceUpdate();
   }
 
   updateComponent = (
@@ -155,6 +154,7 @@ export default class Upload extends Component {
 
   uploaderView() {
     const { selected, selectItem, storeEmpty, loading } = this.state;
+
     return(
       <div className="uploader-mask">
         <div className="uploader">
